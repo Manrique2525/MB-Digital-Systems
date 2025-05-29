@@ -18,6 +18,7 @@
 body {
     line-height: 1.6;
     color: #333;
+    overflow-x: hidden;
 }
 
 .container {
@@ -117,9 +118,11 @@ header .container {
     font-size: 0.9rem;
 }
 
+/* Navigation */
 nav ul {
     display: flex;
     list-style: none;
+    transition: all 0.3s ease;
 }
 
 nav ul li {
@@ -131,10 +134,37 @@ nav ul li a {
     color: var(--dark-gray);
     font-weight: 500;
     transition: color 0.3s ease;
+    padding: 5px 0;
+    position: relative;
 }
 
 nav ul li a:hover {
     color: var(--dark-blue);
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--dark-blue);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--dark-gray);
+    z-index: 1001;
 }
 
 /* Hero Section */
@@ -144,6 +174,8 @@ nav ul li a:hover {
     padding: 150px 0 100px;
     text-align: center;
     background-image: linear-gradient(135deg, var(--sky-blue), var(--dark-blue));
+    position: relative;
+    overflow: hidden;
 }
 
 .hero h2 {
@@ -396,15 +428,38 @@ footer {
     font-size: 0.9rem;
 }
 
-/* ==================== ANIMACIONES ==================== */
+/* WhatsApp Float */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25D366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite, float 4s ease infinite;
+    transition: all 0.3s ease;
+}
 
-/* Animación de aparición suave */
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    animation: none;
+}
+
+/* ==================== ANIMACIONES ==================== */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-/* Animación de deslizamiento desde abajo */
 @keyframes slideUp {
     from { 
         opacity: 0;
@@ -416,7 +471,6 @@ footer {
     }
 }
 
-/* Animación de deslizamiento desde la izquierda */
 @keyframes slideLeft {
     from { 
         opacity: 0;
@@ -428,7 +482,6 @@ footer {
     }
 }
 
-/* Animación de deslizamiento desde la derecha */
 @keyframes slideRight {
     from { 
         opacity: 0;
@@ -440,27 +493,16 @@ footer {
     }
 }
 
-/* Animación de pulso para elementos importantes */
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
 
-/* Animación de flotación para elementos decorativos */
 @keyframes float {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0px); }
-}
-
-/* Aplicar animaciones a los elementos */
-body {
-    animation: fadeIn 0.8s ease-out;
-}
-
-header {
-    animation: slideDown 0.5s ease-out;
 }
 
 @keyframes slideDown {
@@ -472,6 +514,25 @@ header {
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+@keyframes expandLine {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+@keyframes wave {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 1200px; }
+}
+
+/* Aplicar animaciones */
+body {
+    animation: fadeIn 0.8s ease-out;
+}
+
+header {
+    animation: slideDown 0.5s ease-out;
 }
 
 .hero h2 {
@@ -515,74 +576,6 @@ header {
     animation: slideRight 0.8s ease-out 0.2s forwards;
 }
 
-/* Efecto hover para los iconos de servicios */
-.service-card i {
-    transition: all 0.5s ease;
-}
-
-.service-card:hover i {
-    animation: pulse 1s ease infinite, float 3s ease infinite;
-    color: var(--highlight-color);
-}
-
-/* Animación para el botón de WhatsApp */
-.whatsapp-float {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background-color: #25D366;
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: pulse 2s infinite, float 4s ease infinite;
-    transition: all 0.3s ease;
-}
-
-.whatsapp-float:hover {
-    transform: scale(1.1);
-    animation: none;
-}
-
-/* Animación para el título de secciones */
-h2::after {
-    animation: expandLine 1.2s ease-out forwards;
-    transform-origin: left;
-    transform: scaleX(0);
-}
-
-@keyframes expandLine {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
-}
-
-/* Efecto de onda en el hero */
-.hero::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23ffffff" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23ffffff" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23ffffff"/></svg>');
-    background-size: cover;
-    background-repeat: no-repeat;
-    animation: wave 12s linear infinite;
-}
-
-@keyframes wave {
-    0% { background-position-x: 0; }
-    100% { background-position-x: 1200px; }
-}
-
-/* Animación para las características */
 .feature {
     opacity: 0;
     transform: translateX(-20px);
@@ -596,7 +589,6 @@ h2::after {
 .feature:nth-child(5) { animation-delay: 0.5s; }
 .feature:nth-child(6) { animation-delay: 0.6s; }
 
-/* Animación para el formulario */
 .form-group {
     opacity: 0;
     transform: translateY(20px);
@@ -607,47 +599,133 @@ h2::after {
 .form-group:nth-child(2) { animation-delay: 0.3s; }
 .form-group:nth-child(3) { animation-delay: 0.4s; }
 .form-group:nth-child(4) { animation-delay: 0.5s; }
-.form-group:nth-child(5) { animation-delay: 0.6s; }
 
-/* Responsive */
-@media (max-width: 768px) {
-    header .container {
-        flex-direction: column;
-        text-align: center;
-    }
+.service-card i {
+    transition: all 0.5s ease;
+}
 
-    nav ul {
-        margin-top: 20px;
-        flex-direction: column;
-        align-items: center;
-    }
+.service-card:hover i {
+    animation: pulse 1s ease infinite, float 3s ease infinite;
+    color: var(--highlight-color);
+}
 
-    nav ul li {
-        margin: 10px 0;
-    }
+h2::after {
+    animation: expandLine 1.2s ease-out forwards;
+    transform-origin: left;
+    transform: scaleX(0);
+}
 
-    .hero {
-        padding: 120px 0 80px;
-    }
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23ffffff" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23ffffff" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23ffffff"/></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation: wave 12s linear infinite;
+}
 
-    .hero h2 {
-        font-size: 2.2rem;
-    }
-
-    .about .container {
-        flex-direction: column;
-    }
-
-    .about-image {
-        margin-top: 30px;
-    }
-
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 992px) {
     .services-details {
         flex-direction: column;
     }
+    
+    .about .container {
+        flex-direction: column;
+    }
+    
+    .about-image {
+        margin-top: 30px;
+    }
+}
 
-    .service-features,
-    .service-description {
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    
+    nav ul {
+        position: fixed;
+        top: 80px;
+        left: -100%;
         width: 100%;
+        height: calc(100vh - 80px);
+        background-color: var(--white);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 999;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    nav ul.active {
+        left: 0;
+    }
+    
+    nav ul li {
+        margin: 20px 0;
+    }
+    
+    nav ul li a {
+        font-size: 1.2rem;
+    }
+    
+    .hero {
+        padding: 120px 0 80px;
+    }
+    
+    .hero h2 {
+        font-size: 2.2rem;
+    }
+    
+    .service-intro h3 {
+        font-size: 1.5rem;
+    }
+    
+    .service-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    h2 {
+        font-size: 2rem;
+    }
+    
+    .hero h2 {
+        font-size: 1.8rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+    }
+    
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    header .container {
+        padding: 10px 0;
+    }
+    
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+    
+    .menu-toggle {
+        font-size: 1.3rem;
     }
 }
