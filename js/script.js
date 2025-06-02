@@ -90,26 +90,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll(); // Ejecutar al cargar
-
-    // Modal y Carrusel con Tailwind
+// Modal y Carrusel Responsive
 const modal = document.getElementById('welcomeModal');
 const closeModal = document.getElementById('closeModal');
 const acceptBtn = document.getElementById('acceptBtn');
 const carouselInner = document.querySelector('.carousel-inner');
 const prevBtn = document.querySelector('.carousel-control.prev');
 const nextBtn = document.querySelector('.carousel-control.next');
-const indicators = document.querySelectorAll('.carousel-indicators button, .indicator');
+const indicators = document.querySelectorAll('.indicator');
 
 let currentIndex = 0;
 let carouselInterval;
+let isMobile = window.innerWidth < 768; // 768px es el breakpoint md de Tailwind
 const totalItems = document.querySelectorAll('.carousel-item').length;
 
 // Mostrar modal al cargar
 function showModal() {
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    startCarousel();
     updateCarousel();
+    if (!isMobile) {
+        startCarousel();
+    }
 }
 
 // Cerrar modal
@@ -124,24 +126,21 @@ function updateCarousel() {
     const offset = -currentIndex * 100;
     carouselInner.style.transform = `translateX(${offset}%)`;
     
-    // Actualizar indicadores
     indicators.forEach((indicator, index) => {
-        if (index === currentIndex) {
-            indicator.classList.add('bg-primary', 'bg-opacity-100');
-            indicator.classList.remove('bg-opacity-50');
-        } else {
-            indicator.classList.remove('bg-primary', 'bg-opacity-100');
-            indicator.classList.add('bg-opacity-50');
-        }
+        indicator.classList.toggle('bg-primary', index === currentIndex);
+        indicator.classList.toggle('bg-opacity-100', index === currentIndex);
+        indicator.classList.toggle('bg-opacity-50', index !== currentIndex);
     });
 }
 
-// Autoavance del carrusel
+// Autoavance solo en desktop
 function startCarousel() {
-    carouselInterval = setInterval(() => {
-        currentIndex = (currentIndex + 1) % totalItems;
-        updateCarousel();
-    }, 5000);
+    if (!isMobile) {
+        carouselInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalItems;
+            updateCarousel();
+        }, 5000);
+    }
 }
 
 // Event listeners
@@ -169,21 +168,49 @@ indicators?.forEach((indicator, index) => {
     });
 });
 
-// Reiniciar intervalo al interactuar
+// Reiniciar intervalo
 function resetInterval() {
     clearInterval(carouselInterval);
     startCarousel();
 }
 
+// Manejar cambios de tamaño
+function handleResize() {
+    isMobile = window.innerWidth < 768;
+    if (isMobile) {
+        clearInterval(carouselInterval);
+    } else if (!modal.classList.contains('hidden')) {
+        startCarousel();
+    }
+}
+
 // Mostrar modal después de 1 segundo
 setTimeout(showModal, 1000);
 
-// Pausar al interactuar con el modal
-modal?.addEventListener('mouseenter', () => {
-    clearInterval(carouselInterval);
-});
+// Event listeners para responsive
+window.addEventListener('resize', handleResize);
 
-modal?.addEventListener('mouseleave', () => {
-    startCarousel();
-});
+// Swipe para móviles
+let touchStartX = 0;
+let touchEndX = 0;
+
+carouselInner?.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+carouselInner?.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, {passive: true});
+
+function handleSwipe() {
+    if (touchEndX < touchStartX - 50) {
+        // Swipe izquierda
+        currentIndex = (currentIndex + 1) % totalItems;
+    } else if (touchEndX > touchStartX + 50) {
+        // Swipe derecha
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+    }
+    updateCarousel();
+}
 });
