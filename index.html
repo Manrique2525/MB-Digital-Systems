@@ -4,181 +4,254 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MB Digital Systems - Desarrollo Web Profesional</title>
-    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#1E40AF',
+                        accent: '#10B981',
+                        dark: '#1F2937',
+                        light: '#F3F4F6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .menu-transition {
+            transition: all 0.3s ease;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>MB Digital Systems</h1>
-                <p>Soluciones tecnológicas a tu medida</p>
-            </div>
-            <nav id="main-nav">
-                <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+<body class="font-sans text-gray-800 bg-gray-50">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="logo">
+                    <h1 class="text-2xl font-bold text-primary">MB Digital Systems</h1>
+                    <p class="text-sm text-gray-600">Soluciones tecnológicas a tu medida</p>
+                </div>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8">
+                        <li><a href="#inicio" class="hover:text-primary transition">Inicio</a></li>
+                        <li><a href="#servicios" class="hover:text-primary transition">Servicios</a></li>
+                        <li><a href="#nosotros" class="hover:text-primary transition">Nosotros</a></li>
+                        <li><a href="#contacto" class="hover:text-primary transition">Contacto</a></li>
+                    </ul>
+                </nav>
+                <button id="menu-toggle" class="md:hidden text-2xl text-primary focus:outline-none">
                     <i class="fas fa-bars"></i>
                 </button>
-                <ul id="menu">
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#nosotros">Nosotros</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden menu-transition">
+                <ul class="py-4 space-y-3">
+                    <li><a href="#inicio" class="block hover:text-primary transition">Inicio</a></li>
+                    <li><a href="#servicios" class="block hover:text-primary transition">Servicios</a></li>
+                    <li><a href="#nosotros" class="block hover:text-primary transition">Nosotros</a></li>
+                    <li><a href="#contacto" class="block hover:text-primary transition">Contacto</a></li>
                 </ul>
-            </nav>
+            </div>
         </div>
     </header>
 
-    <section id="inicio" class="hero">
-        <div class="container">
-            <h2>Desarrollo Web Profesional</h2>
-            <p>Transformamos tus ideas en soluciones digitales efectivas</p>
-            <a href="#contacto" class="btn">Contáctanos</a>
+    <section id="inicio" class="hero bg-gradient-to-r from-primary to-secondary text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">Desarrollo Web Profesional</h2>
+            <p class="text-xl mb-8">Transformamos tus ideas en soluciones digitales efectivas</p>
+            <a href="#contacto" class="bg-accent hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full transition">Contáctanos</a>
         </div>
     </section>
 
-    <section id="servicios" class="services">
-        <div class="container">
-            <h2>Nuestros Servicios</h2>
-            <div class="service-intro">
-                <h3>Desarrollo de Páginas y Sistemas Web a la Medida</h3>
-                <p class="lead">¿Necesitas una página web profesional o un sistema web que automatice tus procesos? ¡Nosotros podemos ayudarte!</p>
-                <p>Somos un equipo especializado en crear soluciones digitales a la medida: desde páginas web modernas, responsivas y optimizadas, hasta sistemas web personalizados que se adaptan a las necesidades específicas de tu negocio.</p>
+    <section id="servicios" class="services py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Nuestros Servicios</h2>
+            
+            <div class="service-intro text-center max-w-3xl mx-auto mb-12">
+                <h3 class="text-2xl font-semibold mb-4">Desarrollo de Páginas y Sistemas Web a la Medida</h3>
+                <p class="text-lg mb-4">¿Necesitas una página web profesional o un sistema web que automatice tus procesos? ¡Nosotros podemos ayudarte!</p>
+                <p class="text-gray-700">Somos un equipo especializado en crear soluciones digitales a la medida: desde páginas web modernas, responsivas y optimizadas, hasta sistemas web personalizados que se adaptan a las necesidades específicas de tu negocio.</p>
             </div>
             
-            <div class="services-details">
-                <div class="service-features">
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
+            <div class="services-details md:flex gap-8 mb-16">
+                <div class="service-features md:w-1/2 mb-8 md:mb-0">
+                    <div class="feature flex items-center mb-4">
+                        <i class="fas fa-check-circle text-accent mr-3"></i>
                         <span>Páginas web informativas y corporativas</span>
                     </div>
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
+                    <div class="feature flex items-center mb-4">
+                        <i class="fas fa-check-circle text-accent mr-3"></i>
                         <span>Tiendas en línea (e-commerce)</span>
                     </div>
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
+                    <div class="feature flex items-center mb-4">
+                        <i class="fas fa-check-circle text-accent mr-3"></i>
                         <span>Sistemas administrativos, de gestión o seguimiento</span>
                     </div>
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
+                    <div class="feature flex items-center mb-4">
+                        <i class="fas fa-check-circle text-accent mr-3"></i>
                         <span>Formularios inteligentes y automatización de tareas</span>
                     </div>
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
+                    <div class="feature flex items-center mb-4">
+                        <i class="fas fa-check-circle text-accent mr-3"></i>
                         <span>Integración con APIs, WhatsApp Business, pasarelas de pago, etc.</span>
                     </div>
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
+                    <div class="feature flex items-center">
+                        <i class="fas fa-check-circle text-accent mr-3"></i>
                         <span>Paneles de administración (backend) seguros y fáciles de usar</span>
                     </div>
                 </div>
                 
-                <div class="service-description">
-                    <p>Trabajamos con tecnologías actuales y buenas prácticas de desarrollo para garantizar rendimiento, seguridad y escalabilidad.</p>
-                    <p class="highlight">📩 Escríbenos y cuéntanos tu idea. Juntos la convertimos en realidad.</p>
-                    <a href="#contacto" class="btn">Solicitar Cotización</a>
+                <div class="service-description md:w-1/2 bg-gray-50 p-6 rounded-lg">
+                    <p class="mb-4">Trabajamos con tecnologías actuales y buenas prácticas de desarrollo para garantizar rendimiento, seguridad y escalabilidad.</p>
+                    <p class="mb-6 text-primary font-semibold">📩 Escríbenos y cuéntanos tu idea. Juntos la convertimos en realidad.</p>
+                    <a href="#contacto" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-6 rounded transition">Solicitar Cotización</a>
                 </div>
             </div>
             
-            <div class="services-grid">
-                <div class="service-card">
-                    <i class="fas fa-laptop-code"></i>
-                    <h3>Desarrollo Web</h3>
-                    <p>Sitios web personalizados, responsivos y optimizados para SEO que representan tu marca en internet.</p>
+            <div class="services-grid grid md:grid-cols-3 gap-8">
+                <div class="service-card bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+                    <i class="fas fa-laptop-code text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Desarrollo Web</h3>
+                    <p class="text-gray-700">Sitios web personalizados, responsivos y optimizados para SEO que representan tu marca en internet.</p>
                 </div>
-                <div class="service-card">
-                    <i class="fas fa-cogs"></i>
-                    <h3>Sistemas a Medida</h3>
-                    <p>Soluciones personalizadas para automatizar procesos y mejorar la eficiencia de tu negocio.</p>
+                <div class="service-card bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+                    <i class="fas fa-cogs text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Sistemas a Medida</h3>
+                    <p class="text-gray-700">Soluciones personalizadas para automatizar procesos y mejorar la eficiencia de tu negocio.</p>
                 </div>
-                <div class="service-card">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h3>E-commerce</h3>
-                    <p>Tiendas online completas con catálogo, carrito de compras y pasarelas de pago integradas.</p>
+                <div class="service-card bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+                    <i class="fas fa-shopping-cart text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">E-commerce</h3>
+                    <p class="text-gray-700">Tiendas online completas con catálogo, carrito de compras y pasarelas de pago integradas.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="nosotros" class="about">
-        <div class="container">
-            <div class="about-content">
-                <h2>Sobre Nosotros</h2>
-                <p>MB Digital Systems es una empresa especializada en el desarrollo de soluciones web personalizadas. Nuestro equipo de profesionales combina creatividad y tecnología para ofrecer productos de alta calidad que satisfacen las necesidades específicas de cada cliente.</p>
-                <p>Con años de experiencia en el mercado, nos enorgullecemos de entregar proyectos a tiempo, dentro del presupuesto y superando las expectativas.</p>
-            </div>
-            <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Equipo de trabajo">
+    <section id="nosotros" class="about py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="md:flex items-center gap-12">
+                <div class="about-content md:w-1/2 mb-8 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-6">Sobre Nosotros</h2>
+                    <p class="mb-4">MB Digital Systems es una empresa especializada en el desarrollo de soluciones web personalizadas. Nuestro equipo de profesionales combina creatividad y tecnología para ofrecer productos de alta calidad que satisfacen las necesidades específicas de cada cliente.</p>
+                    <p>Con años de experiencia en el mercado, nos enorgullecemos de entregar proyectos a tiempo, dentro del presupuesto y superando las expectativas.</p>
+                </div>
+                <div class="about-image md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Equipo de trabajo" class="rounded-lg shadow-md w-full">
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="contacto" class="contact">
-        <div class="container">
-            <h2>Contáctanos</h2>
-            <div class="contact-grid">
+    <section id="contacto" class="contact py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Contáctanos</h2>
+            
+            <div class="contact-grid md:grid grid-cols-2 gap-12">
                 <div class="contact-info">
-                    <h3>Información de Contacto</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Dirección: Fraccionamiento Ciudad Bicentenario</p>
-                    <p><i class="fas fa-phone"></i> Teléfono: 9931782620</p>
-                    <p><i class="fas fa-envelope"></i> Email: manriquemontero25@gmail.com</p>
+                    <h3 class="text-2xl font-semibold mb-6">Información de Contacto</h3>
+                    <div class="space-y-4">
+                        <p class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-primary mr-3 mt-1"></i>
+                            <span>Dirección: Fraccionamiento Ciudad Bicentenario</span>
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-phone text-primary mr-3"></i>
+                            <span>Teléfono: 9931782620</span>
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-envelope text-primary mr-3"></i>
+                            <span>Email: manriquemontero25@gmail.com</span>
+                        </p>
+                    </div>
                 </div>
+                
                 <div class="contact-form">
-                    <form>
+                    <form class="space-y-4">
                         <div class="form-group">
-                            <input type="text" placeholder="Nombre" required>
+                            <input type="text" placeholder="Nombre" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" placeholder="Email" required>
+                            <input type="email" placeholder="Email" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="Asunto">
+                            <input type="text" placeholder="Asunto" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary">
                         </div>
                         <div class="form-group">
-                            <textarea placeholder="Mensaje" required></textarea>
+                            <textarea placeholder="Mensaje" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary" required></textarea>
                         </div>
-                        <button type="submit" class="btn">Enviar Mensaje</button>
+                        <button type="submit" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-6 rounded transition">Enviar Mensaje</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h3>MB Digital Systems</h3>
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="footer-content md:grid grid-cols-3 gap-8 mb-8">
+                <div class="footer-logo mb-8 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-2">MB Digital Systems</h3>
                     <p>Soluciones web profesionales</p>
                 </div>
-                <div class="footer-links">
-                    <h4>Enlaces Rápidos</h4>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#servicios">Servicios</a></li>
-                        <li><a href="#nosotros">Nosotros</a></li>
-                        <li><a href="#contacto">Contacto</a></li>
+                
+                <div class="footer-links mb-8 md:mb-0">
+                    <h4 class="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#inicio" class="hover:text-primary transition">Inicio</a></li>
+                        <li><a href="#servicios" class="hover:text-primary transition">Servicios</a></li>
+                        <li><a href="#nosotros" class="hover:text-primary transition">Nosotros</a></li>
+                        <li><a href="#contacto" class="hover:text-primary transition">Contacto</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-social">
-                    <h4>Síguenos</h4>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    <h4 class="text-lg font-semibold mb-4">Síguenos</h4>
+                    <div class="social-icons flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
+            
+            <div class="footer-bottom border-t border-gray-700 pt-6 text-center">
                 <p>&copy; 2023 MB Digital Systems. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
+    
     <a href="https://wa.me/+529931782620" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script src="js/script.js"></script>
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>
