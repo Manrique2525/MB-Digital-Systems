@@ -90,4 +90,100 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll(); // Ejecutar al cargar
+
+    // Modal y Carrusel con Tailwind
+const modal = document.getElementById('welcomeModal');
+const closeModal = document.getElementById('closeModal');
+const acceptBtn = document.getElementById('acceptBtn');
+const carouselInner = document.querySelector('.carousel-inner');
+const prevBtn = document.querySelector('.carousel-control.prev');
+const nextBtn = document.querySelector('.carousel-control.next');
+const indicators = document.querySelectorAll('.carousel-indicators button, .indicator');
+
+let currentIndex = 0;
+let carouselInterval;
+const totalItems = document.querySelectorAll('.carousel-item').length;
+
+// Mostrar modal al cargar
+function showModal() {
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    startCarousel();
+    updateCarousel();
+}
+
+// Cerrar modal
+function closeModalHandler() {
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    clearInterval(carouselInterval);
+}
+
+// Actualizar carrusel
+function updateCarousel() {
+    const offset = -currentIndex * 100;
+    carouselInner.style.transform = `translateX(${offset}%)`;
+    
+    // Actualizar indicadores
+    indicators.forEach((indicator, index) => {
+        if (index === currentIndex) {
+            indicator.classList.add('bg-primary', 'bg-opacity-100');
+            indicator.classList.remove('bg-opacity-50');
+        } else {
+            indicator.classList.remove('bg-primary', 'bg-opacity-100');
+            indicator.classList.add('bg-opacity-50');
+        }
+    });
+}
+
+// Autoavance del carrusel
+function startCarousel() {
+    carouselInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalItems;
+        updateCarousel();
+    }, 5000);
+}
+
+// Event listeners
+closeModal?.addEventListener('click', closeModalHandler);
+acceptBtn?.addEventListener('click', closeModalHandler);
+
+prevBtn?.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+    updateCarousel();
+    resetInterval();
+});
+
+nextBtn?.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % totalItems;
+    updateCarousel();
+    resetInterval();
+});
+
+// Navegación por indicadores
+indicators?.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel();
+        resetInterval();
+    });
+});
+
+// Reiniciar intervalo al interactuar
+function resetInterval() {
+    clearInterval(carouselInterval);
+    startCarousel();
+}
+
+// Mostrar modal después de 1 segundo
+setTimeout(showModal, 1000);
+
+// Pausar al interactuar con el modal
+modal?.addEventListener('mouseenter', () => {
+    clearInterval(carouselInterval);
+});
+
+modal?.addEventListener('mouseleave', () => {
+    startCarousel();
+});
 });
