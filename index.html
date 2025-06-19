@@ -286,6 +286,147 @@
             </div>
         </div>
     </section>
+    <style>
+        /* Estilos para las tarjetas tecnológicas */
+        .tech-card {
+            transition: all 0.3s ease;
+            transform: perspective(1000px) rotateX(0) rotateY(0) scale(1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-card:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            z-index: 10; /* Esto evita que otras tarjetas se superpongan durante la animación */
+        }
+        
+        /* Asegurar que todas las tarjetas tengan la misma altura */
+        .tech-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tech-card p {
+            flex-grow: 1;
+        }
+    </style>
+    
+    <!-- Sección de Tecnologías -->
+    <section class="technologies py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-up">Nuestro Stack Tecnológico</h2>
+            <p class="text-center max-w-2xl mx-auto mb-12 text-gray-700" data-aos="fade-up" data-aos-delay="100">
+                Utilizamos las mejores tecnologías del mercado, organizadas para brindar soluciones completas
+            </p>
+    
+            <!-- Categoría Front-end -->
+            <div class="mb-16" data-aos="fade-up">
+                <div class="flex items-center mb-8">
+                    <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-desktop text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800">Front-end Development</h3>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- HTML5 -->
+                    <div class="tech-card bg-gray-50 p-6 rounded-lg border-l-4 border-orange-500" data-aos="zoom-in" data-aos-delay="0">
+                        <div class="flex items-center mb-3">
+                            <i class="fab fa-html5 text-3xl text-orange-500 mr-3"></i>
+                            <h4 class="text-lg font-semibold">HTML5</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm">Estructura semántica y accesible para todos tus proyectos web.</p>
+                    </div>
+                    
+                    <!-- CSS3 -->
+                    <div class="tech-card bg-gray-50 p-6 rounded-lg border-l-4 border-blue-500" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="flex items-center mb-3">
+                            <i class="fab fa-css3-alt text-3xl text-blue-500 mr-3"></i>
+                            <h4 class="text-lg font-semibold">CSS3</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm">Estilos modernos y diseños responsivos para cualquier dispositivo.</p>
+                    </div>
+                    
+                    <!-- JavaScript -->
+                    <div class="tech-card bg-gray-50 p-6 rounded-lg border-l-4 border-yellow-400" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="flex items-center mb-3">
+                            <i class="fab fa-js text-3xl text-yellow-400 mr-3"></i>
+                            <h4 class="text-lg font-semibold">JavaScript</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm">Interactividad avanzada y lógica del lado del cliente.</p>
+                    </div>
+                    
+                    <!-- Bootstrap -->
+                    <div class="tech-card bg-gray-50 p-6 rounded-lg border-l-4 border-purple-600" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="flex items-center mb-3">
+                            <i class="fab fa-bootstrap text-3xl text-purple-600 mr-3"></i>
+                            <h4 class="text-lg font-semibold">Bootstrap</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm">Framework para desarrollo rápido de interfaces responsivas.</p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Categoría Back-end -->
+            <div data-aos="fade-up">
+                <div class="flex items-center mb-8">
+                    <div class="flex-shrink-0 bg-green-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-server text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800">Back-end Development</h3>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- PHP -->
+                    <div class="tech-card bg-gray-50 p-6 rounded-lg border-l-4 border-purple-500" data-aos="zoom-in" data-aos-delay="0">
+                        <div class="flex items-center mb-3">
+                            <i class="fab fa-php text-3xl text-purple-500 mr-3"></i>
+                            <h4 class="text-lg font-semibold">PHP</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm">Lógica del lado del servidor para aplicaciones robustas y escalables.</p>
+                    </div>
+                    
+                    <!-- Laravel -->
+                    <div class="tech-card bg-gray-50 p-6 rounded-lg border-l-4 border-red-500" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="flex items-center mb-3">
+                            <i class="fab fa-laravel text-3xl text-red-500 mr-3"></i>
+                            <h4 class="text-lg font-semibold">Laravel</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm">Framework PHP elegante y expresivo para desarrollo web.</p>
+                    </div>
+                    
+                    <!-- MySQL -->
+                    <div class="tech-card bg-gray-50 p-6 rounded-lg border-l-4 border-blue-600" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-database text-3xl text-blue-600 mr-3"></i>
+                            <h4 class="text-lg font-semibold">MySQL</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm">Sistema de gestión de bases de datos relacionales.</p>
+                    </div>
+                    
+                    <!-- Tailwind CSS -->
+                    <div class="tech-card bg-gray-50 p-6 rounded-lg border-l-4 border-cyan-400" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="flex items-center mb-3">
+                            <img src="https://cdn.worldvectorlogo.com/logos/tailwind-css-2.svg" alt="Tailwind CSS" class="h-6 mr-3">
+                            <h4 class="text-lg font-semibold">Tailwind CSS</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm">Framework CSS utilitario para diseños personalizados.</p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Nota adicional -->
+            <div class="mt-16 bg-blue-50 border border-blue-200 rounded-lg p-6 text-center" data-aos="fade-up">
+                <h4 class="text-xl font-semibold text-blue-800 mb-2">¿Necesitas otra tecnología?</h4>
+                <p class="text-blue-600 mb-4">Trabajamos con múltiples tecnologías y podemos adaptarnos a tus requerimientos específicos.</p>
+                <a href="#contacto" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition transform hover:scale-105">
+                    Consultar otras tecnologías
+                </a>
+            </div>
+        </div>
+    </section>
+
 <!-- Sección de Proyectos - Versión Corregida -->
 <section id="proyectos" class="projects py-16 bg-gray-50">
     <div class="container mx-auto px-4">
@@ -368,7 +509,7 @@
         </div>
         
         <div class="text-center mt-12" data-aos="fade-up">
-            <a href="#contacto" class="inline-block bg-primary hover:bg-secondary text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105">
+            <a href="https://wa.me/+529931782620" class="inline-block bg-primary hover:bg-secondary text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105">
                 ¿Quieres un proyecto similar?
             </a>
         </div>
@@ -463,7 +604,7 @@
             </div>
             
             <div class="footer-bottom border-t border-gray-700 pt-6 text-center" data-aos="fade-up">
-                <p>&copy; 2023 MB Digital Systems. Todos los derechos reservados.</p>
+                <p>&copy; 2025 MB Digital Systems. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
