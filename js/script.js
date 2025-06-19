@@ -3,42 +3,42 @@ document.addEventListener('DOMContentLoaded', function () {
     AOS.init({
         duration: 800,
         once: true,
-        easing: 'ease-in-out'
+        easing: 'ease-in-out',
+        disable: window.innerWidth < 768 // Desactivar animaciones en móviles si es necesario
     });
 
     // Menu toggle functionality (ícono hamburguesa)
     const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu') || document.getElementById('mobile-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
 
     menuToggle?.addEventListener('click', function () {
-        menu?.classList.toggle('active') || menu?.classList.toggle('hidden');
-
-        // Cambiar ícono (solo si hay íconos)
+        mobileMenu?.classList.toggle('hidden');
+        
+        // Cambiar ícono
         const icon = this.querySelector('i');
         if (icon) {
-            if (menu?.classList.contains('active') || !menu?.classList.contains('hidden')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
+            if (mobileMenu?.classList.contains('hidden')) {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
             }
         }
     });
 
-    // Cerrar menú al hacer clic en un enlace
-    const menuLinks = document.querySelectorAll('#menu a, #mobile-menu a');
+    // Cerrar menú al hacer clic en un enlace (solo móvil)
+    const menuLinks = document.querySelectorAll('#mobile-menu a');
     menuLinks.forEach(link => {
         link.addEventListener('click', function () {
-            menu?.classList.remove('active');
-            menu?.classList.add('hidden');
-            const icon = document.querySelector('#menu-toggle i');
+            mobileMenu?.classList.add('hidden');
+            const icon = menuToggle?.querySelector('i');
             icon?.classList.remove('fa-times');
             icon?.classList.add('fa-bars');
         });
     });
 
-    // Smooth scrolling
+    // Smooth scrolling para todos los enlaces internos
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -47,170 +47,238 @@ document.addEventListener('DOMContentLoaded', function () {
             const targetElement = document.querySelector(targetId);
 
             if (targetElement) {
+                // Cerrar menú móvil si está abierto
+                if (!mobileMenu?.classList.contains('hidden')) {
+                    mobileMenu?.classList.add('hidden');
+                    const icon = menuToggle?.querySelector('i');
+                    icon?.classList.remove('fa-times');
+                    icon?.classList.add('fa-bars');
+                }
+
+                // Calcular posición considerando el header fijo
+                const headerHeight = document.querySelector('header')?.offsetHeight || 80;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                
                 window.scrollTo({
-                    top: targetElement.offsetTop - 80,
+                    top: targetPosition,
                     behavior: 'smooth'
                 });
             }
         });
     });
 
-    // Efecto 3D para las tarjetas
-    document.querySelectorAll('.card-3d').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    // Efecto 3D para las tarjetas (solo en desktop)
+    if (window.innerWidth > 768) {
+        document.querySelectorAll('.card-3d').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'none';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transition = 'all 0.5s ease';
+                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            });
         });
+    }
 
-        card.addEventListener('mouseenter', () => {
-            card.style.transition = 'none';
-        });
+    // Modal y Carrusel Responsive
+    const modal = document.getElementById('welcomeModal');
+    const closeModal = document.getElementById('closeModal');
+    const acceptBtn = document.getElementById('acceptBtn');
+    const carouselInner = document.querySelector('.carousel-inner');
+    const prevBtn = document.querySelector('.carousel-control.prev');
+    const nextBtn = document.querySelector('.carousel-control.next');
+    const indicators = document.querySelectorAll('.indicator');
 
-        card.addEventListener('mouseleave', () => {
-            card.style.transition = 'all 0.5s ease';
-            card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-        });
-    });
+    let currentIndex = 0;
+    let carouselInterval;
+    let isMobile = window.innerWidth < 768; // 768px es el breakpoint md de Tailwind
+    const totalItems = document.querySelectorAll('.carousel-item').length;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isDragging = false;
 
-    // Animación en scroll personalizada
-    function animateOnScroll() {
-        const elements = document.querySelectorAll('.service-card, .about-content, .about-image, .contact-info, .contact-form, .feature');
+    // Mostrar modal al cargar
+    function showModal() {
+        // Verificar si ya se mostró el modal en esta sesión
+        if (sessionStorage.getItem('modalShown')) return;
+        
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        updateCarousel();
+        
+        // Solo autoavance en desktop
+        if (!isMobile) {
+            startCarousel();
+        }
+        
+        // Marcar como mostrado
+        sessionStorage.setItem('modalShown', 'true');
+    }
 
-        elements.forEach(element => {
-            const elementPosition = element.getBoundingClientRect().top;
-            const screenPosition = window.innerHeight / 1.3;
+    // Cerrar modal
+    function closeModalHandler() {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        clearInterval(carouselInterval);
+    }
 
-            if (elementPosition < screenPosition) {
-                element.style.opacity = '1';
-                element.style.transform = 'translate(0)';
+    // Actualizar carrusel
+    function updateCarousel() {
+        const offset = -currentIndex * 100;
+        carouselInner.style.transform = `translateX(${offset}%)`;
+        
+        // Actualizar indicadores
+        indicators.forEach((indicator, index) => {
+            if (indicator) {
+                indicator.classList.toggle('bg-primary', index === currentIndex);
+                indicator.classList.toggle('bg-opacity-100', index === currentIndex);
+                indicator.classList.toggle('bg-opacity-50', index !== currentIndex);
             }
         });
     }
 
-    window.addEventListener('scroll', animateOnScroll);
-    animateOnScroll(); // Ejecutar al cargar
-// Modal y Carrusel Responsive
-const modal = document.getElementById('welcomeModal');
-const closeModal = document.getElementById('closeModal');
-const acceptBtn = document.getElementById('acceptBtn');
-const carouselInner = document.querySelector('.carousel-inner');
-const prevBtn = document.querySelector('.carousel-control.prev');
-const nextBtn = document.querySelector('.carousel-control.next');
-const indicators = document.querySelectorAll('.indicator');
-
-let currentIndex = 0;
-let carouselInterval;
-let isMobile = window.innerWidth < 768; // 768px es el breakpoint md de Tailwind
-const totalItems = document.querySelectorAll('.carousel-item').length;
-
-// Mostrar modal al cargar
-function showModal() {
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-    updateCarousel();
-    if (!isMobile) {
-        startCarousel();
+    // Autoavance solo en desktop
+    function startCarousel() {
+        if (!isMobile && totalItems > 1) {
+            clearInterval(carouselInterval);
+            carouselInterval = setInterval(() => {
+                goToNextSlide();
+            }, 5000);
+        }
     }
-}
 
-// Cerrar modal
-function closeModalHandler() {
-    modal.classList.add('hidden');
-    document.body.style.overflow = 'auto';
-    clearInterval(carouselInterval);
-}
-
-// Actualizar carrusel
-function updateCarousel() {
-    const offset = -currentIndex * 100;
-    carouselInner.style.transform = `translateX(${offset}%)`;
-    
-    indicators.forEach((indicator, index) => {
-        indicator.classList.toggle('bg-primary', index === currentIndex);
-        indicator.classList.toggle('bg-opacity-100', index === currentIndex);
-        indicator.classList.toggle('bg-opacity-50', index !== currentIndex);
-    });
-}
-
-// Autoavance solo en desktop
-function startCarousel() {
-    if (!isMobile) {
-        carouselInterval = setInterval(() => {
-            currentIndex = (currentIndex + 1) % totalItems;
-            updateCarousel();
-        }, 5000);
-    }
-}
-
-// Event listeners
-closeModal?.addEventListener('click', closeModalHandler);
-acceptBtn?.addEventListener('click', closeModalHandler);
-
-prevBtn?.addEventListener('click', () => {
-    currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-    updateCarousel();
-    resetInterval();
-});
-
-nextBtn?.addEventListener('click', () => {
-    currentIndex = (currentIndex + 1) % totalItems;
-    updateCarousel();
-    resetInterval();
-});
-
-// Navegación por indicadores
-indicators?.forEach((indicator, index) => {
-    indicator.addEventListener('click', () => {
-        currentIndex = index;
+    function goToNextSlide() {
+        currentIndex = (currentIndex + 1) % totalItems;
         updateCarousel();
+    }
+
+    function goToPrevSlide() {
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+        updateCarousel();
+    }
+
+    // Event listeners para controles
+    closeModal?.addEventListener('click', closeModalHandler);
+    acceptBtn?.addEventListener('click', closeModalHandler);
+
+    prevBtn?.addEventListener('click', () => {
+        goToPrevSlide();
         resetInterval();
     });
-});
 
-// Reiniciar intervalo
-function resetInterval() {
-    clearInterval(carouselInterval);
-    startCarousel();
-}
+    nextBtn?.addEventListener('click', () => {
+        goToNextSlide();
+        resetInterval();
+    });
 
-// Manejar cambios de tamaño
-function handleResize() {
-    isMobile = window.innerWidth < 768;
-    if (isMobile) {
-        clearInterval(carouselInterval);
-    } else if (!modal.classList.contains('hidden')) {
-        startCarousel();
+    // Navegación por indicadores
+    indicators?.forEach((indicator, index) => {
+        indicator?.addEventListener('click', () => {
+            currentIndex = index;
+            updateCarousel();
+            resetInterval();
+        });
+    });
+
+    // Reiniciar intervalo
+    function resetInterval() {
+        if (!isMobile) {
+            clearInterval(carouselInterval);
+            startCarousel();
+        }
     }
-}
 
-// Mostrar modal después de 1 segundo
-setTimeout(showModal, 1000);
-
-// Event listeners para responsive
-window.addEventListener('resize', handleResize);
-
-// Swipe para móviles
-let touchStartX = 0;
-let touchEndX = 0;
-
-carouselInner?.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-}, {passive: true});
-
-carouselInner?.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-}, {passive: true});
-
-function handleSwipe() {
-    if (touchEndX < touchStartX - 50) {
-        // Swipe izquierda
-        currentIndex = (currentIndex + 1) % totalItems;
-    } else if (touchEndX > touchStartX + 50) {
-        // Swipe derecha
-        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+    // Manejar cambios de tamaño
+    function handleResize() {
+        const newIsMobile = window.innerWidth < 768;
+        
+        // Solo si cambió el estado de móvil a desktop o viceversa
+        if (newIsMobile !== isMobile) {
+            isMobile = newIsMobile;
+            
+            if (isMobile) {
+                clearInterval(carouselInterval);
+            } else if (modal && !modal.classList.contains('hidden')) {
+                startCarousel();
+            }
+        }
     }
-    updateCarousel();
-}
+
+    // Swipe para móviles
+    function handleTouchStart(e) {
+        touchStartX = e.touches[0].clientX;
+        isDragging = true;
+        carouselInner.style.transition = 'none';
+    }
+
+    function handleTouchMove(e) {
+        if (!isDragging) return;
+        touchEndX = e.touches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        const offset = -currentIndex * 100 - (diff / window.innerWidth) * 100;
+        carouselInner.style.transform = `translateX(${offset}%)`;
+    }
+
+    function handleTouchEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        carouselInner.style.transition = 'transform 0.3s ease';
+        
+        const threshold = window.innerWidth / 4; // 25% del ancho de pantalla
+        const diff = touchStartX - touchEndX;
+        
+        if (diff > threshold) {
+            // Swipe izquierda - siguiente
+            goToNextSlide();
+        } else if (diff < -threshold) {
+            // Swipe derecha - anterior
+            goToPrevSlide();
+        } else {
+            // Vuelve a la posición actual
+            updateCarousel();
+        }
+        
+        // Resetear valores
+        touchStartX = 0;
+        touchEndX = 0;
+    }
+
+    // Agregar event listeners para touch
+    if (carouselInner) {
+        carouselInner.addEventListener('touchstart', handleTouchStart, { passive: true });
+        carouselInner.addEventListener('touchmove', handleTouchMove, { passive: true });
+        carouselInner.addEventListener('touchend', handleTouchEnd, { passive: true });
+    }
+
+    // Mostrar modal después de un breve retraso
+    setTimeout(showModal, 1000);
+
+    // Event listeners para responsive
+    window.addEventListener('resize', handleResize);
+
+    // Prevenir scroll cuando el modal está abierto
+    document.addEventListener('touchmove', function(e) {
+        if (modal && !modal.classList.contains('hidden')) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Mejorar el comportamiento del teclado virtual en móviles
+    const formInputs = document.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            if (isMobile) {
+                setTimeout(() => {
+                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
+        });
+    });
 });
