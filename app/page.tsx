@@ -47,7 +47,7 @@ const PROJECTS = [
     desc: "Sitio web para taquería local con diseño responsive, menú digital y funcionalidades para pedidos.",
     tags: ["HTML", "CSS", "JS"],
     img: "/img/tortas_del_chiche.png",
-        link: "https://lastortasdelchiche.com/",
+    link: "https://lastortasdelchiche.com/",
   },
   {
     title: "Sistema de Análisis Financiero",
@@ -57,6 +57,19 @@ const PROJECTS = [
     link: "#",
   },
 ];
+
+// Tipado para los elementos de tecnología
+interface TechItem {
+  name: string;
+  icon: string;
+  color: string;
+}
+
+// Tipado para los props de TechCard
+interface TechCardProps {
+  tech: TechItem;
+  i: number;
+}
 
 // Hook para detectar si es móvil
 function useIsMobile() {
@@ -78,7 +91,8 @@ function AnimatedSection({
   children: React.ReactNode;
   delay?: number;
   style?: React.CSSProperties;
-}) {  const ref = useRef(null);
+}) {  
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.div
@@ -111,7 +125,7 @@ function Navbar() {
   }, [isMobile]);
 
   const scrollTo = (id: string) => {  
-      setOpen(false);
+    setOpen(false);
     const el = document.getElementById(id.toLowerCase());
     if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: "smooth" });
   };
@@ -325,7 +339,8 @@ function Services() {
 
 // ─── TECH STACK ─────────────────────────────────────────────────────────────────
 function TechStack() {
-  const TechCard = ({ tech, i }) => (
+  // Componente TechCard con tipado correcto
+  const TechCard = ({ tech, i }: TechCardProps) => (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
       transition={{ delay: i * 0.07, duration: 0.5, ease: [0.22,1,0.36,1] }}
@@ -418,7 +433,7 @@ function About() {
 
 // ─── PROJECTS ───────────────────────────────────────────────────────────────────
 function Projects() {
-  const [hovered, setHovered] = useState(null);
+  const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <section id="proyectos" style={{ padding: "clamp(60px,10vw,120px) 20px", background: "#F8FAFF" }}>
@@ -481,7 +496,7 @@ function Contact() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSent(true);
     setTimeout(() => setSent(false), 3000);
@@ -523,7 +538,7 @@ function Contact() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
               {["name","email"].map((field) => (
                 <input key={field} type={field === "email" ? "email" : "text"} placeholder={field === "name" ? "Nombre" : "Email"}
-                  value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })} required
+                  value={form[field as keyof typeof form]} onChange={(e) => setForm({ ...form, [field]: e.target.value })} required
                   style={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: 12, padding: "12px 14px", fontSize: 14, color: "#1E293B", outline: "none", fontFamily: "inherit", width: "100%", boxSizing: "border-box" }} />
               ))}
             </div>
