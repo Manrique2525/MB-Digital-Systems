@@ -110,8 +110,8 @@ function Navbar() {
     if (!isMobile) setOpen(false);
   }, [isMobile]);
 
-  const scrollTo = (id) => {
-    setOpen(false);
+  const scrollTo = (id: string) => {  
+      setOpen(false);
     const el = document.getElementById(id.toLowerCase());
     if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: "smooth" });
   };
