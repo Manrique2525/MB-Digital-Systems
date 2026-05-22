@@ -70,8 +70,15 @@ function useIsMobile() {
   return isMobile;
 }
 
-function AnimatedSection({ children, delay = 0, style = {} }) {
-  const ref = useRef(null);
+function AnimatedSection({
+  children,
+  delay = 0,
+  style = {},
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  style?: React.CSSProperties;
+}) {  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.div
