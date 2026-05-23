@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
+import { WhyWebsite } from "@/components/sections/WhyWebsite";
 import { Services } from "@/components/sections/Services";
 import { TechStack } from "@/components/sections/TechStack";
 import { About } from "@/components/sections/About";
@@ -29,6 +30,7 @@ export default function Home() {
     <div style={{ fontFamily: "'Sora', system-ui, sans-serif", overflowX: "hidden" }}>
       <Navbar />
       <Hero />
+      <WhyWebsite /> 
       <Services />
       <TechStack />
       <About />
