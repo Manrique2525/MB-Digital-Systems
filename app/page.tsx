@@ -11,6 +11,7 @@ import { About } from "@/components/sections/About";
 import { Projects } from "@/components/sections/Projects";
 import { Contact } from "@/components/sections/Contact";
 import { WhatsAppFloat } from "@/components/ui/WhatsAppFloat";
+import { Pricing } from "@/components/sections/Pricing";
 
 export default function Home() {
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function Home() {
       <TechStack />
       <About />
       <Projects />
+      <Pricing />
       <Contact />
       <Footer />
       <WhatsAppFloat />
