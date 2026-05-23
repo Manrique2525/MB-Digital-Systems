@@ -5,6 +5,7 @@ export const NAV_LINKS = [
   "Servicios",
   "Nosotros",
   "Proyectos",
+  "precios",
   "Contacto",
 ];
 
