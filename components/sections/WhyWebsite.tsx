@@ -1,164 +1,158 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
-// ── DATA ─────────────────────────────────────────────────────────────────────
+// ── DATA ──────────────────────────────────────────────────────────────────────
 
-const PROBLEMS = [
-  { icon: "🔍", text: "Tu negocio no aparece en Google" },
-  { icon: "🐢", text: "Tu página carga lento y la gente se va" },
-  { icon: "📵", text: "Todo depende de un solo WhatsApp" },
-  { icon: "😶", text: "No transmite confianza ni profesionalismo" },
-  { icon: "📱", text: "Se ve mal en celular" },
-  { icon: "💸", text: "Pierdes clientes frente a tu competencia" },
-  { icon: "🌙", text: "Cuando cierras, tu negocio desaparece" },
+const PAIN_POINTS = [
+  {
+    emoji: "😰",
+    title: "¿Tu competencia te está ganando?",
+    desc: "Mientras ellos aparecen en Google, tú dependes solo del boca a boca.",
+  },
+  {
+    emoji: "📵",
+    title: "¿Todo por WhatsApp?",
+    desc: "Sin una web, pareces menos serio que negocios más pequeños que el tuyo.",
+  },
+  {
+    emoji: "🌙",
+    title: "¿Pierdes ventas de noche?",
+    desc: "Cuando cierras tu negocio, tu presencia digital también desaparece.",
+  },
+  {
+    emoji: "😓",
+    title: "¿Nadie te encuentra en Google?",
+    desc: "Miles de personas buscan lo que ofreces — y llegan a otro, no a ti.",
+  },
 ];
 
-const SOLUTIONS = [
-  { icon: "✓", text: "Diseño moderno que genera confianza al instante" },
-  { icon: "✓", text: "Velocidad ultra rápida en cualquier dispositivo" },
-  { icon: "✓", text: "Integración con WhatsApp y formularios de contacto" },
-  { icon: "✓", text: "Optimizado para aparecer en Google (SEO)" },
-  { icon: "✓", text: "Experiencia perfecta en celular, tablet y PC" },
-  { icon: "✓", text: "Tu negocio visible y activo las 24 horas" },
-  { icon: "✓", text: "Estrategia de conversión: visitas → clientes" },
+const TRANSFORMATION = [
+  {
+    before: "Invisible en Google",
+    after: "Primero en búsquedas",
+    icon: "🔍",
+    color: "#3B82F6",
+    bg: "#EFF6FF",
+    border: "rgba(59,130,246,0.2)",
+  },
+  {
+    before: "Solo WhatsApp",
+    after: "Presencia profesional",
+    icon: "💼",
+    color: "#8B5CF6",
+    bg: "#F5F3FF",
+    border: "rgba(139,92,246,0.2)",
+  },
+  {
+    before: "Cierra con el negocio",
+    after: "Activo las 24/7",
+    icon: "⚡",
+    color: "#10B981",
+    bg: "#ECFDF5",
+    border: "rgba(16,185,129,0.2)",
+  },
+  {
+    before: "Pierde clientes",
+    after: "Los atrae solo",
+    icon: "🚀",
+    color: "#1E40AF",
+    bg: "#EFF6FF",
+    border: "rgba(30,64,175,0.2)",
+  },
+];
+
+const RESULTS = [
+  { value: "75%", label: "de personas buscan en Google antes de comprar" },
+  { value: "3s", label: "para causar primera impresión o perder al cliente" },
+  { value: "80%", label: "de búsquedas son desde el celular" },
+  { value: "24/7", label: "trabajando para ti aunque estés dormido" },
 ];
 
 // ── ANIMATED COUNTER ──────────────────────────────────────────────────────────
 
-function AnimatedCounter({ to, suffix = "" }: { to: number; suffix?: string }) {
+function Counter({ value }: { value: string }) {
+  const num = parseInt(value);
+  const suffix = value.replace(String(num), "");
   const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !started) setStarted(true); },
-      { threshold: 0.5 }
+      ([e]) => { if (e.isIntersecting && !started) setStarted(true); },
+      { threshold: 0.6 }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [started]);
 
   useEffect(() => {
-    if (!started) return;
+    if (!started || isNaN(num)) return;
     let start = 0;
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / 1600, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(ease * to));
-      if (progress < 1) requestAnimationFrame(step);
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / 1400, 1);
+      setCount(Math.floor((1 - Math.pow(1 - p, 3)) * num));
+      if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
-  }, [started, to]);
+  }, [started, num]);
 
-  return <span ref={ref}>{count}{suffix}</span>;
+  if (isNaN(num)) return <div ref={ref}>{value}</div>;
+  return <div ref={ref}>{count}{suffix}</div>;
 }
 
-// ── PROBLEM ITEM ──────────────────────────────────────────────────────────────
+// ── PAIN CARD ─────────────────────────────────────────────────────────────────
 
-function ProblemItem({ icon, text, index }: { icon: string; text: string; index: number }) {
+function PainCard({ emoji, title, desc, index }: { emoji: string; title: string; desc: string; index: number }) {
   const [hovered, setHovered] = useState(false);
   return (
     <motion.div
-      initial={{ opacity: 0, x: -24 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay: index * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: index * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        padding: "14px 18px",
-        borderRadius: 14,
-        background: hovered ? "#FEF2F2" : "#F8FAFF",
-        border: `1px solid ${hovered ? "#FECACA" : "#E8F0FE"}`,
-        transition: "all 0.22s ease",
+        background: hovered ? "#fff" : "#F8FAFF",
+        border: `1px solid ${hovered ? "rgba(59,130,246,0.25)" : "#E8F0FE"}`,
+        borderRadius: 20,
+        padding: "clamp(22px,3vw,32px)",
         cursor: "default",
+        transition: "all 0.28s ease",
+        boxShadow: hovered ? "0 16px 48px rgba(59,130,246,0.12)" : "0 2px 12px rgba(59,130,246,0.04)",
+        transform: hovered ? "translateY(-4px)" : "none",
       }}
     >
-      <span style={{ fontSize: 20, flexShrink: 0 }}>{icon}</span>
-      <span style={{
-        fontSize: "clamp(13px,1.5vw,15px)",
-        color: hovered ? "#991B1B" : "#374151",
-        fontWeight: 500,
-        lineHeight: 1.4,
-        transition: "color 0.22s ease",
+      <div style={{ fontSize: 36, marginBottom: 14 }}>{emoji}</div>
+      <h4 style={{
+        fontSize: "clamp(15px,1.8vw,18px)",
+        fontWeight: 800,
+        color: "#0F172A",
+        margin: "0 0 8px",
+        fontFamily: "'Sora', sans-serif",
+        letterSpacing: "-0.3px",
       }}>
-        {text}
-      </span>
+        {title}
+      </h4>
+      <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.65, margin: 0 }}>
+        {desc}
+      </p>
     </motion.div>
   );
 }
 
-// ── SOLUTION ITEM ─────────────────────────────────────────────────────────────
-
-function SolutionItem({ text, index }: { text: string; index: number }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 24 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay: index * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        padding: "14px 18px",
-        borderRadius: 14,
-        background: hovered ? "#EFF6FF" : "#F8FAFF",
-        border: `1px solid ${hovered ? "rgba(59,130,246,0.3)" : "#E8F0FE"}`,
-        transition: "all 0.22s ease",
-        cursor: "default",
-      }}
-    >
-      <span style={{
-        width: 24,
-        height: 24,
-        borderRadius: "50%",
-        background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: 11,
-        fontWeight: 900,
-        color: "#fff",
-        flexShrink: 0,
-        boxShadow: hovered ? "0 4px 12px rgba(59,130,246,0.35)" : "none",
-        transition: "box-shadow 0.22s ease",
-      }}>
-        ✓
-      </span>
-      <span style={{
-        fontSize: "clamp(13px,1.5vw,15px)",
-        color: hovered ? "#1E40AF" : "#374151",
-        fontWeight: 500,
-        lineHeight: 1.4,
-        transition: "color 0.22s ease",
-      }}>
-        {text}
-      </span>
-    </motion.div>
-  );
-}
-
-// ── MAIN COMPONENT ────────────────────────────────────────────────────────────
+// ── MAIN ──────────────────────────────────────────────────────────────────────
 
 export function WhyWebsite() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const orbY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const orb1Y = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  const orb2Y = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
 
   return (
     <section
@@ -171,368 +165,402 @@ export function WhyWebsite() {
         overflow: "hidden",
       }}
     >
-      {/* Orbs decorativos — igual que Hero */}
-      <motion.div style={{ y: orbY, position: "absolute", inset: 0, pointerEvents: "none" }}>
+      {/* Orbs — mismo estilo Hero */}
+      <motion.div style={{ y: orb1Y, position: "absolute", inset: 0, pointerEvents: "none" }}>
         <div style={{
-          position: "absolute", top: "5%", left: "-8%",
-          width: "min(500px,70vw)", height: "min(500px,70vw)",
-          borderRadius: "50%",
-          background: "radial-gradient(circle,rgba(59,130,246,0.14) 0%,transparent 70%)",
+          position: "absolute", top: "8%", left: "-8%",
+          width: "min(500px,70vw)", height: "min(500px,70vw)", borderRadius: "50%",
+          background: "radial-gradient(circle,rgba(59,130,246,0.15) 0%,transparent 70%)",
         }} />
+      </motion.div>
+      <motion.div style={{ y: orb2Y, position: "absolute", inset: 0, pointerEvents: "none" }}>
         <div style={{
-          position: "absolute", bottom: "10%", right: "-5%",
-          width: "min(420px,60vw)", height: "min(420px,60vw)",
-          borderRadius: "50%",
-          background: "radial-gradient(circle,rgba(139,92,246,0.1) 0%,transparent 70%)",
+          position: "absolute", bottom: "5%", right: "-8%",
+          width: "min(460px,65vw)", height: "min(460px,65vw)", borderRadius: "50%",
+          background: "radial-gradient(circle,rgba(139,92,246,0.11) 0%,transparent 70%)",
         }} />
       </motion.div>
 
       <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
 
-        {/* ── HEADER ── */}
-        <AnimatedSection style={{ textAlign: "center", marginBottom: "clamp(48px,8vw,96px)" }}>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            background: "rgba(59,130,246,0.1)",
-            border: "1px solid rgba(59,130,246,0.2)",
-            borderRadius: 100, padding: "6px 16px",
-            marginBottom: 28, color: "#1E40AF",
-            fontSize: 13, fontWeight: 600,
-          }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#EF4444", display: "inline-block" }} />
-            El problema real
-          </div>
+        {/* ━━━━━━ BLOQUE 1: GANCHO EMOCIONAL ━━━━━━ */}
+        <AnimatedSection style={{ textAlign: "center", marginBottom: "clamp(56px,9vw,100px)" }}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "rgba(59,130,246,0.1)",
+              border: "1px solid rgba(59,130,246,0.2)",
+              borderRadius: 100, padding: "6px 18px", marginBottom: 32,
+              color: "#1E40AF", fontSize: 13, fontWeight: 600,
+            }}
+          >
+            <motion.span
+              animate={{ scale: [1, 1.4, 1] }}
+              transition={{ duration: 1.8, repeat: Infinity }}
+              style={{ width: 7, height: 7, borderRadius: "50%", background: "#EF4444", display: "inline-block" }}
+            />
+            ¿Te identificas con esto?
+          </motion.div>
 
           <h2 style={{
-            fontSize: "clamp(30px,5.5vw,60px)",
-            fontWeight: 900,
-            color: "#0F172A",
-            letterSpacing: "-1.5px",
-            margin: "0 0 20px",
-            fontFamily: "'Sora', sans-serif",
-            lineHeight: 1.08,
+            fontSize: "clamp(32px,5.5vw,64px)",
+            fontWeight: 900, color: "#0F172A",
+            letterSpacing: "-2px", margin: "0 0 24px",
+            fontFamily: "'Sora', sans-serif", lineHeight: 1.05,
           }}>
-            Tu negocio puede estar<br />
+            Cada día sin web,<br />
             <span style={{
               background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
             }}>
-              perdiendo clientes hoy.
+              son clientes que se van.
             </span>
           </h2>
 
           <p style={{
-            fontSize: "clamp(15px,2vw,19px)",
-            color: "#64748B",
-            maxWidth: 580,
-            margin: "0 auto",
-            lineHeight: 1.7,
+            fontSize: "clamp(15px,2vw,20px)", color: "#64748B",
+            maxWidth: 560, margin: "0 auto", lineHeight: 1.7,
           }}>
-            No necesitas solo una página bonita.{" "}
-            Necesitas una herramienta que{" "}
+            No necesitas tecnología complicada.<br />
+            Necesitas que tu negocio{" "}
             <strong style={{ color: "#1E40AF", fontWeight: 700 }}>
-              genere confianza y convierta visitas en clientes.
+              trabaje para ti mientras tú haces lo tuyo.
             </strong>
           </p>
         </AnimatedSection>
 
-        {/* ── DOS COLUMNAS ── */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
-          gap: "clamp(20px,4vw,48px)",
-          marginBottom: "clamp(56px,9vw,100px)",
-          alignItems: "start",
-        }}>
-
-          {/* IZQUIERDA — PROBLEMAS */}
-          <AnimatedSection>
+        {/* ━━━━━━ BLOQUE 2: DOLORES (4 CARDS) ━━━━━━ */}
+        <AnimatedSection style={{ marginBottom: "clamp(60px,10vw,110px)" }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
             <div style={{
-              background: "rgba(255,255,255,0.7)",
-              backdropFilter: "blur(8px)",
-              border: "1px solid #E8F0FE",
-              borderRadius: 24,
-              padding: "clamp(24px,4vw,40px) clamp(20px,3vw,32px)",
-              boxShadow: "0 8px 40px rgba(59,130,246,0.07)",
+              fontSize: 12, fontWeight: 700, color: "#EF4444",
+              letterSpacing: 3, textTransform: "uppercase", marginBottom: 10,
             }}>
-              {/* Label cabecera */}
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: 10,
-                  background: "#FEF2F2",
-                  border: "1px solid #FECACA",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 16,
-                }}>❌</div>
-                <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#EF4444", letterSpacing: 2, textTransform: "uppercase" }}>
-                    Sin presencia digital
-                  </div>
-                  <div style={{ fontSize: "clamp(16px,2vw,20px)", fontWeight: 800, color: "#0F172A", fontFamily: "'Sora', sans-serif", letterSpacing: "-0.3px" }}>
-                    Lo que normalmente pasa
-                  </div>
-                </div>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {PROBLEMS.map((p, i) => (
-                  <ProblemItem key={i} icon={p.icon} text={p.text} index={i} />
-                ))}
-              </div>
+              Situaciones comunes
             </div>
-          </AnimatedSection>
-
-          {/* DERECHA — SOLUCIONES */}
-          <AnimatedSection delay={0.15}>
-            <div style={{
-              background: "rgba(255,255,255,0.7)",
-              backdropFilter: "blur(8px)",
-              border: "1px solid rgba(59,130,246,0.18)",
-              borderRadius: 24,
-              padding: "clamp(24px,4vw,40px) clamp(20px,3vw,32px)",
-              boxShadow: "0 8px 40px rgba(59,130,246,0.1)",
+            <h3 style={{
+              fontSize: "clamp(22px,3.5vw,38px)",
+              fontWeight: 900, color: "#0F172A",
+              fontFamily: "'Sora', sans-serif", letterSpacing: "-1px", margin: 0,
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: 10,
-                  background: "#EFF6FF",
-                  border: "1px solid rgba(59,130,246,0.25)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 16,
-                }}>✅</div>
-                <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#3B82F6", letterSpacing: 2, textTransform: "uppercase" }}>
-                    Con MBDigital
-                  </div>
-                  <div style={{ fontSize: "clamp(16px,2vw,20px)", fontWeight: 800, color: "#0F172A", fontFamily: "'Sora', sans-serif", letterSpacing: "-0.3px" }}>
-                    Lo que hacemos por ti
-                  </div>
-                </div>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {SOLUTIONS.map((s, i) => (
-                  <SolutionItem key={i} text={s.text} index={i} />
-                ))}
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-
-        {/* ── BRIDGE EMOCIONAL ── */}
-        <AnimatedSection style={{ marginBottom: "clamp(56px,9vw,100px)" }}>
+              ¿Alguno de estos te suena familiar?
+            </h3>
+          </div>
           <div style={{
-            background: "rgba(255,255,255,0.8)",
-            border: "1px solid #E8F0FE",
-            borderRadius: 24,
-            padding: "clamp(32px,5vw,56px) clamp(24px,5vw,64px)",
-            textAlign: "center",
-            boxShadow: "0 8px 40px rgba(59,130,246,0.07)",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))",
+            gap: 20,
           }}>
-            <motion.div
-              animate={{ rotate: [0, 6, -6, 0] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-              style={{ fontSize: 44, marginBottom: 18 }}
-            >
-              💡
-            </motion.div>
-            <p style={{
-              fontSize: "clamp(16px,2.2vw,22px)",
-              color: "#64748B",
-              maxWidth: 600,
-              margin: "0 auto 10px",
-              lineHeight: 1.6,
-            }}>
-              Una página web no debería ser un gasto.
-            </p>
-            <p style={{
-              fontSize: "clamp(20px,3vw,32px)",
-              fontWeight: 900,
-              color: "#0F172A",
-              fontFamily: "'Sora', sans-serif",
-              letterSpacing: "-0.8px",
-              margin: 0,
-              maxWidth: 640,
-              marginLeft: "auto",
-              marginRight: "auto",
-              lineHeight: 1.3,
-            }}>
-              Debería ser la herramienta que atrae clientes{" "}
-              <span style={{
-                background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}>
-                automáticamente.
-              </span>
-            </p>
+            {PAIN_POINTS.map((p, i) => (
+              <PainCard key={i} {...p} index={i} />
+            ))}
           </div>
         </AnimatedSection>
 
-        {/* ── STATS ── */}
-        <AnimatedSection style={{ marginBottom: "clamp(56px,9vw,100px)" }}>
+        {/* ━━━━━━ BLOQUE 3: TRANSFORMACIÓN (ANTES → DESPUÉS) ━━━━━━ */}
+        <AnimatedSection style={{ marginBottom: "clamp(60px,10vw,110px)" }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <div style={{
+              fontSize: 12, fontWeight: 700, color: "#3B82F6",
+              letterSpacing: 3, textTransform: "uppercase", marginBottom: 10,
+            }}>
+              La transformación
+            </div>
+            <h3 style={{
+              fontSize: "clamp(22px,3.5vw,38px)",
+              fontWeight: 900, color: "#0F172A",
+              fontFamily: "'Sora', sans-serif", letterSpacing: "-1px", margin: 0,
+            }}>
+              De esto… a esto.
+            </h3>
+          </div>
+
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
+            gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))",
             gap: 20,
           }}>
-            {[
-              { value: 75, suffix: "%", label: "de personas buscan negocios en Google antes de visitar" },
-              { value: 3,  suffix: "s",  label: "tienes para causar primera impresión antes de que se vayan" },
-              { value: 80, suffix: "%", label: "de búsquedas se hacen desde el celular" },
-              { value: 24, suffix: "/7", label: "horas activo para mostrar tus servicios y captar clientes" },
-            ].map((stat, i) => (
+            {TRANSFORMATION.map((t, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, scale: 0.88 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -6, boxShadow: "0 20px 50px rgba(59,130,246,0.15)" }}
+                transition={{ delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -6, boxShadow: `0 20px 50px ${t.color}22` }}
                 style={{
-                  background: "rgba(255,255,255,0.8)",
-                  border: "1px solid #E8F0FE",
+                  background: "#fff",
+                  border: `1px solid ${t.border}`,
                   borderRadius: 20,
-                  padding: "clamp(24px,3vw,36px) clamp(18px,2.5vw,28px)",
-                  textAlign: "center",
-                  boxShadow: "0 4px 24px rgba(59,130,246,0.06)",
-                  transition: "box-shadow 0.3s ease, transform 0.3s ease",
+                  padding: "clamp(22px,3vw,32px)",
+                  cursor: "default",
+                  transition: "box-shadow 0.28s ease",
                 }}
               >
+                {/* Icono */}
                 <div style={{
-                  fontSize: "clamp(30px,4vw,44px)",
-                  fontWeight: 900,
-                  fontFamily: "'Sora', sans-serif",
-                  background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  lineHeight: 1.1,
-                  marginBottom: 10,
+                  width: 52, height: 52, borderRadius: 14,
+                  background: t.bg, border: `1px solid ${t.border}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 24, marginBottom: 20,
                 }}>
-                  <AnimatedCounter to={stat.value} suffix={stat.suffix} />
+                  {t.icon}
                 </div>
+
+                {/* Antes */}
                 <div style={{
-                  fontSize: "clamp(12px,1.3vw,14px)",
-                  color: "#64748B",
-                  lineHeight: 1.55,
-                  fontWeight: 500,
+                  display: "flex", alignItems: "center", gap: 8,
+                  marginBottom: 12,
                 }}>
-                  {stat.label}
+                  <span style={{
+                    background: "#FEF2F2", color: "#991B1B",
+                    fontSize: 11, fontWeight: 700,
+                    padding: "3px 10px", borderRadius: 100,
+                    border: "1px solid #FECACA",
+                  }}>
+                    ANTES
+                  </span>
+                  <span style={{ fontSize: 14, color: "#94A3B8", fontWeight: 500 }}>
+                    {t.before}
+                  </span>
+                </div>
+
+                {/* Flecha */}
+                <motion.div
+                  animate={{ y: [0, 4, 0] }}
+                  transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.2 }}
+                  style={{
+                    fontSize: 18, color: t.color,
+                    marginBottom: 12, fontWeight: 900,
+                  }}
+                >
+                  ↓
+                </motion.div>
+
+                {/* Después */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{
+                    background: t.bg, color: t.color,
+                    fontSize: 11, fontWeight: 700,
+                    padding: "3px 10px", borderRadius: 100,
+                    border: `1px solid ${t.border}`,
+                  }}>
+                    CON NOSOTROS
+                  </span>
+                  <span style={{ fontSize: 14, color: "#0F172A", fontWeight: 700 }}>
+                    {t.after}
+                  </span>
                 </div>
               </motion.div>
             ))}
           </div>
         </AnimatedSection>
 
-        {/* ── RESULTADO FINAL — mismo estilo al CTA de Services ── */}
-        <AnimatedSection>
+        {/* ━━━━━━ BLOQUE 4: STATS CON CONTEXTO ━━━━━━ */}
+        <AnimatedSection style={{ marginBottom: "clamp(60px,10vw,110px)" }}>
           <div style={{
-            background: "linear-gradient(135deg,#1E40AF 0%,#3B82F6 50%,#6366F1 100%)",
-            borderRadius: 24,
-            padding: "clamp(40px,6vw,72px) clamp(24px,5vw,60px)",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-            gap: "clamp(32px,5vw,56px)",
-            alignItems: "center",
-            position: "relative",
-            overflow: "hidden",
+            background: "rgba(255,255,255,0.75)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid #E8F0FE",
+            borderRadius: 28,
+            padding: "clamp(36px,5vw,60px) clamp(24px,4vw,48px)",
+            boxShadow: "0 8px 48px rgba(59,130,246,0.08)",
           }}>
-            {/* orb interno */}
-            <div style={{
-              position: "absolute", top: "-40%", right: "-8%",
-              width: 400, height: 400, borderRadius: "50%",
-              background: "radial-gradient(circle,rgba(255,255,255,0.08) 0%,transparent 65%)",
-              pointerEvents: "none",
-            }} />
-
-            {/* Texto */}
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <div style={{
-                fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.65)",
-                letterSpacing: 3, textTransform: "uppercase", marginBottom: 16,
-              }}>
-                El resultado
-              </div>
+            <div style={{ textAlign: "center", marginBottom: 44 }}>
               <h3 style={{
-                fontSize: "clamp(24px,3.5vw,40px)",
-                fontWeight: 900,
-                color: "#fff",
-                fontFamily: "'Sora', sans-serif",
-                letterSpacing: "-0.8px",
-                margin: "0 0 18px",
-                lineHeight: 1.15,
+                fontSize: "clamp(20px,3vw,34px)",
+                fontWeight: 900, color: "#0F172A",
+                fontFamily: "'Sora', sans-serif", letterSpacing: "-0.8px", margin: 0,
               }}>
-                Tu negocio disponible 24/7
+                Los números no mienten
               </h3>
-              <p style={{
-                fontSize: "clamp(14px,1.6vw,17px)",
-                color: "rgba(255,255,255,0.8)",
-                lineHeight: 1.75,
-                margin: "0 0 32px",
-              }}>
-                Mientras trabajas, descansas o duermes — tu página muestra tus servicios, genera confianza y{" "}
-                <strong style={{ color: "#fff" }}>capta clientes sin que hagas nada.</strong>
+              <p style={{ color: "#64748B", marginTop: 10, fontSize: 15 }}>
+                Esto es lo que está pasando ahora mismo mientras lees esto
               </p>
-              <motion.a
-                href="https://wa.me/+529931782620"
-                target="_blank"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 10,
-                  background: "#fff",
-                  color: "#1E40AF",
-                  textDecoration: "none",
-                  fontWeight: 800,
-                  padding: "14px 28px",
-                  borderRadius: 100,
-                  fontSize: 15,
-                }}
-              >
-                💬 Quiero mi página web
-              </motion.a>
             </div>
-
-            {/* Cards resultado */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 14, position: "relative", zIndex: 1 }}>
-              {[
-                { emoji: "💰", title: "Más ventas", desc: "Clientes que llegan solos sin que los busques uno a uno." },
-                { emoji: "🏆", title: "Más autoridad", desc: "Tu marca se percibe seria, profesional y confiable." },
-                { emoji: "📈", title: "Más crecimiento", desc: "Una base sólida para escalar tu negocio en internet." },
-              ].map((item, i) => (
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
+              gap: 28,
+            }}>
+              {RESULTS.map((r, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: 24 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.12, duration: 0.55 }}
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: 14,
-                    background: "rgba(255,255,255,0.1)",
-                    borderRadius: 16,
-                    padding: "18px 20px",
-                    backdropFilter: "blur(8px)",
-                  }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  style={{ textAlign: "center" }}
                 >
-                  <span style={{ fontSize: 26, flexShrink: 0 }}>{item.emoji}</span>
-                  <div>
-                    <div style={{ fontWeight: 800, color: "#fff", fontSize: 16, marginBottom: 4, fontFamily: "'Sora', sans-serif" }}>
-                      {item.title}
-                    </div>
-                    <div style={{ fontSize: 14, color: "rgba(255,255,255,0.72)", lineHeight: 1.5 }}>
-                      {item.desc}
-                    </div>
+                  <div style={{
+                    fontSize: "clamp(32px,4.5vw,52px)",
+                    fontWeight: 900,
+                    fontFamily: "'Sora', sans-serif",
+                    background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                    lineHeight: 1.1, marginBottom: 10,
+                  }}>
+                    <Counter value={r.value} />
+                  </div>
+                  <div style={{
+                    fontSize: "clamp(12px,1.4vw,14px)",
+                    color: "#64748B", lineHeight: 1.55, fontWeight: 500,
+                    maxWidth: 180, margin: "0 auto",
+                  }}>
+                    {r.label}
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
+        </AnimatedSection>
+
+        {/* ━━━━━━ BLOQUE 5: FRASE PUENTE ━━━━━━ */}
+        <AnimatedSection style={{ marginBottom: "clamp(60px,10vw,110px)" }}>
+          <div style={{ textAlign: "center" }}>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{
+                fontSize: "clamp(18px,2.5vw,26px)",
+                color: "#64748B", maxWidth: 600, margin: "0 auto 16px",
+                lineHeight: 1.6,
+              }}
+            >
+              Una página web no es un gasto más.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15 }}
+              style={{
+                fontSize: "clamp(24px,4vw,44px)",
+                fontWeight: 900, color: "#0F172A",
+                fontFamily: "'Sora', sans-serif", letterSpacing: "-1.2px",
+                maxWidth: 700, margin: "0 auto",
+                lineHeight: 1.15,
+              }}
+            >
+              Es el vendedor que trabaja para ti{" "}
+              <span style={{
+                background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
+                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+              }}>
+                los 365 días del año.
+              </span>
+            </motion.p>
+          </div>
+        </AnimatedSection>
+
+        {/* ━━━━━━ BLOQUE 6: CTA FINAL — mismo estilo Services ━━━━━━ */}
+        <AnimatedSection>
+          <motion.div
+            whileHover={{ scale: 1.005 }}
+            style={{
+              background: "linear-gradient(135deg,#1E40AF 0%,#3B82F6 50%,#6366F1 100%)",
+              borderRadius: 28,
+              padding: "clamp(48px,7vw,80px) clamp(28px,5vw,64px)",
+              textAlign: "center",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            {/* orbs internos */}
+            <div style={{
+              position: "absolute", top: "-40%", left: "-10%", width: 500, height: 500, borderRadius: "50%",
+              background: "radial-gradient(circle,rgba(255,255,255,0.07) 0%,transparent 60%)", pointerEvents: "none",
+            }} />
+            <div style={{
+              position: "absolute", bottom: "-30%", right: "-5%", width: 400, height: 400, borderRadius: "50%",
+              background: "radial-gradient(circle,rgba(99,102,241,0.2) 0%,transparent 60%)", pointerEvents: "none",
+            }} />
+
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <motion.div
+                animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.1, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                style={{ fontSize: 56, marginBottom: 24 }}
+              >
+                🚀
+              </motion.div>
+
+              <h3 style={{
+                fontSize: "clamp(26px,4.5vw,52px)",
+                fontWeight: 900, color: "#fff",
+                fontFamily: "'Sora', sans-serif", letterSpacing: "-1.2px",
+                margin: "0 0 18px", lineHeight: 1.1,
+              }}>
+                ¿Listo para que tu negocio<br />empiece a crecer en internet?
+              </h3>
+
+              <p style={{
+                fontSize: "clamp(15px,2vw,19px)",
+                color: "rgba(255,255,255,0.78)",
+                maxWidth: 480, margin: "0 auto 40px", lineHeight: 1.65,
+              }}>
+                Hablemos hoy. En pocos días, miles de personas podrán encontrar tu negocio en Google.
+              </p>
+
+              <div style={{
+                display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap",
+              }}>
+                <motion.a
+                  href="https://wa.me/+529931782620"
+                  target="_blank"
+                  whileHover={{ scale: 1.07, boxShadow: "0 10px 40px rgba(255,255,255,0.25)" }}
+                  whileTap={{ scale: 0.97 }}
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 10,
+                    background: "#fff", color: "#1E40AF",
+                    textDecoration: "none", fontWeight: 800,
+                    padding: "16px 32px", borderRadius: 100,
+                    fontSize: "clamp(14px,1.8vw,17px)",
+                    boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
+                  }}
+                >
+                  💬 Quiero mi página web
+                </motion.a>
+                <motion.button
+                  onClick={() => document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" })}
+                  whileHover={{ scale: 1.04, background: "rgba(255,255,255,0.14)" }}
+                  whileTap={{ scale: 0.97 }}
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 8,
+                    background: "rgba(255,255,255,0.1)",
+                    border: "1px solid rgba(255,255,255,0.3)",
+                    color: "#fff", fontWeight: 600,
+                    padding: "16px 28px", borderRadius: 100,
+                    fontSize: "clamp(13px,1.8vw,16px)",
+                    cursor: "pointer", fontFamily: "inherit",
+                  }}
+                >
+                  Ver ejemplos →
+                </motion.button>
+              </div>
+
+              {/* Social proof micro */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                style={{
+                  marginTop: 32,
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                  color: "rgba(255,255,255,0.6)", fontSize: 13,
+                }}
+              >
+                <span style={{ fontSize: 16 }}>⚡</span>
+                Respuesta en menos de 1 hora · Sin compromisos
+              </motion.div>
+            </div>
+          </motion.div>
         </AnimatedSection>
 
       </div>
