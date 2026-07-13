@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
@@ -24,6 +25,7 @@ const WEB_PLANS = [
       "1 revisión incluida",
     ],
     cta: "Quiero mi landing page",
+    whatsappMessage: WHATSAPP_MESSAGES.landingPage,
     highlight: false,
     accentColor: "#3B82F6",
     accentBg: "#EFF6FF",
@@ -47,6 +49,7 @@ const WEB_PLANS = [
       "Soporte prioritario 30 días",
     ],
     cta: "Quiero mi página empresarial",
+    whatsappMessage: WHATSAPP_MESSAGES.paginaEmpresarial,
     highlight: true,
     accentColor: "#1E40AF",
     accentBg: "linear-gradient(135deg,#1E40AF,#3B82F6 60%,#6366F1)",
@@ -70,6 +73,7 @@ const WEB_PLANS = [
       "Soporte 60 días",
     ],
     cta: "Quiero mi tienda online",
+    whatsappMessage: WHATSAPP_MESSAGES.ecomerce,
     highlight: false,
     accentColor: "#8B5CF6",
     accentBg: "#F5F3FF",
@@ -212,7 +216,7 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
         </div>
 
         <motion.a
-          href="https://wa.me/+529931782620"
+          href={whatsappUrl(plan.whatsappMessage)}
           target="_blank"
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.97 }}
@@ -304,7 +308,7 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
       </div>
 
       <motion.a
-        href="https://wa.me/+529931782620"
+        href={whatsappUrl(plan.whatsappMessage)}
         target="_blank"
         whileHover={{ scale: 1.04, boxShadow: `0 8px 32px ${plan.accentColor}40` }}
         whileTap={{ scale: 0.97 }}
@@ -788,7 +792,7 @@ export function Pricing() {
                 </span>
               </div>
               <motion.a
-                href="https://wa.me/+529931782620"
+                href={whatsappUrl(WHATSAPP_MESSAGES.sistemasAMedida)}
                 target="_blank"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}

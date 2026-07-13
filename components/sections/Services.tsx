@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SERVICES, FEATURES } from "@/data/constants";
+import { SERVICES, FEATURES, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 export function Services() {
@@ -88,7 +88,7 @@ export function Services() {
                   {s.desc}
                 </p>
                 <motion.a
-                  href="https://wa.me/+529931782620?text=Hola,%20me%20interesa%20el%20servicio%20de%20${encodeURIComponent(s.title)}"
+                  href={whatsappUrl(`Hola, me interesa el servicio de ${s.title}`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -147,7 +147,7 @@ export function Services() {
                 convertimos tu idea en realidad.
               </p>
               <motion.a
-                href="https://wa.me/+529931782620"
+                href={whatsappUrl(WHATSAPP_MESSAGES.sistemasAMedida)}
                 target="_blank"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}

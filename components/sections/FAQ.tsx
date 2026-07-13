@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 
 const FAQ_DATA = [
   {
@@ -215,7 +216,7 @@ export function FAQ() {
             ¿No encontraste lo que buscabas?
           </p>
           <motion.a
-            href="https://wa.me/+529931782620?text=Hola,%20tengo%20una%20duda%20sobre%20sus%20servicios"
+            href={whatsappUrl(WHATSAPP_MESSAGES.duda)}
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}

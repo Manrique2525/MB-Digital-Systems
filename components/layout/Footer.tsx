@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { NAV_LINKS } from "@/data/constants";
+import { NAV_LINKS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 
 export function Footer() {
   return (
@@ -63,7 +63,7 @@ export function Footer() {
               ].map((icon) => (
                 <motion.a
                   key={icon}
-                  href="https://wa.me/+529931782620"
+                  href={whatsappUrl(WHATSAPP_MESSAGES.contacto)}
                   target="_blank"
                   whileHover={{ y: -3, color: "#3B82F6" }}
                   style={{
@@ -181,7 +181,7 @@ export function Footer() {
               <span>🕐 Lun - Vie: 9:00 AM – 6:00 PM</span>
             </div>
             <motion.a
-              href="https://wa.me/+529931782620"
+              href={whatsappUrl(WHATSAPP_MESSAGES.contacto)}
               target="_blank"
               whileHover={{ scale: 1.03 }}
               style={{

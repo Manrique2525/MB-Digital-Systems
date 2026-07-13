@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PROJECTS } from "@/data/constants";
+import { PROJECTS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 export function Projects() {
@@ -331,7 +331,7 @@ export function Projects() {
 
         <AnimatedSection style={{ textAlign: "center", marginTop: 56 }}>
           <motion.a
-            href="https://wa.me/+529931782620?text=Hola,%20quiero%20un%20proyecto%20similar"
+            href={whatsappUrl(WHATSAPP_MESSAGES.proyectoSimilar)}
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05, boxShadow: "0 8px 40px rgba(59,130,246,0.35)" }}

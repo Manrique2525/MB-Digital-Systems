@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 
 export function WhatsAppFloat() {
   return (
     <motion.a
-      href="https://wa.me/+529931782620"
+      href={whatsappUrl(WHATSAPP_MESSAGES.generico)}
       target="_blank"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}

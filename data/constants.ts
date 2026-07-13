@@ -1,5 +1,29 @@
 import { ServiceItem, ProjectItem, TechItem, TestimonialItem, MetricItem } from "@/types";
 
+export const WHATSAPP_NUMBER = "+529931782620";
+
+export const WHATSAPP_MESSAGES = {
+  landingPage: "Hola, me interesa la Landing Page ($4,999 MXN). Quiero una página web para mi negocio.",
+  paginaEmpresarial: "Hola, me interesa el plan Página Empresarial ($9,999 MXN). Necesito una web profesional con múltiples secciones.",
+  ecomerce: "Hola, me interesa el plan E-commerce ($18,999 MXN). Quiero una tienda online para vender mis productos.",
+  sistemasAMedida: "Hola, me interesa un Sistema a Medida. Quiero automatizar un proceso de mi negocio.",
+  desarrolloWeb: "Hola, me interesa el servicio de Desarrollo Web. Quiero una página web profesional.",
+  seo: "Hola, me interesa el servicio de SEO. Quiero aparecer en la primera página de Google.",
+  gestionRedes: "Hola, me interesa el servicio de Gestión de Redes. Quiero mejorar mi presencia en redes sociales.",
+  pautaPublicitaria: "Hola, me interesa el servicio de Pauta Publicitaria. Quiero anuncios que traigan clientes.",
+  funnels: "Hola, me interesa el servicio de Funnels de Conversión. Quiero automatizar mis ventas.",
+  auditoria: "Hola, quiero una auditoría digital gratuita para mi negocio.",
+  paginaWeb: "Hola, quiero mi página web. Vi su página y me interesa empezar.",
+  proyectoSimilar: "Hola, quiero un proyecto similar a los que vi en su portafolio.",
+  duda: "Hola, tengo una duda sobre sus servicios.",
+  contacto: "Hola, necesito información sobre sus servicios.",
+  generico: "Hola, me gustaría recibir información sobre sus servicios.",
+};
+
+export function whatsappUrl(message: string): string {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
 export const NAV_LINKS = [
   "Inicio",
   "Servicios",
@@ -176,30 +200,6 @@ export const TESTIMONIOS: TestimonialItem[] = [
     company: "Llantas Gamma",
     text: "Necesitaba una página web para mi llantera y MB Digital Systems la creó en tiempo récord. Ahora los clientes me encuentran en Google y me escriben por WhatsApp directo.",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
-    rating: 5,
-  },
-  {
-    name: "María García",
-    role: "Directora",
-    company: "Clínica Dental Sonrisa",
-    text: "MB Digital Systems nos diseñó una página web moderna y profesional. Los pacientes ahora pueden agendar citas en línea y nuestras consultas aumentaron un 35%.",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
-    rating: 5,
-  },
-  {
-    name: "Roberto Hernández",
-    role: "Gerente",
-    company: "AutoPartes Tabasco",
-    text: "El sistema de inventarios que desarrollaron nos ahorraba 3 horas diarias de trabajo manual. Ahora todo está automatizado y tenemos control total del stock.",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80",
-    rating: 5,
-  },
-  {
-    name: "Ana Martínez",
-    role: "Fundadora",
-    company: "Boutique Elegance",
-    text: "Nuestra tienda online generó $50,000 en el primer mes. MB Digital Systems no solo creó el sitio, sino que nos ayudó con la estrategia de marketing digital.",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80",
     rating: 5,
   },
 ];

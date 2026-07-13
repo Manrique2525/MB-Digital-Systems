@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
@@ -511,7 +512,7 @@ export function WhyWebsite() {
                 display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap",
               }}>
                 <motion.a
-                  href="https://wa.me/+529931782620"
+                  href={whatsappUrl(WHATSAPP_MESSAGES.paginaWeb)}
                   target="_blank"
                   whileHover={{ scale: 1.07, boxShadow: "0 10px 40px rgba(255,255,255,0.25)" }}
                   whileTap={{ scale: 0.97 }}
