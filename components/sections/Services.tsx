@@ -87,7 +87,10 @@ export function Services() {
                 <p style={{ fontSize: 15, color: "#64748B", lineHeight: 1.7, margin: 0 }}>
                   {s.desc}
                 </p>
-                <div
+                <motion.a
+                  href="https://wa.me/+529931782620?text=Hola,%20me%20interesa%20el%20servicio%20de%20${encodeURIComponent(s.title)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
                     marginTop: 28,
                     display: "inline-flex",
@@ -96,10 +99,11 @@ export function Services() {
                     color: s.color,
                     fontWeight: 700,
                     fontSize: 14,
+                    textDecoration: "none",
                   }}
                 >
-                  Saber más →
-                </div>
+                  Cotizar este servicio →
+                </motion.a>
               </motion.div>
             </AnimatedSection>
           ))}

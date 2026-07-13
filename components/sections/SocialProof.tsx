@@ -84,7 +84,7 @@ export function SocialProof() {
               fontWeight: 600,
             }}
           >
-            Testimonios
+            Testimonios reales
           </div>
           <h2
             style={{
@@ -144,13 +144,28 @@ export function SocialProof() {
                   flexDirection: "column",
                 }}
               >
-                {/* Estrellas */}
-                <div style={{ marginBottom: 16, display: "flex", gap: 4 }}>
-                  {Array.from({ length: t.rating }).map((_, si) => (
-                    <span key={si} style={{ color: "#F59E0B", fontSize: 16 }}>
-                      ★
-                    </span>
-                  ))}
+                {/* Estrellas + métrica destacada */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                  <div style={{ display: "flex", gap: 4 }}>
+                    {Array.from({ length: t.rating }).map((_, si) => (
+                      <span key={si} style={{ color: "#F59E0B", fontSize: 16 }}>
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  {t.text.match(/\d+%/)?.[0] && (
+                    <div style={{
+                      background: "#ECFDF5",
+                      border: "1px solid #A7F3D0",
+                      borderRadius: 100,
+                      padding: "4px 12px",
+                      fontSize: 12,
+                      fontWeight: 800,
+                      color: "#065F46",
+                    }}>
+                      📈 {t.text.match(/\d+%/)?.[0]} mejora
+                    </div>
+                  )}
                 </div>
 
                 {/* Texto */}
@@ -171,7 +186,9 @@ export function SocialProof() {
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <img
                     src={t.avatar}
-                    alt={t.name}
+                    alt={`Foto de ${t.name}, ${t.role} en ${t.company}`}
+                    width={48}
+                    height={48}
                     loading="lazy"
                     style={{
                       width: 48,

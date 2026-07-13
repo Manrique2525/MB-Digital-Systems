@@ -99,6 +99,8 @@ export function MarketingServices() {
                   height: "100%",
                   cursor: "default",
                   transition: "border-color 0.3s",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <div style={{ fontSize: 42, marginBottom: 20 }}>{s.icon}</div>
@@ -119,23 +121,53 @@ export function MarketingServices() {
                     color: "#64748B",
                     lineHeight: 1.7,
                     margin: 0,
+                    flex: 1,
                   }}
                 >
                   {s.desc}
                 </p>
-                <div
+                {s.price && (
+                  <div style={{
+                    marginTop: 20,
+                    padding: "12px 0",
+                    borderTop: "1px solid #E8F0FE",
+                    display: "flex",
+                    alignItems: "baseline",
+                    gap: 4,
+                  }}>
+                    <span style={{ fontSize: 12, color: "#94A3B8", fontWeight: 600 }}>Desde</span>
+                    <span style={{
+                      fontSize: "clamp(20px, 2.5vw, 26px)",
+                      fontWeight: 900,
+                      fontFamily: "'Sora', sans-serif",
+                      color: s.color,
+                    }}>
+                      ${s.price}
+                    </span>
+                    <span style={{ fontSize: 12, color: "#94A3B8", fontWeight: 600 }}>/mes</span>
+                  </div>
+                )}
+                <motion.a
+                  href={`https://wa.me/+529931782620?text=Hola,%20me%20interesa%20el%20servicio%20de%20${encodeURIComponent(s.title)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
-                    marginTop: 28,
+                    marginTop: 16,
                     display: "inline-flex",
                     alignItems: "center",
+                    justifyContent: "center",
                     gap: 6,
-                    color: s.color,
+                    background: `linear-gradient(135deg,${s.color},#1E40AF)`,
+                    color: "#fff",
                     fontWeight: 700,
                     fontSize: 14,
+                    textDecoration: "none",
+                    padding: "12px 20px",
+                    borderRadius: 100,
                   }}
                 >
-                  Saber más →
-                </div>
+                  Cotizar ahora →
+                </motion.a>
               </motion.div>
             </AnimatedSection>
           ))}
@@ -197,8 +229,9 @@ export function MarketingServices() {
                 apareces, van con tu competencia. Cambiamos eso.
               </p>
               <motion.a
-                href="https://wa.me/+529931782620"
+                href="https://wa.me/+529931782620?text=Hola,%20quiero%20una%20auditor%C3%ADa%20digital%20gratuita"
                 target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
                 style={{

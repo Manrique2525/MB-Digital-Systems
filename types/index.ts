@@ -14,6 +14,7 @@ export interface TechItem {
     title: string;
     desc: string;
     color: string;
+    price?: string;
   }
   
   export interface ProjectItem {
@@ -22,6 +23,7 @@ export interface TechItem {
     tags: string[];
     img: string;
     link: string;
+    comingSoon?: boolean;
   }
 
   export interface TestimonialItem {

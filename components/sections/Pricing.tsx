@@ -185,6 +185,9 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
             </span>
             <span style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", fontWeight: 600 }}>MXN</span>
           </div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginTop: 4 }}>
+            Equivalente a ${Math.round(parseInt(plan.price.replace(",", "")) / 30).toLocaleString()}/día
+          </div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
@@ -273,6 +276,9 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
             ${plan.price}
           </span>
           <span style={{ fontSize: 14, color: "#94A3B8", fontWeight: 600 }}>MXN</span>
+        </div>
+        <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 4 }}>
+          Equivalente a ${Math.round(parseInt(plan.price.replace(",", "")) / 30).toLocaleString()}/día
         </div>
       </div>
 
@@ -429,12 +435,23 @@ export function Pricing() {
             transition={{ delay: 0.4 }}
             style={{
               textAlign: "center", marginTop: 28,
-              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
               color: "#94A3B8", fontSize: 13,
             }}
           >
-            <span>ℹ️</span>
-            Los precios son referenciales. Cada proyecto tiene su propia cotización gratuita.
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span>ℹ️</span>
+              Los precios son referenciales. Cada proyecto tiene su propia cotización gratuita.
+            </div>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "#ECFDF5", border: "1px solid #A7F3D0",
+              borderRadius: 100, padding: "6px 16px",
+              color: "#065F46", fontWeight: 600,
+            }}>
+              <span>🛡️</span>
+              Garantía de satisfacción: Si no te gusta, no pagas
+            </div>
           </motion.div>
         </AnimatedSection>
 

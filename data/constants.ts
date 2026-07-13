@@ -107,25 +107,26 @@ export const TECH_BACKEND: TechItem[] = [
 
 export const PROJECTS: ProjectItem[] = [
   {
-    title: "Sistema de Gestión Hotelera",
-    desc: "Plataforma completa para administrar reservaciones, habitaciones y servicios de hotel.",
-    tags: ["PHP", "Laravel", "MySQL"],
-    img: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=80",
+    title: "Sistema SaaS de Torneos",
+    desc: "Plataforma multi-tenant para administradores de torneos: generación de torneos, alta de equipos y jugadores, envío de roles a propietarios y gestión completa en la nube.",
+    tags: ["SaaS", "Multi-tenant", "Cloud"],
+    img: "/img/sass_torneos.jpeg",
     link: "#",
+    comingSoon: true,
+  },
+  {
+    title: "Llantas Gamma",
+    desc: "Página web para llantera local con diseño moderno, catálogo de productos y botón de WhatsApp para generar clientes a través de presencia en línea.",
+    tags: ["Next.js", "Tailwind CSS", "HTML"],
+    img: "/img/GAMMA_logo.jpeg",
+    link: "https://llantasgamma.netlify.app/",
   },
   {
     title: "Las Tortas Del Chiche",
-    desc: "Sitio web para taquería local con diseño responsive, menú digital y funcionalidades para pedidos.",
+    desc: "Sitio web para taquería local con diseño responsive, menú digital y funcionalidades para pedidos en línea.",
     tags: ["HTML", "CSS", "JS"],
     img: "/img/tortas_del_chiche.png",
     link: "https://lastortasdelchiche.com/",
-  },
-  {
-    title: "Sistema de Análisis Financiero",
-    desc: "Herramienta para visualización y análisis de datos financieros con reportes personalizados.",
-    tags: ["Python", "Django", "PostgreSQL"],
-    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
-    link: "#",
   },
 ];
 
@@ -135,30 +136,34 @@ export const MARKETING_SERVICES: ServiceItem[] = [
     title: "SEO",
     desc: "Posicionamos tu negocio en la primera página de Google para que te encuentren tus clientes exactos.",
     color: "#3B82F6",
+    price: "2,999",
   },
   {
     icon: "📱",
     title: "Gestión de Redes",
     desc: "Creamos y publicamos contenido que genera comunidad, engagement y mensajes directos de clientes potenciales.",
     color: "#8B5CF6",
+    price: "3,499",
   },
   {
     icon: "📢",
     title: "Pauta Publicitaria",
     desc: "Anuncios segmentados en Meta Ads y Google Ads que traen clientes nuevos a tu negocio desde el primer día.",
     color: "#10B981",
+    price: "4,999",
   },
   {
     icon: "🔄",
     title: "Funnels de Conversión",
     desc: "Embudos automatizados que convierten visitantes en clientes sin que tengas que vender manualmente.",
     color: "#F59E0B",
+    price: "5,999",
   },
 ];
 
 export const TESTIMONIOS: TestimonialItem[] = [
   {
-    name: "Carlos Mendoza",
+    name: "Fernando Gutiérrez",
     role: "Dueño",
     company: "Las Tortas Del Chiche",
     text: "Desde que MB Digital Systems creó nuestro sitio web, los pedidos en línea aumentaron un 40%. El equipo es profesional y entregó antes de lo prometido.",
@@ -166,18 +171,10 @@ export const TESTIMONIOS: TestimonialItem[] = [
     rating: 5,
   },
   {
-    name: "María López",
-    role: "Directora",
-    company: "Hotel Vista al Mar",
-    text: "El sistema de gestión hotelera nos ahorró horas de trabajo administrativo. Ahora todo está centralizado y funciona perfecto.",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
-    rating: 5,
-  },
-  {
-    name: "Roberto García",
-    role: "Gerente",
-    company: "Comercializadora G&G",
-    text: "Necesitábamos un sistema a medida para controlar nuestro inventario. MB Digital lo desarrolló exactamente como lo imaginábamos, y a mejor precio que otras propuestas.",
+    name: "Luis",
+    role: "Dueño",
+    company: "Llantas Gamma",
+    text: "Necesitaba una página web para mi llantera y MB Digital Systems la creó en tiempo récord. Ahora los clientes me encuentran en Google y me escriben por WhatsApp directo.",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
     rating: 5,
   },

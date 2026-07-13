@@ -108,7 +108,7 @@ export function Hero() {
               display: "inline-block",
             }}
           />
-          Disponible para nuevos proyectos
+          Solo tomamos 3 proyectos este mes
         </motion.div>
 
         <motion.h1
@@ -125,7 +125,7 @@ export function Hero() {
             fontFamily: "'Sora', sans-serif",
           }}
         >
-          Tu negocio merece<br />
+          Del primer mensaje<br />
           <span
             style={{
               background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
@@ -134,8 +134,9 @@ export function Hero() {
               backgroundClip: "text",
             }}
           >
-            clientes reales
+            a tu primer cliente
           </span>
+          {" "}en 7 días
         </motion.h1>
 
         <motion.p
@@ -151,8 +152,11 @@ export function Hero() {
             fontWeight: 400,
           }}
         >
-          Creamos páginas web que convierten visitantes en clientes. Diseño moderno,
-          marketing digital y sistemas a medida para hacer crecer tu negocio.
+          Creamos páginas web que convierten visitantes en clientes de WhatsApp.
+          Diseño moderno, marketing digital y sistemas a medida.{" "}
+          <strong style={{ color: "#1E40AF", fontWeight: 700 }}>
+            Sin complicaciones, con resultados reales.
+          </strong>
         </motion.p>
 
         <motion.div
@@ -167,8 +171,9 @@ export function Hero() {
           }}
         >
           <motion.a
-            href="https://wa.me/+529931782620"
+            href="https://wa.me/+529931782620?text=Hola,%20me%20interesa%20una%20p%C3%A1gina%20web"
             target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.05, boxShadow: "0 8px 40px rgba(59,130,246,0.45)" }}
             whileTap={{ scale: 0.97 }}
             style={{
@@ -182,10 +187,10 @@ export function Hero() {
               padding: "14px 28px",
               borderRadius: 100,
               fontSize: "clamp(14px,2vw,16px)",
-              boxShadow: "0 4px 24px rgba(59,130,246,0.35)",
+              boxShadow: "0 4px 24px rgba(59,130,264,0.35)",
             }}
           >
-            <span>Solicitar cotización gratis</span>
+            <span>Cotización gratis por WhatsApp</span>
             <span style={{ fontSize: 18 }}>→</span>
           </motion.a>
           <motion.button
@@ -210,7 +215,7 @@ export function Hero() {
               fontFamily: "inherit",
             }}
           >
-            Ver Proyectos
+            Ver ejemplos reales →
           </motion.button>
         </motion.div>
 

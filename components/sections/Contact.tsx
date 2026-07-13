@@ -12,13 +12,46 @@ export function Contact() {
     message: "",
   });
   const [sent, setSent] = useState(false);
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateAndSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const newErrors: Record<string, boolean> = {};
+    if (!form.name.trim()) newErrors.name = true;
+    if (!form.email.trim() || !form.email.includes("@")) newErrors.email = true;
+    if (!form.message.trim()) newErrors.message = true;
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
     setSent(true);
-    setTimeout(() => setSent(false), 3000);
+    setTimeout(() => setSent(false), 4000);
     setForm({ name: "", email: "", subject: "", message: "" });
   };
+
+  const handleChange = (field: string, value: string) => {
+    setForm({ ...form, [field]: value });
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: false }));
+    }
+  };
+
+  const inputStyle = (hasError: boolean) => ({
+    background: "#fff",
+    border: `1px solid ${hasError ? "#EF4444" : "#E2E8F0"}`,
+    borderRadius: 12,
+    padding: "12px 14px",
+    fontSize: 14,
+    color: "#1E293B",
+    outline: "none",
+    fontFamily: "inherit",
+    width: "100%" as const,
+    boxSizing: "border-box" as const,
+    transition: "border-color 0.2s ease",
+  });
 
   return (
     <section
@@ -95,6 +128,7 @@ export function Contact() {
                     fontSize: 18,
                     flexShrink: 0,
                   }}
+                  aria-hidden="true"
                 >
                   {icon}
                 </div>
@@ -123,7 +157,8 @@ export function Contact() {
 
         <AnimatedSection delay={0.15}>
           <motion.form
-            onSubmit={handleSubmit}
+            onSubmit={validateAndSubmit}
+            noValidate
             whileHover={{ boxShadow: "0 20px 60px rgba(59,130,246,0.1)" }}
             style={{
               background: "#F8FAFF",
@@ -140,69 +175,60 @@ export function Contact() {
                 marginBottom: 14,
               }}
             >
-              {["name", "email"].map((field) => (
+              <div>
+                <label htmlFor="contact-name" style={{ display: "none" }}>Nombre</label>
                 <input
-                  key={field}
-                  type={field === "email" ? "email" : "text"}
-                  placeholder={field === "name" ? "Nombre" : "Email"}
-                  value={form[field as keyof typeof form]}
-                  onChange={(e) => setForm({ ...form, [field]: e.target.value })}
+                  id="contact-name"
+                  type="text"
+                  placeholder="Nombre *"
+                  value={form.name}
+                  onChange={(e) => handleChange("name", e.target.value)}
                   required
-                  style={{
-                    background: "#fff",
-                    border: "1px solid #E2E8F0",
-                    borderRadius: 12,
-                    padding: "12px 14px",
-                    fontSize: 14,
-                    color: "#1E293B",
-                    outline: "none",
-                    fontFamily: "inherit",
-                    width: "100%",
-                    boxSizing: "border-box",
-                  }}
+                  aria-required="true"
+                  aria-invalid={errors.name}
+                  style={inputStyle(errors.name)}
                 />
-              ))}
+              </div>
+              <div>
+                <label htmlFor="contact-email" style={{ display: "none" }}>Email</label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  placeholder="Email *"
+                  value={form.email}
+                  onChange={(e) => handleChange("email", e.target.value)}
+                  required
+                  aria-required="true"
+                  aria-invalid={errors.email}
+                  style={inputStyle(errors.email)}
+                />
+              </div>
             </div>
-            <input
-              type="text"
-              placeholder="Asunto"
-              value={form.subject}
-              onChange={(e) => setForm({ ...form, subject: e.target.value })}
-              style={{
-                width: "100%",
-                background: "#fff",
-                border: "1px solid #E2E8F0",
-                borderRadius: 12,
-                padding: "12px 14px",
-                fontSize: 14,
-                color: "#1E293B",
-                outline: "none",
-                marginBottom: 14,
-                boxSizing: "border-box",
-                fontFamily: "inherit",
-              }}
-            />
-            <textarea
-              placeholder="Cuéntanos tu proyecto..."
-              rows={5}
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-              required
-              style={{
-                width: "100%",
-                background: "#fff",
-                border: "1px solid #E2E8F0",
-                borderRadius: 12,
-                padding: "12px 14px",
-                fontSize: 14,
-                color: "#1E293B",
-                outline: "none",
-                resize: "vertical",
-                marginBottom: 20,
-                boxSizing: "border-box",
-                fontFamily: "inherit",
-              }}
-            />
+            <div>
+              <label htmlFor="contact-subject" style={{ display: "none" }}>Asunto</label>
+              <input
+                id="contact-subject"
+                type="text"
+                placeholder="Asunto"
+                value={form.subject}
+                onChange={(e) => handleChange("subject", e.target.value)}
+                style={{ ...inputStyle(false), marginBottom: 14 }}
+              />
+            </div>
+            <div>
+              <label htmlFor="contact-message" style={{ display: "none" }}>Mensaje</label>
+              <textarea
+                id="contact-message"
+                placeholder="Cuéntanos tu proyecto... *"
+                rows={5}
+                value={form.message}
+                onChange={(e) => handleChange("message", e.target.value)}
+                required
+                aria-required="true"
+                aria-invalid={errors.message}
+                style={{ ...inputStyle(errors.message), resize: "vertical", marginBottom: 20 }}
+              />
+            </div>
             <motion.button
               type="submit"
               whileHover={{ scale: 1.03, boxShadow: "0 8px 32px rgba(59,130,246,0.35)" }}
@@ -228,11 +254,19 @@ export function Contact() {
                 {sent ? (
                   <motion.span
                     key="sent"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
                   >
-                    ✅ Mensaje enviado
+                    <motion.span
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      ✅
+                    </motion.span>
+                    Mensaje enviado correctamente
                   </motion.span>
                 ) : (
                   <motion.span
@@ -246,6 +280,9 @@ export function Contact() {
                 )}
               </AnimatePresence>
             </motion.button>
+            <p style={{ fontSize: 12, color: "#94A3B8", marginTop: 12, textAlign: "center" }}>
+              * Campos obligatorios. Respondemos en menos de 24 horas.
+            </p>
           </motion.form>
         </AnimatedSection>
       </div>
