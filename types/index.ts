@@ -23,3 +23,18 @@ export interface TechItem {
     img: string;
     link: string;
   }
+
+  export interface TestimonialItem {
+    name: string;
+    role: string;
+    company: string;
+    text: string;
+    avatar: string;
+    rating: number;
+  }
+
+  export interface MetricItem {
+    value: string;
+    label: string;
+    icon: string;
+  }

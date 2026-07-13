@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "references": {
+    "nextjs-docs": {
+      "path": "node_modules/next/dist/docs",
+      "description": "Documentación oficial de Next.js 16. Consultar antes de usar APIs de Next.js ya que tiene breaking changes respecto a versiones anteriores."
+    }
+  }
+}

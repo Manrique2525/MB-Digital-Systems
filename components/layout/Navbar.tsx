@@ -16,10 +16,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  useEffect(() => {
-    if (!isMobile) setOpen(false);
-  }, [isMobile]);
-
   const scrollTo = (id: string) => {
     setOpen(false);
     const el = document.getElementById(id.toLowerCase());
@@ -129,7 +125,7 @@ export function Navbar() {
                   boxShadow: "0 4px 20px rgba(59,130,246,0.35)",
                 }}
               >
-                Cotizar
+                Cotización gratis
               </motion.button>
             </nav>
           )}
@@ -217,7 +213,7 @@ export function Navbar() {
                 fontFamily: "inherit",
               }}
             >
-              Solicitar Cotización
+              Solicitar cotización gratis
             </motion.button>
           </motion.div>
         )}

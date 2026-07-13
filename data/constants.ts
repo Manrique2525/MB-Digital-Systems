@@ -1,4 +1,4 @@
-import { ServiceItem, ProjectItem, TechItem } from "@/types";
+import { ServiceItem, ProjectItem, TechItem, TestimonialItem, MetricItem } from "@/types";
 
 export const NAV_LINKS = [
   "Inicio",
@@ -13,30 +13,30 @@ export const SERVICES: ServiceItem[] = [
   {
     icon: "💻",
     title: "Desarrollo Web",
-    desc: "Sitios web personalizados, responsivos y optimizados para SEO que representan tu marca en internet.",
+    desc: "Página web que aparece en Google, carga rápido y convierte visitas en mensajes de WhatsApp. Sin plantillas, 100% personalizada.",
     color: "#3B82F6",
   },
   {
     icon: "⚙️",
     title: "Sistemas a Medida",
-    desc: "Soluciones para automatizar procesos y mejorar la eficiencia de tu negocio con tecnología actual.",
+    desc: "Automatizamos procesos manuales que te quitan tiempo. Control de inventario, clientes, facturación: todo en un solo lugar.",
     color: "#10B981",
   },
   {
     icon: "🛒",
     title: "E-commerce",
-    desc: "Tiendas online completas con catálogo, carrito de compras y pasarelas de pago integradas.",
+    desc: "Tienda online que vende mientras duermes. Catálogo, carrito, pagos con tarjeta y envíos integrados.",
     color: "#8B5CF6",
   },
 ];
 
 export const FEATURES = [
-  "Páginas web informativas y corporativas",
-  "Tiendas en línea (e-commerce)",
-  "Sistemas administrativos y de gestión",
-  "Formularios inteligentes y automatización",
-  "Integración con APIs, WhatsApp Business y pagos",
-  "Paneles de administración seguros y fáciles de usar",
+  "Apareces en Google cuando te buscan",
+  "Vendes 24/7 con tu tienda online",
+  "Automatizas procesos que hoy haces manual",
+  "Clientes te escriben por WhatsApp directo",
+  "Controlas todo desde tu celular",
+  "Reporting en tiempo real para tomar decisiones",
 ];
 
 export const TECH_FRONTEND: TechItem[] = [
@@ -127,4 +127,65 @@ export const PROJECTS: ProjectItem[] = [
     img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
     link: "#",
   },
+];
+
+export const MARKETING_SERVICES: ServiceItem[] = [
+  {
+    icon: "🔍",
+    title: "SEO",
+    desc: "Posicionamos tu negocio en la primera página de Google para que te encuentren tus clientes exactos.",
+    color: "#3B82F6",
+  },
+  {
+    icon: "📱",
+    title: "Gestión de Redes",
+    desc: "Creamos y publicamos contenido que genera comunidad, engagement y mensajes directos de clientes potenciales.",
+    color: "#8B5CF6",
+  },
+  {
+    icon: "📢",
+    title: "Pauta Publicitaria",
+    desc: "Anuncios segmentados en Meta Ads y Google Ads que traen clientes nuevos a tu negocio desde el primer día.",
+    color: "#10B981",
+  },
+  {
+    icon: "🔄",
+    title: "Funnels de Conversión",
+    desc: "Embudos automatizados que convierten visitantes en clientes sin que tengas que vender manualmente.",
+    color: "#F59E0B",
+  },
+];
+
+export const TESTIMONIOS: TestimonialItem[] = [
+  {
+    name: "Carlos Mendoza",
+    role: "Dueño",
+    company: "Las Tortas Del Chiche",
+    text: "Desde que MB Digital Systems creó nuestro sitio web, los pedidos en línea aumentaron un 40%. El equipo es profesional y entregó antes de lo prometido.",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
+    rating: 5,
+  },
+  {
+    name: "María López",
+    role: "Directora",
+    company: "Hotel Vista al Mar",
+    text: "El sistema de gestión hotelera nos ahorró horas de trabajo administrativo. Ahora todo está centralizado y funciona perfecto.",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+    rating: 5,
+  },
+  {
+    name: "Roberto García",
+    role: "Gerente",
+    company: "Comercializadora G&G",
+    text: "Necesitábamos un sistema a medida para controlar nuestro inventario. MB Digital lo desarrolló exactamente como lo imaginábamos, y a mejor precio que otras propuestas.",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+    rating: 5,
+  },
+];
+
+export const METRICS: MetricItem[] = [
+  { value: "20+", label: "Proyectos entregados", icon: "🚀" },
+  { value: "15+", label: "Clientes satisfechos", icon: "😊" },
+  { value: "3+", label: "Años de experiencia", icon: "⏱️" },
+  { value: "98%", label: "Satisfacción del cliente", icon: "⭐" },
 ];

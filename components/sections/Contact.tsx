@@ -58,7 +58,7 @@ export function Contact() {
               lineHeight: 1.2,
             }}
           >
-            Hablemos de<br />tu proyecto
+            ¿Listo para hacer<br />crecer tu negocio?
           </h2>
           <p
             style={{
@@ -68,8 +68,8 @@ export function Contact() {
               marginBottom: 40,
             }}
           >
-            Cuéntanos tu idea y la convertimos en realidad. Respondemos en menos de
-            24 horas.
+            Cuéntanos qué necesitas y te damos una cotización personalizada sin
+            compromiso. Respondemos en menos de 24 horas.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
             {[

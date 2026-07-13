@@ -43,7 +43,7 @@ export function About() {
               lineHeight: 1.15,
             }}
           >
-            Tecnología que<br />
+            No somos solo programadores.<br />
             <span
               style={{
                 background: "linear-gradient(90deg,#3B82F6,#6366F1)",
@@ -52,7 +52,7 @@ export function About() {
                 backgroundClip: "text",
               }}
             >
-              impulsa tu negocio
+              Somos tu equipo de crecimiento.
             </span>
           </h2>
           <p
@@ -63,9 +63,10 @@ export function About() {
               marginBottom: 20,
             }}
           >
-            MB Digital Systems es una empresa especializada en el desarrollo de
-            soluciones web personalizadas. Combinamos creatividad y tecnología para
-            ofrecer productos de alta calidad.
+            Empezamos como desarrolladores, pero aprendimos algo importante:
+            un bonito sitio web que no trae clientes es solo un gasto. Por eso
+            combinamos desarrollo con marketing digital para que cada proyecto
+            genere resultados reales.
           </p>
           <p
             style={{
@@ -75,8 +76,8 @@ export function About() {
               marginBottom: 40,
             }}
           >
-            Entregamos proyectos a tiempo, dentro del presupuesto y superando las
-            expectativas de cada cliente.
+            Trabajamos contigo de principio a fin: desde entender tu negocio
+            hasta lanzar y medir resultados. Sin complicaciones, sin excusas.
           </p>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
             {[
@@ -118,7 +119,8 @@ export function About() {
             >
               <img
                 src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=700&q=80"
-                alt="Equipo MB Digital"
+                alt="Equipo MB Digital trabajando en proyectos de desarrollo"
+                loading="lazy"
                 style={{
                   width: "100%",
                   display: "block",

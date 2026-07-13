@@ -125,7 +125,7 @@ export function Hero() {
             fontFamily: "'Sora', sans-serif",
           }}
         >
-          Desarrollo Web<br />
+          Tu negocio merece<br />
           <span
             style={{
               background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
@@ -134,7 +134,7 @@ export function Hero() {
               backgroundClip: "text",
             }}
           >
-            Profesional
+            clientes reales
           </span>
         </motion.h1>
 
@@ -151,8 +151,8 @@ export function Hero() {
             fontWeight: 400,
           }}
         >
-          Transformamos tus ideas en soluciones digitales efectivas. Desde páginas web
-          hasta sistemas complejos a medida.
+          Creamos páginas web que convierten visitantes en clientes. Diseño moderno,
+          marketing digital y sistemas a medida para hacer crecer tu negocio.
         </motion.p>
 
         <motion.div
@@ -185,7 +185,7 @@ export function Hero() {
               boxShadow: "0 4px 24px rgba(59,130,246,0.35)",
             }}
           >
-            <span>Iniciar Proyecto</span>
+            <span>Solicitar cotización gratis</span>
             <span style={{ fontSize: 18 }}>→</span>
           </motion.a>
           <motion.button
@@ -227,9 +227,9 @@ export function Hero() {
           }}
         >
           {[
-            ["100%", "Compromiso"],
-            ["⚡ Rápido", "Entrega"],
-            ["🔒 Seguro", "Desarrollo"],
+            ["20+", "Proyectos entregados"],
+            ["⭐ 5/5", "Satisfacción"],
+            ["< 24h", "Respuesta garantizada"],
           ].map(([val, label]) => (
             <div key={label} style={{ textAlign: "center" }}>
               <div
