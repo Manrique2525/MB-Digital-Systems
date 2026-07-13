@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
+import { Sora } from "next/font/google";
 import "./globals.css";
+
+const sora = Sora({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-sora",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mbdigitalsystems.com"),
@@ -25,7 +33,7 @@ export const metadata: Metadata = {
       "Creamos páginas web que convierten visitantes en clientes. Diseño moderno, marketing digital y sistemas a medida para hacer crecer tu negocio.",
     images: [
       {
-        url: "/img/og-image.png",
+        url: "/img/og-image.svg",
         width: 1200,
         height: 630,
         alt: "MB Digital Systems - Desarrollo Web y Marketing Digital",
@@ -37,7 +45,7 @@ export const metadata: Metadata = {
     title: "MB Digital Systems | Desarrollo Web y Marketing Digital",
     description:
       "Creamos páginas web que convierten visitantes en clientes. Diseño moderno, marketing digital y sistemas a medida.",
-    images: ["/img/og-image.png"],
+    images: ["/img/og-image.svg"],
   },
   robots: {
     index: true,
@@ -51,18 +59,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="h-full antialiased">
+    <html lang="es" className={`${sora.variable} h-full antialiased`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -70,7 +68,7 @@ export default function RootLayout({
       </head>
       <body
         className="min-h-full flex flex-col"
-        style={{ fontFamily: "'Sora', system-ui, sans-serif" }}
+        style={{ fontFamily: "var(--font-sora), system-ui, sans-serif" }}
       >
         {children}
       </body>

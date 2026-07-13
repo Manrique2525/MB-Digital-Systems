@@ -208,7 +208,7 @@ export function WhyWebsite() {
 
           <h2 style={{
             fontSize: "clamp(32px,5.5vw,64px)",
-            fontWeight: 900, color: "#0F172A",
+            fontWeight: 800, color: "#0F172A",
             letterSpacing: "-2px", margin: "0 0 24px",
             fontFamily: "'Sora', sans-serif", lineHeight: 1.05,
           }}>
@@ -244,7 +244,7 @@ export function WhyWebsite() {
             </div>
             <h3 style={{
               fontSize: "clamp(22px,3.5vw,38px)",
-              fontWeight: 900, color: "#0F172A",
+              fontWeight: 800, color: "#0F172A",
               fontFamily: "'Sora', sans-serif", letterSpacing: "-1px", margin: 0,
             }}>
               ¿Alguno de estos te suena familiar?
@@ -272,7 +272,7 @@ export function WhyWebsite() {
             </div>
             <h3 style={{
               fontSize: "clamp(22px,3.5vw,38px)",
-              fontWeight: 900, color: "#0F172A",
+              fontWeight: 800, color: "#0F172A",
               fontFamily: "'Sora', sans-serif", letterSpacing: "-1px", margin: 0,
             }}>
               De esto… a esto.
@@ -324,7 +324,7 @@ export function WhyWebsite() {
                   }}>
                     ANTES
                   </span>
-                  <span style={{ fontSize: 14, color: "#94A3B8", fontWeight: 500 }}>
+                  <span style={{ fontSize: 14, color: "#64748B", fontWeight: 500 }}>
                     {t.before}
                   </span>
                 </div>
@@ -335,7 +335,7 @@ export function WhyWebsite() {
                   transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.2 }}
                   style={{
                     fontSize: 18, color: t.color,
-                    marginBottom: 12, fontWeight: 900,
+                    marginBottom: 12, fontWeight: 800,
                   }}
                 >
                   ↓
@@ -373,7 +373,7 @@ export function WhyWebsite() {
             <div style={{ textAlign: "center", marginBottom: 44 }}>
               <h3 style={{
                 fontSize: "clamp(20px,3vw,34px)",
-                fontWeight: 900, color: "#0F172A",
+                fontWeight: 800, color: "#0F172A",
                 fontFamily: "'Sora', sans-serif", letterSpacing: "-0.8px", margin: 0,
               }}>
                 Los números no mienten
@@ -398,7 +398,7 @@ export function WhyWebsite() {
                 >
                   <div style={{
                     fontSize: "clamp(32px,4.5vw,52px)",
-                    fontWeight: 900,
+                    fontWeight: 800,
                     fontFamily: "'Sora', sans-serif",
                     background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
                     WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
@@ -441,7 +441,7 @@ export function WhyWebsite() {
               transition={{ delay: 0.15 }}
               style={{
                 fontSize: "clamp(24px,4vw,44px)",
-                fontWeight: 900, color: "#0F172A",
+                fontWeight: 800, color: "#0F172A",
                 fontFamily: "'Sora', sans-serif", letterSpacing: "-1.2px",
                 maxWidth: 700, margin: "0 auto",
                 lineHeight: 1.15,
@@ -492,7 +492,7 @@ export function WhyWebsite() {
 
               <h3 style={{
                 fontSize: "clamp(26px,4.5vw,52px)",
-                fontWeight: 900, color: "#fff",
+                fontWeight: 800, color: "#fff",
                 fontFamily: "'Sora', sans-serif", letterSpacing: "-1.2px",
                 margin: "0 0 18px", lineHeight: 1.1,
               }}>

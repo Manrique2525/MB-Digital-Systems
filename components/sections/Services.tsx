@@ -29,7 +29,7 @@ export function Services() {
           <h2
             style={{
               fontSize: "clamp(28px,5vw,52px)",
-              fontWeight: 900,
+              fontWeight: 800,
               color: "#0F172A",
               letterSpacing: "-1.5px",
               margin: "0 0 20px",
@@ -126,7 +126,7 @@ export function Services() {
               <h3
                 style={{
                   fontSize: "clamp(22px,3vw,32px)",
-                  fontWeight: 900,
+                  fontWeight: 800,
                   color: "#fff",
                   margin: "0 0 16px",
                   fontFamily: "'Sora', sans-serif",

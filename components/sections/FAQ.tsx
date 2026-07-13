@@ -41,6 +41,7 @@ const FAQ_DATA = [
 
 function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false);
+  const panelId = `faq-panel-${index}`;
 
   return (
     <motion.div
@@ -53,6 +54,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
       }}
     >
       <motion.button
+        id={`faq-button-${index}`}
         onClick={() => setOpen(!open)}
         whileHover={{ backgroundColor: "rgba(59,130,246,0.04)" }}
         style={{
@@ -68,6 +70,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
           fontFamily: "inherit",
         }}
         aria-expanded={open}
+        aria-controls={panelId}
       >
         <span
           style={{
@@ -96,6 +99,9 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
       <AnimatePresence>
         {open && (
           <motion.div
+            id={panelId}
+            role="region"
+            aria-labelledby={`faq-button-${index}`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -151,7 +157,7 @@ export function FAQ() {
           <h2
             style={{
               fontSize: "clamp(28px, 5vw, 48px)",
-              fontWeight: 900,
+              fontWeight: 800,
               color: "#0F172A",
               letterSpacing: "-1.5px",
               margin: "0 0 20px",

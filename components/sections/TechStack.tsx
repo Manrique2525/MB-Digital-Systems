@@ -64,7 +64,7 @@ export function TechStack() {
           <h2
             style={{
               fontSize: "clamp(26px,4vw,46px)",
-              fontWeight: 900,
+              fontWeight: 800,
               color: "#0F172A",
               letterSpacing: "-1px",
               margin: "0 0 16px",

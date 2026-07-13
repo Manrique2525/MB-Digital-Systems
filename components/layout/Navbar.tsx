@@ -86,7 +86,7 @@ export function Navbar() {
           </motion.div>
 
           {!isMobile && (
-            <nav style={{ display: "flex", gap: 4, alignItems: "center" }}>
+            <nav aria-label="Navegación principal" style={{ display: "flex", gap: 4, alignItems: "center" }}>
               {NAV_LINKS.map((link) => (
                 <motion.button
                   key={link}
@@ -134,6 +134,9 @@ export function Navbar() {
             <motion.button
               onClick={() => setOpen(!open)}
               whileTap={{ scale: 0.9 }}
+              aria-label={open ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
               style={{
                 background: "none",
                 border: "none",
@@ -152,6 +155,8 @@ export function Navbar() {
       <AnimatePresence>
         {open && isMobile && (
           <motion.div
+            id="mobile-menu"
+            role="menu"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

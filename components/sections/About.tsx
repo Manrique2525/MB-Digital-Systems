@@ -35,7 +35,7 @@ export function About() {
           <h2
             style={{
               fontSize: "clamp(28px,4vw,48px)",
-              fontWeight: 900,
+              fontWeight: 800,
               color: "#0F172A",
               letterSpacing: "-1px",
               margin: "0 0 24px",
@@ -89,14 +89,14 @@ export function About() {
                 <div
                   style={{
                     fontSize: "clamp(28px,5vw,36px)",
-                    fontWeight: 900,
+                    fontWeight: 800,
                     color: "#3B82F6",
                     fontFamily: "'Sora', sans-serif",
                   }}
                 >
                   {val}
                 </div>
-                <div style={{ fontSize: 13, color: "#94A3B8", fontWeight: 600 }}>
+                <div style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>
                   {label}
                 </div>
               </div>

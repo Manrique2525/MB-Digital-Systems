@@ -26,7 +26,7 @@ export function Footer() {
             <div
               style={{
                 fontSize: 24,
-                fontWeight: 900,
+                fontWeight: 800,
                 color: "#fff",
                 fontFamily: "'Sora', sans-serif",
                 marginBottom: 4,
@@ -166,7 +166,16 @@ export function Footer() {
               Contacto
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, fontSize: 13 }}>
-              <span>📞 993 178 2620</span>
+              <a
+                href="tel:+529931782620"
+                style={{
+                  color: "#94A3B8",
+                  textDecoration: "none",
+                  fontSize: 13,
+                }}
+              >
+                📞 993 178 2620
+              </a>
               <span>✉️ manriquemontero25@gmail.com</span>
               <span>📍 Tabasco, México</span>
               <span>🕐 Lun - Vie: 9:00 AM – 6:00 PM</span>
@@ -202,7 +211,7 @@ export function Footer() {
             fontSize: 12,
           }}
         >
-          © 2025 MB Digital Systems. Todos los derechos reservados.
+          © 2026 MB Digital Systems. Todos los derechos reservados.
         </div>
       </div>
     </footer>

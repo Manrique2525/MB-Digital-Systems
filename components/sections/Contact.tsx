@@ -14,7 +14,7 @@ export function Contact() {
   const [sent, setSent] = useState(false);
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
-  const validateAndSubmit = (e: React.FormEvent) => {
+  const validateAndSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: Record<string, boolean> = {};
     if (!form.name.trim()) newErrors.name = true;
@@ -27,9 +27,26 @@ export function Contact() {
     }
 
     setErrors({});
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
-    setForm({ name: "", email: "", subject: "", message: "" });
+
+    const formData = new FormData();
+    formData.append("form-name", "contacto");
+    formData.append("name", form.name);
+    formData.append("email", form.email);
+    formData.append("subject", form.subject);
+    formData.append("message", form.message);
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
+      });
+      setSent(true);
+      setTimeout(() => setSent(false), 4000);
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch {
+      setErrors({ submit: true });
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -83,7 +100,7 @@ export function Contact() {
           <h2
             style={{
               fontSize: "clamp(26px,4vw,44px)",
-              fontWeight: 900,
+              fontWeight: 800,
               color: "#0F172A",
               letterSpacing: "-1px",
               margin: "0 0 20px",
@@ -106,11 +123,11 @@ export function Contact() {
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
             {[
-              ["📍", "Ubicación", "Fracc. Ciudad Bicentenario, Tabasco"],
-              ["📞", "Teléfono", "993 178 2620"],
-              ["✉️", "Email", "manriquemontero25@gmail.com"],
-              ["🕐", "Horario", "Lunes a Viernes: 9:00 AM – 6:00 PM"],
-            ].map(([icon, label, value]) => (
+              ["📍", "Ubicación", "Fracc. Ciudad Bicentenario, Tabasco", null],
+              ["📞", "Teléfono", "993 178 2620", "tel:+529931782620"],
+              ["✉️", "Email", "manriquemontero25@gmail.com", null],
+              ["🕐", "Horario", "Lunes a Viernes: 9:00 AM – 6:00 PM", null],
+            ].map(([icon, label, value, link]) => (
               <motion.div
                 key={label}
                 whileHover={{ x: 4 }}
@@ -136,7 +153,7 @@ export function Contact() {
                   <div
                     style={{
                       fontSize: 12,
-                      color: "#94A3B8",
+                      color: "#64748B",
                       fontWeight: 700,
                       textTransform: "uppercase",
                       letterSpacing: 1,
@@ -144,11 +161,20 @@ export function Contact() {
                   >
                     {label}
                   </div>
-                  <div
-                    style={{ fontSize: 15, color: "#334155", fontWeight: 500, marginTop: 2 }}
-                  >
-                    {value}
-                  </div>
+                  {link ? (
+                    <a
+                      href={link}
+                      style={{ fontSize: 15, color: "#334155", fontWeight: 500, marginTop: 2, display: "block", textDecoration: "none" }}
+                    >
+                      {value}
+                    </a>
+                  ) : (
+                    <div
+                      style={{ fontSize: 15, color: "#334155", fontWeight: 500, marginTop: 2 }}
+                    >
+                      {value}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -157,6 +183,10 @@ export function Contact() {
 
         <AnimatedSection delay={0.15}>
           <motion.form
+            name="contacto"
+            method="POST"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
             onSubmit={validateAndSubmit}
             noValidate
             whileHover={{ boxShadow: "0 20px 60px rgba(59,130,246,0.1)" }}
@@ -167,6 +197,12 @@ export function Contact() {
               padding: "clamp(24px,4vw,40px)",
             }}
           >
+            <input type="hidden" name="form-name" value="contacto" />
+            <p style={{ display: "none" }}>
+              <label>
+                Don&apos;t fill this out: <input name="bot-field" />
+              </label>
+            </p>
             <div
               style={{
                 display: "grid",
@@ -280,7 +316,7 @@ export function Contact() {
                 )}
               </AnimatePresence>
             </motion.button>
-            <p style={{ fontSize: 12, color: "#94A3B8", marginTop: 12, textAlign: "center" }}>
+            <p style={{ fontSize: 12, color: "#64748B", marginTop: 12, textAlign: "center" }}>
               * Campos obligatorios. Respondemos en menos de 24 horas.
             </p>
           </motion.form>

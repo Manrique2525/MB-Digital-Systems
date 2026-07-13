@@ -1,0 +1,51 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EFF6FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5F3FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Decorative circles -->
+  <circle cx="1050" cy="150" r="200" fill="#3B82F6" opacity="0.08"/>
+  <circle cx="150" cy="480" r="150" fill="#8B5CF6" opacity="0.08"/>
+  
+  <!-- Logo text -->
+  <text x="100" y="180" font-family="Arial, sans-serif" font-size="48" font-weight="800" fill="#0F172A">
+    <tspan fill="#3B82F6">MB</tspan> Digital Systems
+  </text>
+  
+  <!-- Accent line -->
+  <rect x="100" y="210" width="120" height="4" rx="2" fill="url(#accent)"/>
+  
+  <!-- Main heading -->
+  <text x="100" y="290" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#0F172A">
+    Desarrollo Web y
+  </text>
+  <text x="100" y="345" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#0F172A">
+    Marketing Digital
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="100" y="400" font-family="Arial, sans-serif" font-size="20" fill="#64748B">
+    Creamos páginas web que convierten visitantes en clientes
+  </text>
+  
+  <!-- CTA -->
+  <rect x="100" y="450" width="280" height="50" rx="25" fill="url(#accent)"/>
+  <text x="240" y="482" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="white" text-anchor="middle">
+    mbdigitalsystems.com
+  </text>
+  
+  <!-- Services tags -->
+  <text x="100" y="550" font-family="Arial, sans-serif" font-size="14" fill="#94A3B8">
+    Desarrollo Web • Sistemas a Medida • E-commerce • SEO • Redes Sociales
+  </text>
+</svg>

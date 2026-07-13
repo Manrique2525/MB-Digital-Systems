@@ -5,7 +5,7 @@ export const NAV_LINKS = [
   "Servicios",
   "Nosotros",
   "Proyectos",
-  "precios",
+  "Precios",
   "Contacto",
 ];
 
@@ -176,6 +176,30 @@ export const TESTIMONIOS: TestimonialItem[] = [
     company: "Llantas Gamma",
     text: "Necesitaba una página web para mi llantera y MB Digital Systems la creó en tiempo récord. Ahora los clientes me encuentran en Google y me escriben por WhatsApp directo.",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+    rating: 5,
+  },
+  {
+    name: "María García",
+    role: "Directora",
+    company: "Clínica Dental Sonrisa",
+    text: "MB Digital Systems nos diseñó una página web moderna y profesional. Los pacientes ahora pueden agendar citas en línea y nuestras consultas aumentaron un 35%.",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+    rating: 5,
+  },
+  {
+    name: "Roberto Hernández",
+    role: "Gerente",
+    company: "AutoPartes Tabasco",
+    text: "El sistema de inventarios que desarrollaron nos ahorraba 3 horas diarias de trabajo manual. Ahora todo está automatizado y tenemos control total del stock.",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80",
+    rating: 5,
+  },
+  {
+    name: "Ana Martínez",
+    role: "Fundadora",
+    company: "Boutique Elegance",
+    text: "Nuestra tienda online generó $50,000 en el primer mes. MB Digital Systems no solo creó el sitio, sino que nos ayudó con la estrategia de marketing digital.",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80",
     rating: 5,
   },
 ];

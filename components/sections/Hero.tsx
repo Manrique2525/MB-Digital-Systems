@@ -117,7 +117,7 @@ export function Hero() {
           transition={{ delay: 0.35, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           style={{
             fontSize: "clamp(38px,7vw,80px)",
-            fontWeight: 900,
+            fontWeight: 800,
             lineHeight: 1.08,
             color: "#0F172A",
             letterSpacing: "-2px",
@@ -247,7 +247,7 @@ export function Hero() {
                 {val}
               </div>
               <div
-                style={{ fontSize: 13, color: "#94A3B8", fontWeight: 500, marginTop: 2 }}
+                style={{ fontSize: 13, color: "#64748B", fontWeight: 500, marginTop: 2 }}
               >
                 {label}
               </div>
@@ -264,7 +264,7 @@ export function Hero() {
           bottom: 24,
           left: "50%",
           transform: "translateX(-50%)",
-          color: "#94A3B8",
+          color: "#64748B",
           fontSize: 22,
         }}
       >

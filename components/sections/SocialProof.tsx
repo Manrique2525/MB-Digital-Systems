@@ -41,7 +41,7 @@ export function SocialProof() {
                 <div
                   style={{
                     fontSize: "clamp(32px, 5vw, 48px)",
-                    fontWeight: 900,
+                    fontWeight: 800,
                     fontFamily: "'Sora', sans-serif",
                     background: "linear-gradient(135deg, #3B82F6, #1E40AF)",
                     WebkitBackgroundClip: "text",
@@ -89,7 +89,7 @@ export function SocialProof() {
           <h2
             style={{
               fontSize: "clamp(28px, 5vw, 48px)",
-              fontWeight: 900,
+              fontWeight: 800,
               color: "#0F172A",
               letterSpacing: "-1.5px",
               margin: "0 0 20px",
@@ -210,7 +210,7 @@ export function SocialProof() {
                     <div
                       style={{
                         fontSize: 13,
-                        color: "#94A3B8",
+                        color: "#64748B",
                       }}
                     >
                       {t.role} · {t.company}

@@ -167,7 +167,7 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
 
         <div style={{ fontSize: 40, marginBottom: 12 }}>{plan.icon}</div>
         <h3 style={{
-          fontSize: "clamp(20px,2.5vw,26px)", fontWeight: 900,
+          fontSize: "clamp(20px,2.5vw,26px)", fontWeight: 800,
           color: "#fff", fontFamily: "'Sora', sans-serif",
           letterSpacing: "-0.5px", margin: "0 0 8px",
         }}>
@@ -180,7 +180,7 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
         <div style={{ marginBottom: 28 }}>
           <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", fontWeight: 600 }}>Desde</span>
           <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginTop: 2 }}>
-            <span style={{ fontSize: "clamp(32px,4vw,44px)", fontWeight: 900, color: "#fff", fontFamily: "'Sora', sans-serif", letterSpacing: "-1px" }}>
+            <span style={{ fontSize: "clamp(32px,4vw,44px)", fontWeight: 800, color: "#fff", fontFamily: "'Sora', sans-serif", letterSpacing: "-1px" }}>
               ${plan.price}
             </span>
             <span style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", fontWeight: 600 }}>MXN</span>
@@ -204,7 +204,7 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
                 width: 20, height: 20, borderRadius: "50%",
                 background: "rgba(255,255,255,0.2)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 10, color: "#fff", fontWeight: 900, flexShrink: 0,
+                fontSize: 10, color: "#fff", fontWeight: 800, flexShrink: 0,
               }}>✓</span>
               <span style={{ fontSize: 14, color: "rgba(255,255,255,0.88)", lineHeight: 1.4 }}>{f}</span>
             </motion.div>
@@ -254,7 +254,7 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
     >
       <div style={{ fontSize: 40, marginBottom: 12 }}>{plan.icon}</div>
       <h3 style={{
-        fontSize: "clamp(20px,2.5vw,26px)", fontWeight: 900,
+        fontSize: "clamp(20px,2.5vw,26px)", fontWeight: 800,
         color: "#0F172A", fontFamily: "'Sora', sans-serif",
         letterSpacing: "-0.5px", margin: "0 0 8px",
       }}>
@@ -265,19 +265,19 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
       </p>
 
       <div style={{ marginBottom: 28 }}>
-        <span style={{ fontSize: 12, color: "#94A3B8", fontWeight: 600 }}>Desde</span>
+        <span style={{ fontSize: 12, color: "#64748B", fontWeight: 600 }}>Desde</span>
         <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginTop: 2 }}>
           <span style={{
-            fontSize: "clamp(32px,4vw,44px)", fontWeight: 900,
+            fontSize: "clamp(32px,4vw,44px)", fontWeight: 800,
             fontFamily: "'Sora', sans-serif", letterSpacing: "-1px",
             background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
           }}>
             ${plan.price}
           </span>
-          <span style={{ fontSize: 14, color: "#94A3B8", fontWeight: 600 }}>MXN</span>
+          <span style={{ fontSize: 14, color: "#64748B", fontWeight: 600 }}>MXN</span>
         </div>
-        <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 4 }}>
+        <div style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>
           Equivalente a ${Math.round(parseInt(plan.price.replace(",", "")) / 30).toLocaleString()}/día
         </div>
       </div>
@@ -296,7 +296,7 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
               width: 20, height: 20, borderRadius: "50%",
               background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 10, color: "#fff", fontWeight: 900, flexShrink: 0,
+              fontSize: 10, color: "#fff", fontWeight: 800, flexShrink: 0,
             }}>✓</span>
             <span style={{ fontSize: 14, color: "#374151", lineHeight: 1.4 }}>{f}</span>
           </motion.div>
@@ -372,7 +372,7 @@ export function Pricing() {
             Planes y precios
           </div>
           <h2 style={{
-            fontSize: "clamp(30px,5.5vw,60px)", fontWeight: 900,
+            fontSize: "clamp(30px,5.5vw,60px)", fontWeight: 800,
             color: "#0F172A", letterSpacing: "-2px",
             margin: "0 0 20px", fontFamily: "'Sora', sans-serif", lineHeight: 1.06,
           }}>
@@ -436,7 +436,7 @@ export function Pricing() {
             style={{
               textAlign: "center", marginTop: 28,
               display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
-              color: "#94A3B8", fontSize: 13,
+              color: "#64748B", fontSize: 13,
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -482,7 +482,7 @@ export function Pricing() {
             maxWidth: 640, margin: "0 auto 56px",
           }}>
             <h3 style={{
-              fontSize: "clamp(22px,3.5vw,40px)", fontWeight: 900,
+              fontSize: "clamp(22px,3.5vw,40px)", fontWeight: 800,
               color: "#0F172A", fontFamily: "'Sora', sans-serif",
               letterSpacing: "-1px", margin: "0 0 16px",
             }}>
@@ -553,7 +553,7 @@ export function Pricing() {
                       width: 18, height: 18, borderRadius: "50%", flexShrink: 0,
                       background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 9, color: "#fff", fontWeight: 900, marginTop: 1,
+                      fontSize: 9, color: "#fff", fontWeight: 800, marginTop: 1,
                     }}>✓</span>
                     <span style={{ fontSize: 12, color: "#374151", lineHeight: 1.4, fontWeight: 500 }}>{cap}</span>
                   </motion.div>
@@ -637,7 +637,7 @@ export function Pricing() {
                 Cómo lo hacemos
               </div>
               <h4 style={{
-                fontSize: "clamp(18px,2.5vw,28px)", fontWeight: 900,
+                fontSize: "clamp(18px,2.5vw,28px)", fontWeight: 800,
                 color: "#0F172A", fontFamily: "'Sora', sans-serif",
                 margin: 0, letterSpacing: "-0.5px",
               }}>
@@ -711,7 +711,7 @@ export function Pricing() {
               marginBottom: 40,
             }}
           >
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#94A3B8", letterSpacing: 1.5, textTransform: "uppercase", flexShrink: 0 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#64748B", letterSpacing: 1.5, textTransform: "uppercase", flexShrink: 0 }}>
               Stack tecnológico:
             </span>
             {SYSTEM_STACK.map((tech, i) => (
@@ -765,7 +765,7 @@ export function Pricing() {
                 Sistemas a medida
               </div>
               <h3 style={{
-                fontSize: "clamp(22px,3vw,36px)", fontWeight: 900,
+                fontSize: "clamp(22px,3vw,36px)", fontWeight: 800,
                 color: "#fff", fontFamily: "'Sora', sans-serif",
                 letterSpacing: "-0.8px", margin: "0 0 16px", lineHeight: 1.15,
               }}>

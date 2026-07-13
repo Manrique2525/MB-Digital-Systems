@@ -43,7 +43,7 @@ export function MarketingServices() {
           <h2
             style={{
               fontSize: "clamp(28px, 5vw, 52px)",
-              fontWeight: 900,
+              fontWeight: 800,
               color: "#0F172A",
               letterSpacing: "-1.5px",
               margin: "0 0 20px",
@@ -135,16 +135,16 @@ export function MarketingServices() {
                     alignItems: "baseline",
                     gap: 4,
                   }}>
-                    <span style={{ fontSize: 12, color: "#94A3B8", fontWeight: 600 }}>Desde</span>
+                    <span style={{ fontSize: 12, color: "#64748B", fontWeight: 600 }}>Desde</span>
                     <span style={{
                       fontSize: "clamp(20px, 2.5vw, 26px)",
-                      fontWeight: 900,
+                      fontWeight: 800,
                       fontFamily: "'Sora', sans-serif",
                       color: s.color,
                     }}>
                       ${s.price}
                     </span>
-                    <span style={{ fontSize: 12, color: "#94A3B8", fontWeight: 600 }}>/mes</span>
+                    <span style={{ fontSize: 12, color: "#64748B", fontWeight: 600 }}>/mes</span>
                   </div>
                 )}
                 <motion.a
@@ -208,7 +208,7 @@ export function MarketingServices() {
               <h3
                 style={{
                   fontSize: "clamp(22px, 3vw, 32px)",
-                  fontWeight: 900,
+                  fontWeight: 800,
                   color: "#fff",
                   margin: "0 0 16px",
                   fontFamily: "'Sora', sans-serif",
