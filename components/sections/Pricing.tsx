@@ -25,6 +25,11 @@ const WEB_PLANS = [
       "Te ayudamos con dominio y hosting",
       "1 revisión incluida",
     ],
+    launchBonus: [
+      { icon: "🌐", text: "Dominio gratis 1 año", value: "$250" },
+      { icon: "🖥️", text: "Hosting 3 meses gratis", value: "$300" },
+      { icon: "🔍", text: "SEO básico configurado", value: "$1,500" },
+    ],
     cta: "Quiero mi landing page",
     whatsappMessage: WHATSAPP_MESSAGES.landingPage,
     highlight: false,
@@ -49,6 +54,12 @@ const WEB_PLANS = [
       "Formularios inteligentes",
       "Soporte prioritario 30 días",
     ],
+    launchBonus: [
+      { icon: "🌐", text: "Dominio gratis 1 año", value: "$250" },
+      { icon: "🖥️", text: "Hosting 6 meses gratis", value: "$600" },
+      { icon: "🔍", text: "SEO avanzado configurado", value: "$3,000" },
+      { icon: "📊", text: "Google Analytics configurado", value: "$1,000" },
+    ],
     cta: "Quiero mi página empresarial",
     whatsappMessage: WHATSAPP_MESSAGES.paginaEmpresarial,
     highlight: true,
@@ -72,6 +83,13 @@ const WEB_PLANS = [
       "Panel de pedidos y envíos",
       "WhatsApp Business integrado",
       "Soporte 60 días",
+    ],
+    launchBonus: [
+      { icon: "🌐", text: "Dominio gratis 1 año", value: "$250" },
+      { icon: "🖥️", text: "Hosting 12 meses gratis", value: "$1,200" },
+      { icon: "🔍", text: "SEO avanzado configurado", value: "$3,000" },
+      { icon: "📊", text: "Google Analytics + Meta Pixel", value: "$2,000" },
+      { icon: "📸", text: "Fotos de producto profesionales", value: "$2,500" },
     ],
     cta: "Quiero mi tienda online",
     whatsappMessage: WHATSAPP_MESSAGES.ecomerce,
@@ -216,6 +234,39 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
           ))}
         </div>
 
+        {/* Launch Bonuses */}
+        <div style={{
+          background: "rgba(255,255,255,0.12)",
+          borderRadius: 14,
+          padding: "14px 16px",
+          marginBottom: 28,
+          border: "1px solid rgba(255,255,255,0.15)",
+        }}>
+          <div style={{
+            fontSize: 11, fontWeight: 700, color: "#FCD34D",
+            letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10,
+          }}>
+            🎁 Beneficios de lanzamiento
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {plan.launchBonus.map((bonus, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 14 }}>{bonus.icon}</span>
+                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{bonus.text}</span>
+                </div>
+                <span style={{ fontSize: 11, color: "#FCD34D", fontWeight: 700, whiteSpace: "nowrap" }}>GRATIS</span>
+              </div>
+            ))}
+          </div>
+          <div style={{
+            fontSize: 11, color: "rgba(255,255,255,0.5)", marginTop: 10,
+            borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 8,
+          }}>
+            Incluido solo antes del 15 de agosto
+          </div>
+        </div>
+
         <motion.a
           href={whatsappUrl(plan.whatsappMessage)}
           target="_blank"
@@ -306,6 +357,39 @@ function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number })
             <span style={{ fontSize: 14, color: "#374151", lineHeight: 1.4 }}>{f}</span>
           </motion.div>
         ))}
+      </div>
+
+      {/* Launch Bonuses */}
+      <div style={{
+        background: "linear-gradient(135deg,#FFFBEB,#FEF3C7)",
+        borderRadius: 14,
+        padding: "14px 16px",
+        marginBottom: 28,
+        border: "1px solid #FDE68A",
+      }}>
+        <div style={{
+          fontSize: 11, fontWeight: 700, color: "#B45309",
+          letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10,
+        }}>
+          🎁 Beneficios de lanzamiento
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {plan.launchBonus.map((bonus, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 14 }}>{bonus.icon}</span>
+                <span style={{ fontSize: 13, color: "#92400E", fontWeight: 500 }}>{bonus.text}</span>
+              </div>
+              <span style={{ fontSize: 11, color: "#B45309", fontWeight: 700, whiteSpace: "nowrap" }}>GRATIS</span>
+            </div>
+          ))}
+        </div>
+        <div style={{
+          fontSize: 11, color: "#92400E", marginTop: 10,
+          borderTop: "1px solid #FDE68A", paddingTop: 8,
+        }}>
+          Incluido solo antes del 15 de agosto
+        </div>
       </div>
 
       <motion.a
