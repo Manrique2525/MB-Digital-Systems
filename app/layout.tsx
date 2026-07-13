@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Sora } from "next/font/google";
 import "./globals.css";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { Analytics } from "@/components/analytics/Analytics";
+import { CookieConsent } from "@/components/ui/CookieConsent";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -51,6 +54,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -70,6 +77,9 @@ export default function RootLayout({
         className="min-h-full flex flex-col"
         style={{ fontFamily: "var(--font-sora), system-ui, sans-serif" }}
       >
+        <JsonLd />
+        <Analytics />
+        <CookieConsent />
         {children}
       </body>
     </html>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { Newsletter } from "@/components/ui/Newsletter";
 
 export function Contact() {
   const [form, setForm] = useState({
@@ -125,7 +126,7 @@ export function Contact() {
             {[
               ["📍", "Ubicación", "Fracc. Ciudad Bicentenario, Tabasco", null],
               ["📞", "Teléfono", "993 178 2620", "tel:+529931782620"],
-              ["✉️", "Email", "manriquemontero25@gmail.com", null],
+              ["✉️", "Email", "contacto@mbdigitalsystems.com", null],
               ["🕐", "Horario", "Lunes a Viernes: 9:00 AM – 6:00 PM", null],
             ].map(([icon, label, value, link]) => (
               <motion.div
@@ -320,6 +321,44 @@ export function Contact() {
               * Campos obligatorios. Respondemos en menos de 24 horas.
             </p>
           </motion.form>
+        </AnimatedSection>
+      </div>
+
+      <div
+        style={{
+          maxWidth: 1100,
+          margin: "0 auto",
+          marginTop: "clamp(40px,6vw,80px)",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+          gap: "clamp(24px,4vw,40px)",
+        }}
+      >
+        <AnimatedSection>
+          <div
+            style={{
+              borderRadius: 20,
+              overflow: "hidden",
+              border: "1px solid #E2E8F0",
+              height: "100%",
+              minHeight: 300,
+            }}
+          >
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120854.859453!2d-93.0!3d17.98!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85e8e0b1b5b5b5b5%3A0x0!2sTabasco%2C+M%C3%A9xico!5e0!3m2!1ses!2smx!4v1700000000000!5m2!1ses!2smx"
+              width="100%"
+              height="100%"
+              style={{ border: 0, minHeight: 300 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Ubicación de MB Digital Systems en Tabasco"
+            />
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={0.15}>
+          <Newsletter />
         </AnimatedSection>
       </div>
     </section>

@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { CountdownTimer } from "@/components/ui/CountdownTimer";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
@@ -396,6 +397,12 @@ export function Pricing() {
             enfocadas en{" "}
             <strong style={{ color: "#1E40AF", fontWeight: 700 }}>resultados reales.</strong>
           </p>
+          <div style={{ marginTop: 32 }}>
+            <CountdownTimer
+              targetDate="2026-08-15T23:59:59"
+              label="Precios de lanzamiento - quedan pocos cupos"
+            />
+          </div>
         </AnimatedSection>
 
         {/* ━━━ SECCIÓN 1: PÁGINAS WEB ━━━ */}

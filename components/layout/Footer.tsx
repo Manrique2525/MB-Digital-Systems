@@ -57,14 +57,17 @@ export function Footer() {
             </p>
             <div style={{ display: "flex", gap: 10 }}>
               {[
-                "fab fa-facebook-f",
-                "fab fa-instagram",
-                "fab fa-whatsapp",
-              ].map((icon) => (
+                { icon: "fab fa-facebook-f", href: "https://facebook.com/MBDigitalSystems", label: "Facebook" },
+                { icon: "fab fa-instagram", href: "https://instagram.com/mbdigitalsystems", label: "Instagram" },
+                { icon: "fab fa-linkedin-in", href: "https://linkedin.com/company/mbdigitalsystems", label: "LinkedIn" },
+                { icon: "fab fa-whatsapp", href: whatsappUrl(WHATSAPP_MESSAGES.contacto), label: "WhatsApp" },
+              ].map((social) => (
                 <motion.a
-                  key={icon}
-                  href={whatsappUrl(WHATSAPP_MESSAGES.contacto)}
+                  key={social.icon}
+                  href={social.href}
                   target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
                   whileHover={{ y: -3, color: "#3B82F6" }}
                   style={{
                     width: 36,
@@ -76,9 +79,10 @@ export function Footer() {
                     justifyContent: "center",
                     color: "#94A3B8",
                     fontSize: 14,
+                    textDecoration: "none",
                   }}
                 >
-                  <i className={icon} />
+                  <i className={social.icon} />
                 </motion.a>
               ))}
             </div>
@@ -176,7 +180,7 @@ export function Footer() {
               >
                 📞 993 178 2620
               </a>
-              <span>✉️ manriquemontero25@gmail.com</span>
+              <span>✉️ contacto@mbdigitalsystems.com</span>
               <span>📍 Tabasco, México</span>
               <span>🕐 Lun - Vie: 9:00 AM – 6:00 PM</span>
             </div>
@@ -209,9 +213,26 @@ export function Footer() {
             paddingTop: 24,
             textAlign: "center",
             fontSize: 12,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
           }}
         >
-          © 2026 MB Digital Systems. Todos los derechos reservados.
+          <div>
+            © 2026 MB Digital Systems. Todos los derechos reservados.
+          </div>
+          <a
+            href="/politica-privacidad"
+            style={{
+              color: "#64748B",
+              textDecoration: "none",
+              fontSize: 12,
+              transition: "color 0.2s",
+            }}
+          >
+            Política de Privacidad
+          </a>
         </div>
       </div>
     </footer>

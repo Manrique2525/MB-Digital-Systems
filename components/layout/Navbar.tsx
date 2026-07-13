@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/data/constants";
 import { useIsMobile } from "@/components/hooks/useIsMobile";
+import { useScrollSpy } from "@/components/hooks/useScrollSpy";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
+  const activeSection = useScrollSpy();
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
@@ -87,26 +89,30 @@ export function Navbar() {
 
           {!isMobile && (
             <nav aria-label="Navegación principal" style={{ display: "flex", gap: 4, alignItems: "center" }}>
-              {NAV_LINKS.map((link) => (
-                <motion.button
-                  key={link}
-                  onClick={() => scrollTo(link)}
-                  whileHover={{ color: "#3B82F6" }}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    fontSize: 14,
-                    color: "#374151",
-                    fontWeight: 500,
-                    padding: "8px 14px",
-                    borderRadius: 8,
-                    fontFamily: "inherit",
-                  }}
-                >
-                  {link}
-                </motion.button>
-              ))}
+              {NAV_LINKS.map((link) => {
+                const isActive = activeSection === link;
+                return (
+                  <motion.button
+                    key={link}
+                    onClick={() => scrollTo(link)}
+                    whileHover={{ color: "#3B82F6" }}
+                    style={{
+                      background: isActive ? "rgba(59,130,246,0.1)" : "none",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: 14,
+                      color: isActive ? "#3B82F6" : "#374151",
+                      fontWeight: isActive ? 700 : 500,
+                      padding: "8px 14px",
+                      borderRadius: 8,
+                      fontFamily: "inherit",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    {link}
+                  </motion.button>
+                );
+              })}
               <motion.button
                 onClick={() => scrollTo("contacto")}
                 whileHover={{ scale: 1.05 }}
@@ -173,31 +179,36 @@ export function Navbar() {
               padding: "12px 20px 20px",
             }}
           >
-            {NAV_LINKS.map((link, i) => (
-              <motion.button
-                key={link}
-                onClick={() => scrollTo(link)}
-                initial={{ opacity: 0, x: -16 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  textAlign: "left",
-                  background: "none",
-                  border: "none",
-                  borderBottom: "1px solid #F1F5F9",
-                  cursor: "pointer",
-                  fontSize: 16,
-                  color: "#374151",
-                  fontWeight: 600,
-                  padding: "14px 0",
-                  fontFamily: "inherit",
-                }}
-              >
-                {link}
-              </motion.button>
-            ))}
+            {NAV_LINKS.map((link, i) => {
+              const isActive = activeSection === link;
+              return (
+                <motion.button
+                  key={link}
+                  onClick={() => scrollTo(link)}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    textAlign: "left",
+                    background: isActive ? "rgba(59,130,246,0.08)" : "none",
+                    border: "none",
+                    borderBottom: "1px solid #F1F5F9",
+                    cursor: "pointer",
+                    fontSize: 16,
+                    color: isActive ? "#3B82F6" : "#374151",
+                    fontWeight: isActive ? 700 : 600,
+                    padding: "14px 12px",
+                    fontFamily: "inherit",
+                    borderRadius: 8,
+                    transition: "all 0.2s",
+                  }}
+                >
+                  {link}
+                </motion.button>
+              );
+            })}
             <motion.button
               onClick={() => scrollTo("contacto")}
               whileTap={{ scale: 0.97 }}
