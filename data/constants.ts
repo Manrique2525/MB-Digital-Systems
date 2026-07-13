@@ -101,7 +101,7 @@ export const TECH_FRONTEND: TechItem[] = [
   },
   {
     name: "TypeScript",
-    icon: "devicon-typescript-plain",
+    icon: "fas fa-code",
     color: "#3178C6",
   },
 ];
