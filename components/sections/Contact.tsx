@@ -37,7 +37,7 @@ export function Contact() {
     formData.append("message", form.message);
 
     try {
-      await fetch("/", {
+      await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
@@ -186,8 +186,7 @@ export function Contact() {
           <motion.form
             name="contacto"
             method="POST"
-            data-netlify="true"
-            data-netlify-honeypot="bot-field"
+            action="/__forms.html"
             onSubmit={validateAndSubmit}
             noValidate
             whileHover={{ boxShadow: "0 20px 60px rgba(59,130,246,0.1)" }}
