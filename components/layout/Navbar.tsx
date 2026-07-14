@@ -113,6 +113,26 @@ export function Navbar() {
                   </motion.button>
                 );
               })}
+              <a
+                href="tel:+529931782620"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontSize: 13,
+                  color: "#64748B",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  padding: "8px 12px",
+                  borderRadius: 8,
+                  transition: "color 0.2s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.color = "#3B82F6"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.color = "#64748B"; }}
+              >
+                <i className="fas fa-phone" style={{ fontSize: 11 }} />
+                993 178 2620
+              </a>
               <motion.button
                 onClick={() => scrollTo("contacto")}
                 whileHover={{ scale: 1.05 }}
@@ -127,7 +147,7 @@ export function Navbar() {
                   padding: "10px 22px",
                   borderRadius: 100,
                   fontFamily: "inherit",
-                  marginLeft: 8,
+                  marginLeft: 4,
                   boxShadow: "0 4px 20px rgba(59,130,246,0.35)",
                 }}
               >
@@ -209,28 +229,51 @@ export function Navbar() {
                 </motion.button>
               );
             })}
-            <motion.button
-              onClick={() => scrollTo("contacto")}
-              whileTap={{ scale: 0.97 }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.28 }}
-              style={{
-                marginTop: 14,
-                width: "100%",
-                background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
-                color: "#fff",
-                border: "none",
-                cursor: "pointer",
-                fontSize: 15,
-                fontWeight: 700,
-                padding: "14px",
-                borderRadius: 12,
-                fontFamily: "inherit",
-              }}
-            >
-              Solicitar cotización gratis
-            </motion.button>
+            <div style={{ display: "flex", gap: 10, marginTop: 14 }}>
+              <a
+                href="tel:+529931782620"
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                  background: "rgba(59,130,246,0.08)",
+                  border: "1px solid rgba(59,130,246,0.2)",
+                  color: "#1E40AF",
+                  fontWeight: 700,
+                  padding: "14px",
+                  borderRadius: 12,
+                  fontSize: 14,
+                  textDecoration: "none",
+                  fontFamily: "inherit",
+                }}
+              >
+                <i className="fas fa-phone" style={{ fontSize: 12 }} />
+                Llamar ahora
+              </a>
+              <motion.button
+                onClick={() => scrollTo("contacto")}
+                whileTap={{ scale: 0.97 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.28 }}
+                style={{
+                  flex: 1,
+                  background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                  color: "#fff",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: 15,
+                  fontWeight: 700,
+                  padding: "14px",
+                  borderRadius: 12,
+                  fontFamily: "inherit",
+                }}
+              >
+                Cotización gratis
+              </motion.button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

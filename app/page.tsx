@@ -11,6 +11,7 @@ import { Projects } from "@/components/sections/Projects";
 import { Contact } from "@/components/sections/Contact";
 import { WhatsAppFloat } from "@/components/ui/WhatsAppFloat";
 import { ExitIntentPopup } from "@/components/ui/ExitIntentPopup";
+import { LeadMagnet } from "@/components/ui/LeadMagnet";
 import { Pricing } from "@/components/sections/Pricing";
 import { FAQ } from "@/components/sections/FAQ";
 
@@ -27,6 +28,7 @@ export default function Home() {
       <SocialProof />
       <Projects />
       <Pricing />
+      <LeadMagnet />
       <FAQ />
       <Contact />
       <Footer />

@@ -38,6 +38,22 @@ const FAQ_DATA = [
     q: "¿Ofrecen soporte después de entrega?",
     a: "Sí. Incluimos soporte post-entrega (30-60 días según plan). También ofrecemos planes de mantenimiento mensual para que tu página siempre esté actualizada y funcionando al 100%.",
   },
+  {
+    q: "¿Cómo es el proceso de pago?",
+    a: "Trabajamos con anticipo y contra entrega. Para landing pages, solicitamos 50% al inicio y 50% al entregar. Para proyectos más grandes, definimos un cronograma de pagos por etapas. Aceptamos transferencia bancaria, efectivo y PayPal.",
+  },
+  {
+    q: "¿Puedo hacer cambios después de que esté lista?",
+    a: "Sí, cada plan incluye revisiones. Si necesitas cambios adicionales después de las revisiones incluidas, te damos una cotización justa. También ofrecemos planes de mantenimiento mensual para actualizaciones continuas.",
+  },
+  {
+    q: "¿Trabajan con clientes de todo México o solo de Tabasco?",
+    a: "Trabajamos con clientes de todo México. Como nuestro equipo es 100% remoto, la ubicación no es un problema. Tenemos clientes en Tabasco, Ciudad de México, Yucatán y otros estados.",
+  },
+  {
+    q: "¿Qué necesito para empezar?",
+    a: "Solo cuéntanos qué necesitas. No necesitas tener diseño, logo ni contenido preparado. Nosotros te guiamos en cada paso: desde el diseño hasta el contenido. Tú solo apruebas y nosotros hacemos todo el trabajo técnico.",
+  },
 ];
 
 function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {

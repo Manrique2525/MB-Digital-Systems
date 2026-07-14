@@ -114,20 +114,71 @@ export function About() {
               style={{
                 borderRadius: 24,
                 overflow: "hidden",
+                background: "linear-gradient(160deg,#EFF6FF 0%,#DBEAFE 40%,#EDE9FE 100%)",
+                aspectRatio: "4/3",
+                position: "relative",
                 boxShadow: "0 32px 80px rgba(59,130,246,0.18)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              <img
-                src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=700&q=80"
-                alt="Equipo MB Digital trabajando en proyectos de desarrollo"
-                loading="lazy"
+              <motion.div
+                animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.1, 1] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
                 style={{
-                  width: "100%",
-                  display: "block",
-                  aspectRatio: "4/3",
-                  objectFit: "cover",
+                  position: "absolute",
+                  top: "10%",
+                  left: "5%",
+                  width: "min(200px,40vw)",
+                  height: "min(200px,40vw)",
+                  borderRadius: "50%",
+                  background: "radial-gradient(circle,rgba(59,130,246,0.2) 0%,transparent 70%)",
+                  pointerEvents: "none",
                 }}
               />
+              <motion.div
+                animate={{ x: [0, -20, 0], y: [0, 30, 0], scale: [1, 1.15, 1] }}
+                transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                style={{
+                  position: "absolute",
+                  bottom: "10%",
+                  right: "5%",
+                  width: "min(260px,50vw)",
+                  height: "min(260px,50vw)",
+                  borderRadius: "50%",
+                  background: "radial-gradient(circle,rgba(139,92,246,0.15) 0%,transparent 70%)",
+                  pointerEvents: "none",
+                }}
+              />
+              <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: 40 }}>
+                <motion.div
+                  animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.1, 1] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ fontSize: 72, marginBottom: 20 }}
+                >
+                  💻
+                </motion.div>
+                <div style={{
+                  fontSize: "clamp(18px,3vw,28px)",
+                  fontWeight: 800,
+                  color: "#0F172A",
+                  fontFamily: "'Sora', sans-serif",
+                  letterSpacing: "-0.8px",
+                  marginBottom: 8,
+                }}>
+                  Equipo 100% remoto
+                </div>
+                <div style={{
+                  fontSize: "clamp(13px,1.8vw,16px)",
+                  color: "#64748B",
+                  maxWidth: 300,
+                  margin: "0 auto",
+                  lineHeight: 1.6,
+                }}>
+                  Trabajamos desde cualquier lugar para darte el mejor resultado
+                </div>
+              </div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 20, y: 20 }}
