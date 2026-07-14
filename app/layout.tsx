@@ -77,6 +77,13 @@ export default function RootLayout({
         className="min-h-full flex flex-col"
         style={{ fontFamily: "var(--font-sora), system-ui, sans-serif" }}
       >
+        <form name="contacto" data-netlify="true" netlify-honeypot="bot-field" hidden>
+          <input type="hidden" name="form-name" value="contacto" />
+          <input name="name" />
+          <input name="email" />
+          <input name="subject" />
+          <input name="message" />
+        </form>
         <JsonLd />
         <Analytics />
         <CookieConsent />
