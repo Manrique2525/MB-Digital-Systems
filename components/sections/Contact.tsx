@@ -37,10 +37,15 @@ export function Contact() {
     formData.append("message", form.message);
 
     try {
-      await fetch("/__forms.html", {
+      await fetch("/.netlify/functions/send-email", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+        }),
       });
       setSent(true);
       setTimeout(() => setSent(false), 4000);
