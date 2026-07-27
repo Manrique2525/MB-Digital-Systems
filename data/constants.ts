@@ -147,8 +147,8 @@ export const PROJECTS: ProjectItem[] = [
   },
   {
     title: "Las Tortas Del Chiche",
-    desc: "Sitio web para taquería local con diseño responsive, menú digital y funcionalidades para pedidos en línea.",
-    tags: ["HTML", "CSS", "JS"],
+    desc: "Tienda en línea para pedidos con carrito de compra, pagos en efectivo y tarjeta, y dashboard administrativo para el dueño del negocio.",
+    tags: ["E-commerce", "Carrito", "Dashboard"],
     img: "/img/tortas_del_chiche.png",
     link: "https://lastortasdelchiche.com/",
   },
