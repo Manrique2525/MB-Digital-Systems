@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useRef } from "react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { CountdownTimer } from "@/components/ui/CountdownTimer";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { PlanCard } from "@/components/sections/Pricing/PlanCard";
+import { GiftIcon, InfoIcon, ShieldCheckIcon, MonitorIcon, GearIcon, MessageIcon, ZapIcon, ClipboardIcon, LockIcon } from "@/components/ui/icons/Icons";
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
@@ -14,7 +15,9 @@ const WEB_PLANS = [
     icon: "🚀",
     name: "Landing Page",
     tagline: "Empieza a captar clientes hoy",
-    price: "4,999",
+    price: "2,999",
+    originalPrice: "3,332",
+    promoEnd: "31 de agosto",
     desc: "Para negocios que necesitan presencia digital YA. En 7 días tienes tu página funcionando.",
     features: [
       "Diseño moderno y premium",
@@ -42,7 +45,9 @@ const WEB_PLANS = [
     icon: "🏢",
     name: "Página Empresarial",
     tagline: "La más elegida por nuestros clientes",
-    price: "9,999",
+    price: "8,999",
+    originalPrice: "9,999",
+    promoEnd: "31 de agosto",
     desc: "Para empresas que quieren verse profesionales y administrar su contenido sin depender de un programador.",
     features: [
       "Todo lo del plan Landing",
@@ -64,7 +69,7 @@ const WEB_PLANS = [
     whatsappMessage: WHATSAPP_MESSAGES.paginaEmpresarial,
     highlight: true,
     accentColor: "#1E40AF",
-    accentBg: "linear-gradient(135deg,#1E40AF,#3B82F6 60%,#6366F1)",
+    accentBg: "linear-gradient(135deg,#1E40AF,#3B82F6 60%,#8B5CF6)",
     accentBorder: "transparent",
   },
   {
@@ -72,7 +77,9 @@ const WEB_PLANS = [
     icon: "🛒",
     name: "E-commerce",
     tagline: "Vende 24/7 sin límites",
-    price: "18,999",
+    price: "16,999",
+    originalPrice: "18,888",
+    promoEnd: "31 de agosto",
     desc: "Tu tienda online que vende mientras duermes. Catálogo, pagos y envíos listos para usar.",
     features: [
       "Todo lo del plan Empresarial",
@@ -119,8 +126,8 @@ const USE_CASES = [
   { icon: "🎓", title: "Gestión Escolar", desc: "Control de alumnos, asistencias, calificaciones y pagos.", color: "#3B82F6", bg: "#EFF6FF" },
   { icon: "👥", title: "CRM Empresarial", desc: "Seguimiento de clientes, ventas y oportunidades de negocio.", color: "#8B5CF6", bg: "#F5F3FF" },
   { icon: "📦", title: "Control de Inventarios", desc: "Automatización de almacenes, entradas, salidas y alertas.", color: "#10B981", bg: "#ECFDF5" },
-  { icon: "🏥", title: "Sistemas Médicos", desc: "Expedientes de pacientes, citas, seguimiento y historial.", color: "#F59E0B", bg: "#FFFBEB" },
-  { icon: "🏨", title: "Gestión Hotelera", desc: "Reservaciones, habitaciones, servicios y reportes.", color: "#EF4444", bg: "#FEF2F2" },
+  { icon: "🏥", title: "Sistemas Médicos", desc: "Expedientes de pacientes, citas, seguimiento y historial.", color: "#3B82F6", bg: "#EFF6FF" },
+  { icon: "🏨", title: "Gestión Hotelera", desc: "Reservaciones, habitaciones, servicios y reportes.", color: "#10B981", bg: "#ECFDF5" },
   { icon: "🏪", title: "Punto de Venta", desc: "Ventas, caja, inventario y reportes diarios en tiempo real.", color: "#1E40AF", bg: "#EFF6FF" },
 ];
 
@@ -141,284 +148,12 @@ const SYSTEM_STACK = [
   { name: "APIs REST", icon: "fas fa-plug", color: "#10B981" },
 ];
 
-// ── PLAN CARD ─────────────────────────────────────────────────────────────────
 
-function PlanCard({ plan, index }: { plan: typeof WEB_PLANS[0]; index: number }) {
-  const [hovered, setHovered] = useState(false);
-
-  if (plan.highlight) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 32, scale: 0.95 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.12, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{
-          background: plan.accentBg as string,
-          borderRadius: 24,
-          padding: "clamp(28px,4vw,44px) clamp(22px,3vw,36px)",
-          position: "relative",
-          overflow: "hidden",
-          boxShadow: hovered
-            ? "0 32px 80px rgba(30,64,175,0.45)"
-            : "0 16px 56px rgba(30,64,175,0.3)",
-          transform: hovered ? "translateY(-8px) scale(1.02)" : "translateY(-4px) scale(1.01)",
-          transition: "all 0.3s ease",
-          zIndex: 2,
-        }}
-      >
-        {/* Orb interno */}
-        <div style={{
-          position: "absolute", top: "-30%", right: "-15%",
-          width: 280, height: 280, borderRadius: "50%",
-          background: "radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 65%)",
-          pointerEvents: "none",
-        }} />
-
-        {/* Badge */}
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: 6,
-          background: "rgba(255,255,255,0.2)",
-          borderRadius: 100, padding: "4px 14px",
-          marginBottom: 24, fontSize: 11, fontWeight: 700,
-          color: "#fff", letterSpacing: 1.5, textTransform: "uppercase",
-        }}>
-          ⭐ {plan.tagline}
-        </div>
-
-        <div style={{ fontSize: 40, marginBottom: 12 }}>{plan.icon}</div>
-        <h3 style={{
-          fontSize: "clamp(20px,2.5vw,26px)", fontWeight: 800,
-          color: "#fff", fontFamily: "'Sora', sans-serif",
-          letterSpacing: "-0.5px", margin: "0 0 8px",
-        }}>
-          {plan.name}
-        </h3>
-        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.75)", margin: "0 0 20px", lineHeight: 1.5 }}>
-          {plan.desc}
-        </p>
-
-        <div style={{ marginBottom: 28 }}>
-          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", fontWeight: 600 }}>Desde</span>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginTop: 2 }}>
-            <span style={{ fontSize: "clamp(32px,4vw,44px)", fontWeight: 800, color: "#fff", fontFamily: "'Sora', sans-serif", letterSpacing: "-1px" }}>
-              ${plan.price}
-            </span>
-            <span style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", fontWeight: 600 }}>MXN</span>
-          </div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginTop: 4 }}>
-            Equivalente a ${Math.round(parseInt(plan.price.replace(",", "")) / 30).toLocaleString()}/día
-          </div>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
-          {plan.features.map((f, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.12 + i * 0.05 }}
-              style={{ display: "flex", alignItems: "center", gap: 10 }}
-            >
-              <span style={{
-                width: 20, height: 20, borderRadius: "50%",
-                background: "rgba(255,255,255,0.2)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 10, color: "#fff", fontWeight: 800, flexShrink: 0,
-              }}>✓</span>
-              <span style={{ fontSize: 14, color: "rgba(255,255,255,0.88)", lineHeight: 1.4 }}>{f}</span>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Launch Bonuses */}
-        <div style={{
-          background: "rgba(255,255,255,0.12)",
-          borderRadius: 14,
-          padding: "14px 16px",
-          marginBottom: 28,
-          border: "1px solid rgba(255,255,255,0.15)",
-        }}>
-          <div style={{
-            fontSize: 11, fontWeight: 700, color: "#FCD34D",
-            letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10,
-          }}>
-            🎁 Beneficios de lanzamiento
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {plan.launchBonus.map((bonus, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ fontSize: 14 }}>{bonus.icon}</span>
-                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{bonus.text}</span>
-                </div>
-                <span style={{ fontSize: 11, color: "#FCD34D", fontWeight: 700, whiteSpace: "nowrap" }}>GRATIS</span>
-              </div>
-            ))}
-          </div>
-          <div style={{
-            fontSize: 11, color: "rgba(255,255,255,0.5)", marginTop: 10,
-            borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 8,
-          }}>
-            Incluido solo antes del 15 de agosto
-          </div>
-        </div>
-
-        <motion.a
-          href={whatsappUrl(plan.whatsappMessage)}
-          target="_blank"
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-            background: "#fff", color: "#1E40AF",
-            textDecoration: "none", fontWeight: 800,
-            padding: "14px 24px", borderRadius: 100,
-            fontSize: 15, width: "100%",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
-          }}
-        >
-          💬 {plan.cta}
-        </motion.a>
-      </motion.div>
-    );
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.12, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        background: hovered ? "#fff" : "#F8FAFF",
-        border: `1px solid ${hovered ? plan.accentColor + "40" : "#E8F0FE"}`,
-        borderRadius: 24,
-        padding: "clamp(28px,4vw,44px) clamp(22px,3vw,36px)",
-        boxShadow: hovered
-          ? `0 24px 60px ${plan.accentColor}20`
-          : "0 4px 20px rgba(59,130,246,0.06)",
-        transform: hovered ? "translateY(-6px)" : "none",
-        transition: "all 0.3s ease",
-        cursor: "default",
-      }}
-    >
-      <div style={{ fontSize: 40, marginBottom: 12 }}>{plan.icon}</div>
-      <h3 style={{
-        fontSize: "clamp(20px,2.5vw,26px)", fontWeight: 800,
-        color: "#0F172A", fontFamily: "'Sora', sans-serif",
-        letterSpacing: "-0.5px", margin: "0 0 8px",
-      }}>
-        {plan.name}
-      </h3>
-      <p style={{ fontSize: 14, color: "#64748B", margin: "0 0 20px", lineHeight: 1.5 }}>
-        {plan.desc}
-      </p>
-
-      <div style={{ marginBottom: 28 }}>
-        <span style={{ fontSize: 12, color: "#64748B", fontWeight: 600 }}>Desde</span>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginTop: 2 }}>
-          <span style={{
-            fontSize: "clamp(32px,4vw,44px)", fontWeight: 800,
-            fontFamily: "'Sora', sans-serif", letterSpacing: "-1px",
-            background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-          }}>
-            ${plan.price}
-          </span>
-          <span style={{ fontSize: 14, color: "#64748B", fontWeight: 600 }}>MXN</span>
-        </div>
-        <div style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>
-          Equivalente a ${Math.round(parseInt(plan.price.replace(",", "")) / 30).toLocaleString()}/día
-        </div>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
-        {plan.features.map((f, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -10 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.12 + i * 0.04 }}
-            style={{ display: "flex", alignItems: "center", gap: 10 }}
-          >
-            <span style={{
-              width: 20, height: 20, borderRadius: "50%",
-              background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 10, color: "#fff", fontWeight: 800, flexShrink: 0,
-            }}>✓</span>
-            <span style={{ fontSize: 14, color: "#374151", lineHeight: 1.4 }}>{f}</span>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Launch Bonuses */}
-      <div style={{
-        background: "linear-gradient(135deg,#FFFBEB,#FEF3C7)",
-        borderRadius: 14,
-        padding: "14px 16px",
-        marginBottom: 28,
-        border: "1px solid #FDE68A",
-      }}>
-        <div style={{
-          fontSize: 11, fontWeight: 700, color: "#B45309",
-          letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10,
-        }}>
-          🎁 Beneficios de lanzamiento
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {plan.launchBonus.map((bonus, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 14 }}>{bonus.icon}</span>
-                <span style={{ fontSize: 13, color: "#92400E", fontWeight: 500 }}>{bonus.text}</span>
-              </div>
-              <span style={{ fontSize: 11, color: "#B45309", fontWeight: 700, whiteSpace: "nowrap" }}>GRATIS</span>
-            </div>
-          ))}
-        </div>
-        <div style={{
-          fontSize: 11, color: "#92400E", marginTop: 10,
-          borderTop: "1px solid #FDE68A", paddingTop: 8,
-        }}>
-          Incluido solo antes del 15 de agosto
-        </div>
-      </div>
-
-      <motion.a
-        href={whatsappUrl(plan.whatsappMessage)}
-        target="_blank"
-        whileHover={{ scale: 1.04, boxShadow: `0 8px 32px ${plan.accentColor}40` }}
-        whileTap={{ scale: 0.97 }}
-        style={{
-          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-          background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,
-          color: "#fff", textDecoration: "none", fontWeight: 800,
-          padding: "14px 24px", borderRadius: 100,
-          fontSize: 15, width: "100%",
-          boxShadow: `0 4px 20px ${plan.accentColor}35`,
-        }}
-      >
-        💬 {plan.cta}
-      </motion.a>
-    </motion.div>
-  );
-}
 
 // ── MAIN COMPONENT ────────────────────────────────────────────────────────────
 
 export function Pricing() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
-  const orb1Y = useTransform(scrollYProgress, [0, 1], ["0%", "14%"]);
-  const orb2Y = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
 
   return (
     <section
@@ -431,22 +166,6 @@ export function Pricing() {
         overflow: "hidden",
       }}
     >
-      {/* Orbs de fondo */}
-      <motion.div style={{ y: orb1Y, position: "absolute", inset: 0, pointerEvents: "none" }}>
-        <div style={{
-          position: "absolute", top: "3%", right: "-10%",
-          width: "min(560px,75vw)", height: "min(560px,75vw)", borderRadius: "50%",
-          background: "radial-gradient(circle,rgba(59,130,246,0.07) 0%,transparent 70%)",
-        }} />
-      </motion.div>
-      <motion.div style={{ y: orb2Y, position: "absolute", inset: 0, pointerEvents: "none" }}>
-        <div style={{
-          position: "absolute", bottom: "5%", left: "-8%",
-          width: "min(480px,65vw)", height: "min(480px,65vw)", borderRadius: "50%",
-          background: "radial-gradient(circle,rgba(139,92,246,0.06) 0%,transparent 70%)",
-        }} />
-      </motion.div>
-
       <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
 
         {/* ━━━ HEADER ━━━ */}
@@ -482,10 +201,23 @@ export function Pricing() {
             <strong style={{ color: "#1E40AF", fontWeight: 700 }}>resultados reales.</strong>
           </p>
           <div style={{ marginTop: 32 }}>
-            <CountdownTimer
-              targetDate="2026-08-15T23:59:59"
-              label="Precios de lanzamiento - quedan pocos cupos"
-            />
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "linear-gradient(135deg,#ECFDF5,#D1FAE5)",
+                border: "1px solid #A7F3D0",
+                borderRadius: 100,
+                padding: "10px 22px",
+                color: "#065F46",
+                fontSize: 14,
+                fontWeight: 700,
+              }}
+            >
+              <GiftIcon size={18} color="#065F46" />
+              🔥 10% de descuento por lanzamiento — Válido hasta el 31 de agosto
+            </div>
           </div>
         </AnimatedSection>
 
@@ -502,7 +234,7 @@ export function Pricing() {
               background: "#F8FAFF", border: "1px solid #E8F0FE",
               borderRadius: 100, padding: "8px 20px",
             }}>
-              <span style={{ fontSize: 18 }}>💻</span>
+              <MonitorIcon size={18} color="#1E40AF" />
               <span style={{ fontSize: 13, fontWeight: 700, color: "#1E40AF", letterSpacing: 1.5, textTransform: "uppercase" }}>
                 Páginas Web
               </span>
@@ -535,7 +267,7 @@ export function Pricing() {
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span>ℹ️</span>
+              <InfoIcon size={16} color="#64748B" />
               Los precios son referenciales. Cada proyecto tiene su propia cotización gratuita.
             </div>
             <div style={{
@@ -544,7 +276,7 @@ export function Pricing() {
               borderRadius: 100, padding: "6px 16px",
               color: "#065F46", fontWeight: 600,
             }}>
-              <span>🛡️</span>
+              <ShieldCheckIcon size={16} color="#065F46" />
               Garantía de satisfacción: Si no te gusta, no pagas
             </div>
           </motion.div>
@@ -563,7 +295,7 @@ export function Pricing() {
               background: "#F8FAFF", border: "1px solid #E8F0FE",
               borderRadius: 100, padding: "8px 20px",
             }}>
-              <span style={{ fontSize: 18 }}>⚙️</span>
+              <GearIcon size={18} color="#1E40AF" />
               <span style={{ fontSize: 13, fontWeight: 700, color: "#1E40AF", letterSpacing: 1.5, textTransform: "uppercase" }}>
                 Sistemas a Medida
               </span>
@@ -837,7 +569,7 @@ export function Pricing() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             style={{
-              background: "linear-gradient(135deg,#1E40AF 0%,#3B82F6 50%,#6366F1 100%)",
+              background: "linear-gradient(135deg,#1E40AF 0%,#3B82F6 50%,#8B5CF6 100%)",
               borderRadius: 24,
               padding: "clamp(40px,6vw,64px) clamp(24px,5vw,56px)",
               display: "grid",
@@ -895,7 +627,7 @@ export function Pricing() {
                   boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
                 }}
               >
-                💬 Solicitar cotización
+                <MessageIcon size={18} color="#1E40AF" /> Solicitar cotización
               </motion.a>
             </div>
 
@@ -918,7 +650,7 @@ export function Pricing() {
                     backdropFilter: "blur(8px)",
                   }}
                 >
-                  <span style={{ fontSize: 22, flexShrink: 0 }}>{item.emoji}</span>
+                  <span style={{ fontSize: 22, flexShrink: 0 }}>{item.emoji === "⚡" ? <ZapIcon size={20} /> : item.emoji === "📋" ? <ClipboardIcon size={20} /> : <LockIcon size={20} />}</span>
                   <div>
                     <div style={{ fontWeight: 800, color: "#fff", fontSize: 14, marginBottom: 3, fontFamily: "'Sora', sans-serif" }}>{item.title}</div>
                     <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{item.desc}</div>

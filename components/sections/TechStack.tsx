@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { getBenefitIcon } from "@/components/ui/icons/Icons";
 
 const BENEFITS = [
   {
@@ -17,7 +18,7 @@ const BENEFITS = [
   {
     icon: "🔒",
     title: "Seguridad garantizada",
-    desc: "Certificados SSL, proteccion contra ataques y respaldo automatico. Tu informacion y la de tus clientes esta segura.",
+    desc: "Certificados SSL, protección contra ataques y respaldo automático. Tu información y la de tus clientes está segura.",
     stat: "100%",
     statLabel: "protegido",
     color: "#10B981",
@@ -29,7 +30,7 @@ const BENEFITS = [
     title: "Escalable sin limites",
     desc: "Empieza con una landing y crece a e-commerce o sistema completo sin reconstruir desde cero.",
     stat: "3x",
-    statLabel: "mas rapido",
+    statLabel: "más rápido",
     color: "#8B5CF6",
     bg: "#F5F3FF",
     border: "rgba(139,92,246,0.2)",
@@ -88,7 +89,7 @@ export function TechStack() {
                 display: "inline-block",
               }}
             />
-            Tecnologia de verdad
+            Tecnología de verdad
           </div>
           <h2
             style={{
@@ -109,7 +110,7 @@ export function TechStack() {
                 backgroundClip: "text",
               }}
             >
-              Codificamos tu exito.
+              Codificamos tu éxito.
             </span>
           </h2>
           <p
@@ -121,7 +122,7 @@ export function TechStack() {
               lineHeight: 1.7,
             }}
           >
-            Cada proyecto esta construido con tecnologia moderna que garantiza
+            Cada proyecto está construido con tecnología moderna que garantiza
             resultados. No te explicamos que usamos — te explicamos{" "}
             <strong style={{ color: "#1E40AF", fontWeight: 700 }}>
               que obtienes.
@@ -175,7 +176,7 @@ export function TechStack() {
                       fontSize: 24,
                     }}
                   >
-                    {b.icon}
+                    {getBenefitIcon(b.title, 32)}
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <div
@@ -252,7 +253,7 @@ export function TechStack() {
                 flexShrink: 0,
               }}
             >
-              Stack tecnologico:
+              Stack tecnológico:
             </span>
             {TECH_USED.map((tech, i) => (
               <motion.div

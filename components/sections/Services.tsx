@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { SERVICES, FEATURES, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { getServiceIcon } from "@/components/ui/icons/ServiceIcons";
 
 export function Services() {
   return (
@@ -72,7 +73,7 @@ export function Services() {
                   transition: "border-color 0.3s",
                 }}
               >
-                <div style={{ fontSize: 42, marginBottom: 20 }}>{s.icon}</div>
+                <div style={{ marginBottom: 20 }}>{getServiceIcon(s.title, 44)}</div>
                 <h3
                   style={{
                     fontSize: "clamp(18px,2.5vw,22px)",

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Sora } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Analytics } from "@/components/analytics/Analytics";
 import { CookieConsent } from "@/components/ui/CookieConsent";
+import { SkipLink } from "@/components/ui/SkipLink";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -68,15 +70,15 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${sora.variable} h-full antialiased`}>
       <head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        />
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body
         className="min-h-full flex flex-col"
         style={{ fontFamily: "var(--font-sora), system-ui, sans-serif" }}
       >
+        <SkipLink />
         <form name="contacto" data-netlify="true" netlify-honeypot="bot-field" hidden>
           <input type="hidden" name="form-name" value="contacto" />
           <input name="name" />
@@ -84,6 +86,10 @@ export default function RootLayout({
           <input name="subject" />
           <input name="message" />
         </form>
+        <Script
+          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+          strategy="lazyOnload"
+        />
         <JsonLd />
         <Analytics />
         <CookieConsent />

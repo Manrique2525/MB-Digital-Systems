@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { MARKETING_SERVICES, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { getServiceIcon, ChartBarIcon, TargetIcon, MoneyIcon, ChartUpIcon } from "@/components/ui/icons/Icons";
 
 export function MarketingServices() {
   return (
@@ -103,7 +104,7 @@ export function MarketingServices() {
                   flexDirection: "column",
                 }}
               >
-                <div style={{ fontSize: 42, marginBottom: 20 }}>{s.icon}</div>
+                <div style={{ marginBottom: 20 }}>{getServiceIcon(s.title, 44)}</div>
                 <h3
                   style={{
                     fontSize: "clamp(18px, 2.5vw, 22px)",
@@ -180,7 +181,7 @@ export function MarketingServices() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             style={{
-              background: "linear-gradient(135deg, #8B5CF6 0%, #6366F1 50%, #3B82F6 100%)",
+              background: "linear-gradient(135deg, #8B5CF6 0%, #1E40AF 50%, #3B82F6 100%)",
               borderRadius: 24,
               padding: "clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px)",
               display: "grid",
@@ -247,15 +248,15 @@ export function MarketingServices() {
                   fontSize: 15,
                 }}
               >
-                📊 Auditoría digital gratuita
+                <ChartBarIcon size={18} color="#fff" /> Auditoría digital gratuita
               </motion.a>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {[
-                { emoji: "📈", title: "Resultados medibles", desc: "Reportes mensuales con métricas reales de crecimiento." },
-                { emoji: "🎯", title: "Segmentación precisa", desc: "Tus anuncios llegan exactamente a quien necesita tu servicio." },
-                { emoji: "💰", title: "Retorno de inversión", desc: "Cada peso invertido se traduce en clientes reales." },
+                { emoji: <ChartUpIcon size={16} />, title: "Resultados medibles", desc: "Reportes mensuales con métricas reales de crecimiento." },
+                { emoji: <TargetIcon size={16} />, title: "Segmentación precisa", desc: "Tus anuncios llegan exactamente a quien necesita tu servicio." },
+                { emoji: <MoneyIcon size={16} />, title: "Retorno de inversión", desc: "Cada peso invertido se traduce en clientes reales." },
               ].map((item, i) => (
                 <motion.div
                   key={i}

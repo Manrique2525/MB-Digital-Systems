@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { MonitorIcon } from "@/components/ui/icons/Icons";
 
 export function About() {
   return (
@@ -123,41 +124,13 @@ export function About() {
                 justifyContent: "center",
               }}
             >
-              <motion.div
-                animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.1, 1] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                style={{
-                  position: "absolute",
-                  top: "10%",
-                  left: "5%",
-                  width: "min(200px,40vw)",
-                  height: "min(200px,40vw)",
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle,rgba(59,130,246,0.2) 0%,transparent 70%)",
-                  pointerEvents: "none",
-                }}
-              />
-              <motion.div
-                animate={{ x: [0, -20, 0], y: [0, 30, 0], scale: [1, 1.15, 1] }}
-                transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                style={{
-                  position: "absolute",
-                  bottom: "10%",
-                  right: "5%",
-                  width: "min(260px,50vw)",
-                  height: "min(260px,50vw)",
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle,rgba(139,92,246,0.15) 0%,transparent 70%)",
-                  pointerEvents: "none",
-                }}
-              />
               <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: 40 }}>
                 <motion.div
                   animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.1, 1] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   style={{ fontSize: 72, marginBottom: 20 }}
                 >
-                  💻
+                  <MonitorIcon size={120} color="#3B82F6" />
                 </motion.div>
                 <div style={{
                   fontSize: "clamp(18px,3vw,28px)",

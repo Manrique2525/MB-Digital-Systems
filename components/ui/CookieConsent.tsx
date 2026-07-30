@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { CookieIcon } from "@/components/ui/icons/Icons";
 
 export function CookieConsent() {
   const [show, setShow] = useState(false);
@@ -67,7 +68,7 @@ export function CookieConsent() {
                 flex: "1 1 400px",
               }}
             >
-              🍪 Usamos cookies y tecnologías de rastreo (Google Analytics,
+              <CookieIcon size={18} color="#CBD5E1" /> Usamos cookies y tecnologías de rastreo (Google Analytics,
               Meta Pixel) para mejorar tu experiencia y medir el rendimiento.
               Al continuar navegando, aceptas nuestro uso de cookies.
             </p>

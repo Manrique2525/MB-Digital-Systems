@@ -88,6 +88,41 @@ export function JsonLd() {
     },
   ];
 
+  const reviews = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Review",
+      itemReviewed: {
+        "@type": "LocalBusiness",
+        name: "MB Digital Systems",
+      },
+      author: { "@type": "Person", name: "Fernando Gutiérrez" },
+      reviewBody:
+        "Desde que MB Digital Systems creó nuestro sitio web, los pedidos en línea aumentaron un 40%. Pasamos de 5 pedidos diarios por WhatsApp a 15+ sin contratar a nadie nuevo.",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Review",
+      itemReviewed: {
+        "@type": "LocalBusiness",
+        name: "MB Digital Systems",
+      },
+      author: { "@type": "Person", name: "Luis (Llantas Gamma)" },
+      reviewBody:
+        "Necesitaba una página web para mi llantera y MB Digital Systems la creó en tiempo récord. Ahora los clientes me encuentran en Google cuando buscan llantas en Villahermosa.",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+    },
+  ];
+
   const faq = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -170,6 +205,13 @@ export function JsonLd() {
           key={i}
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }}
+        />
+      ))}
+      {reviews.map((review, i) => (
+        <script
+          key={`review-${i}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(review) }}
         />
       ))}
       <script

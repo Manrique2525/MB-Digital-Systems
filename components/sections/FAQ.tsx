@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { MessageIcon } from "@/components/ui/icons/Icons";
 
 const FAQ_DATA = [
   {
@@ -250,7 +251,7 @@ export function FAQ() {
               fontSize: 15,
             }}
           >
-            💬 Pregúntanos por WhatsApp
+            <MessageIcon size={18} color="#1E40AF" /> Pregúntanos por WhatsApp
           </motion.a>
         </AnimatedSection>
       </div>

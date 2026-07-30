@@ -3,13 +3,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { Newsletter } from "@/components/ui/Newsletter";
+import { LeadMagnet } from "@/components/ui/LeadMagnet";
+import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, CheckCircleIcon } from "@/components/ui/icons/Icons";
 
 export function Contact() {
   const [form, setForm] = useState({
     name: "",
-    email: "",
-    subject: "",
     message: "",
   });
   const [sent, setSent] = useState(false);
@@ -19,7 +18,6 @@ export function Contact() {
     e.preventDefault();
     const newErrors: Record<string, boolean> = {};
     if (!form.name.trim()) newErrors.name = true;
-    if (!form.email.trim() || !form.email.includes("@")) newErrors.email = true;
     if (!form.message.trim()) newErrors.message = true;
 
     if (Object.keys(newErrors).length > 0) {
@@ -32,8 +30,6 @@ export function Contact() {
     const formData = new FormData();
     formData.append("form-name", "contacto");
     formData.append("name", form.name);
-    formData.append("email", form.email);
-    formData.append("subject", form.subject);
     formData.append("message", form.message);
 
     try {
@@ -44,7 +40,7 @@ export function Contact() {
       });
       setSent(true);
       setTimeout(() => setSent(false), 4000);
-      setForm({ name: "", email: "", subject: "", message: "" });
+      setForm({ name: "", message: "" });
     } catch {
       setErrors({ submit: true });
     }
@@ -123,14 +119,14 @@ export function Contact() {
             compromiso. Respondemos en menos de 24 horas.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
-            {[
-              ["📍", "Ubicación", "Fracc. Ciudad Bicentenario, Tabasco", null],
-              ["📞", "Teléfono", "993 178 2620", "tel:+529931782620"],
-              ["✉️", "Email", "contacto@mbdigitalsystems.com", null],
-              ["🕐", "Horario", "Lunes a Viernes: 9:00 AM – 6:00 PM", null],
-            ].map(([icon, label, value, link]) => (
+            {([
+              ["map", <MapPinIcon key="map" size={18} color="#3B82F6" />, "Ubicación", "Fracc. Ciudad Bicentenario, Tabasco", null] as const,
+              ["phone", <PhoneIcon key="phone" size={18} color="#3B82F6" />, "Teléfono", "993 178 2620", "tel:+529931782620"] as const,
+              ["mail", <MailIcon key="mail" size={18} color="#3B82F6" />, "Email", "contacto@mbdigitalsystems.com", null] as const,
+              ["clock", <ClockIcon key="clock" size={18} color="#3B82F6" />, "Horario", "Lunes a Viernes: 9:00 AM – 6:00 PM", null] as const,
+            ] as const).map(([id, icon, label, value, link]) => (
               <motion.div
-                key={label}
+                key={id}
                 whileHover={{ x: 4 }}
                 style={{ display: "flex", gap: 16, alignItems: "flex-start" }}
               >
@@ -203,56 +199,40 @@ export function Contact() {
                 Don&apos;t fill this out: <input name="bot-field" />
               </label>
             </p>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 14,
-                marginBottom: 14,
-              }}
-            >
-              <div>
-                <label htmlFor="contact-name" style={{ display: "none" }}>Nombre</label>
-                <input
-                  id="contact-name"
-                  type="text"
-                  placeholder="Nombre *"
-                  value={form.name}
-                  onChange={(e) => handleChange("name", e.target.value)}
-                  required
-                  aria-required="true"
-                  aria-invalid={errors.name}
-                  style={inputStyle(errors.name)}
-                />
-              </div>
-              <div>
-                <label htmlFor="contact-email" style={{ display: "none" }}>Email</label>
-                <input
-                  id="contact-email"
-                  type="email"
-                  placeholder="Email *"
-                  value={form.email}
-                  onChange={(e) => handleChange("email", e.target.value)}
-                  required
-                  aria-required="true"
-                  aria-invalid={errors.email}
-                  style={inputStyle(errors.email)}
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="contact-subject" style={{ display: "none" }}>Asunto</label>
+            <div style={{ marginBottom: 14 }}>
+              <label htmlFor="contact-name" style={{
+                position: "absolute",
+                width: 1,
+                height: 1,
+                overflow: "hidden",
+                clip: "rect(0,0,0,0)",
+                whiteSpace: "nowrap",
+              }}>
+                Nombre
+              </label>
               <input
-                id="contact-subject"
+                id="contact-name"
                 type="text"
-                placeholder="Asunto"
-                value={form.subject}
-                onChange={(e) => handleChange("subject", e.target.value)}
-                style={{ ...inputStyle(false), marginBottom: 14 }}
+                placeholder="Nombre *"
+                value={form.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+                required
+                aria-required="true"
+                aria-invalid={errors.name ? "true" : "false"}
+                style={inputStyle(errors.name)}
               />
             </div>
             <div>
-              <label htmlFor="contact-message" style={{ display: "none" }}>Mensaje</label>
+              <label htmlFor="contact-message" style={{
+                position: "absolute",
+                width: 1,
+                height: 1,
+                overflow: "hidden",
+                clip: "rect(0,0,0,0)",
+                whiteSpace: "nowrap",
+              }}>
+                Mensaje
+              </label>
               <textarea
                 id="contact-message"
                 placeholder="Cuéntanos tu proyecto... *"
@@ -261,7 +241,7 @@ export function Contact() {
                 onChange={(e) => handleChange("message", e.target.value)}
                 required
                 aria-required="true"
-                aria-invalid={errors.message}
+                aria-invalid={errors.message ? "true" : "false"}
                 style={{ ...inputStyle(errors.message), resize: "vertical", marginBottom: 20 }}
               />
             </div>
@@ -295,13 +275,7 @@ export function Contact() {
                     exit={{ opacity: 0, scale: 0.8 }}
                     style={{ display: "flex", alignItems: "center", gap: 8 }}
                   >
-                    <motion.span
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ duration: 0.4 }}
-                    >
-                      ✅
-                    </motion.span>
+                    <CheckCircleIcon size={20} color="#10B981" />
                     Mensaje enviado correctamente
                   </motion.span>
                 ) : (
@@ -311,7 +285,7 @@ export function Contact() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    ✉️ Enviar Mensaje
+                    <MailIcon size={18} color="#fff" /> Enviar Mensaje
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -357,7 +331,7 @@ export function Contact() {
         </AnimatedSection>
 
         <AnimatedSection delay={0.15}>
-          <Newsletter />
+          <LeadMagnet />
         </AnimatedSection>
       </div>
     </section>

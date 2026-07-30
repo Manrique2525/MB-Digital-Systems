@@ -180,7 +180,7 @@ export const MARKETING_SERVICES: ServiceItem[] = [
     icon: "🔄",
     title: "Funnels de Conversión",
     desc: "Embudos automatizados que convierten visitantes en clientes sin que tengas que vender manualmente.",
-    color: "#F59E0B",
+    color: "#8B5CF6",
     price: "8,999",
   },
 ];
@@ -191,7 +191,7 @@ export const TESTIMONIOS: TestimonialItem[] = [
     role: "Dueño",
     company: "Las Tortas Del Chiche",
     text: "Desde que MB Digital Systems creó nuestro sitio web, los pedidos en línea aumentaron un 40%. Pasamos de 5 pedidos diarios por WhatsApp a 15+ sin contratar a nadie nuevo. El equipo es profesional y entregó antes de lo prometido.",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
+    avatar: "/img/logo_tortas.jpeg",
     rating: 5,
   },
   {
@@ -199,7 +199,7 @@ export const TESTIMONIOS: TestimonialItem[] = [
     role: "Dueño",
     company: "Llantas Gamma",
     text: "Necesitaba una página web para mi llantera y MB Digital Systems la creó en tiempo récord. Ahora los clientes me encuentran en Google cuando buscan llantas en Villahermosa y me escriben por WhatsApp directo. Antes solo vendía por referidos.",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+    avatar: "/img/GAMMA_logo.jpeg",
     rating: 5,
   },
 ];

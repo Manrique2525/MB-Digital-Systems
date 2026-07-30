@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { RocketIcon, MessageIcon } from "@/components/ui/icons/Icons";
 
 const PROJECT_HIGHLIGHTS: Record<string, { metric: string; metricLabel: string }> = {
   "Llantas Gamma": { metric: "3x", metricLabel: "mas vistas" },
@@ -82,7 +83,7 @@ export function Projects() {
               lineHeight: 1.7,
             }}
           >
-            Cada proyecto disenado y desarrollado para superar expectativas.
+            Cada proyecto diseñado y desarrollado para superar expectativas.
             Estos son algunos de los negocios que ya confiaron en nosotros.
           </p>
         </AnimatedSection>
@@ -184,7 +185,7 @@ export function Projects() {
                               fontWeight: 500,
                             }}
                           >
-                            Abre en nueva pestana
+                            Abre en nueva pestaña
                           </motion.span>
                         </motion.div>
                       )}
@@ -378,7 +379,7 @@ export function Projects() {
                       textTransform: "uppercase",
                     }}
                   >
-                    Proximamente
+Próximamente
                   </span>
                 </motion.div>
               </div>
@@ -470,8 +471,8 @@ export function Projects() {
                     fontSize: 14,
                   }}
                 >
-                  <span style={{ fontSize: 18 }}>🚀</span>
-                  Lanzamiento estimado: Proximamente
+                  <RocketIcon size={16} />
+                  Lanzamiento estimado: Próximamente
                 </div>
               </div>
             </motion.div>
@@ -489,7 +490,7 @@ export function Projects() {
               margin: "0 auto",
             }}
           >
-            <div style={{ fontSize: 40, marginBottom: 16 }}>💬</div>
+            <MessageIcon size={48} color="#3B82F6" />
             <h3
               style={{
                 fontSize: "clamp(20px,3vw,28px)",
@@ -510,7 +511,7 @@ export function Projects() {
               }}
             >
               Cuéntanos tu idea y te damos una cotizacion sin compromiso.
-              Cada proyecto es unico y lo sabemos.
+              Cada proyecto es único y lo sabemos.
             </p>
             <motion.a
               href={whatsappUrl(WHATSAPP_MESSAGES.proyectoSimilar)}

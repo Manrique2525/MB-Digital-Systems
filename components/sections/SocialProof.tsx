@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { TESTIMONIOS, METRICS } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { StarIcon, ChartUpIcon } from "@/components/ui/icons/Icons";
 
 export function SocialProof() {
   return (
@@ -149,7 +150,7 @@ export function SocialProof() {
                   <div style={{ display: "flex", gap: 4 }}>
                     {Array.from({ length: t.rating }).map((_, si) => (
                       <span key={si} style={{ color: "#F59E0B", fontSize: 16 }}>
-                        ★
+                        <StarIcon size={16} color="#F59E0B" />
                       </span>
                     ))}
                   </div>
@@ -163,7 +164,7 @@ export function SocialProof() {
                       fontWeight: 800,
                       color: "#065F46",
                     }}>
-                      📈 {t.text.match(/\d+%/)?.[0]} mejora
+                      <ChartUpIcon size={16} color="#10B981" /> {t.text.match(/\d+%/)?.[0]} mejora
                     </div>
                   )}
                 </div>
@@ -186,15 +187,16 @@ export function SocialProof() {
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <img
                     src={t.avatar}
-                    alt={`Foto de ${t.name}, ${t.role} en ${t.company}`}
-                    width={48}
-                    height={48}
+                    alt={`Logo de ${t.company}`}
+                    width={52}
+                    height={52}
                     loading="lazy"
                     style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: "50%",
+                      width: 52,
+                      height: 52,
+                      borderRadius: 12,
                       objectFit: "cover",
+                      border: "1px solid #E8F0FE",
                     }}
                   />
                   <div>

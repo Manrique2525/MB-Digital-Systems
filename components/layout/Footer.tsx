@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { NAV_LINKS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon, MessageIcon } from "@/components/ui/icons/Icons";
 
 export function Footer() {
   return (
@@ -178,11 +179,11 @@ export function Footer() {
                   fontSize: 13,
                 }}
               >
-                📞 993 178 2620
+                <PhoneIcon size={16} color="#94A3B8" /> 993 178 2620
               </a>
-              <span>✉️ contacto@mbdigitalsystems.com</span>
-              <span>📍 Tabasco, México</span>
-              <span>🕐 Lun - Vie: 9:00 AM – 6:00 PM</span>
+              <span><MailIcon size={16} color="#94A3B8" /> contacto@mbdigitalsystems.com</span>
+              <span><MapPinIcon size={16} color="#94A3B8" /> Tabasco, México</span>
+              <span><ClockIcon size={16} color="#94A3B8" /> Lun - Vie: 9:00 AM – 6:00 PM</span>
             </div>
             <motion.a
               href={whatsappUrl(WHATSAPP_MESSAGES.contacto)}
@@ -202,7 +203,7 @@ export function Footer() {
                 marginTop: 16,
               }}
             >
-              💬 WhatsApp directo
+              <MessageIcon size={16} color="#fff" /> WhatsApp directo
             </motion.a>
           </div>
         </div>
@@ -222,17 +223,14 @@ export function Footer() {
           <div>
             © 2026 MB Digital Systems. Todos los derechos reservados.
           </div>
-          <a
-            href="/politica-privacidad"
+          <span
             style={{
               color: "#64748B",
-              textDecoration: "none",
               fontSize: 12,
-              transition: "color 0.2s",
             }}
           >
             Política de Privacidad
-          </a>
+          </span>
         </div>
       </div>
     </footer>

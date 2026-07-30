@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { ShieldCheckIcon } from "@/components/ui/icons/Icons";
 
 export function Hero() {
   const { scrollY } = useScroll();
@@ -22,53 +23,6 @@ export function Hero() {
           "linear-gradient(160deg,#EFF6FF 0%,#DBEAFE 40%,#EDE9FE 100%)",
       }}
     >
-      {/* Orbs animados */}
-      <motion.div
-        animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.1, 1] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: "absolute",
-          top: "10%",
-          left: "5%",
-          width: "min(380px,60vw)",
-          height: "min(380px,60vw)",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle,rgba(59,130,246,0.18) 0%,transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-      <motion.div
-        animate={{ x: [0, -20, 0], y: [0, 30, 0], scale: [1, 1.15, 1] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        style={{
-          position: "absolute",
-          bottom: "10%",
-          right: "5%",
-          width: "min(500px,70vw)",
-          height: "min(500px,70vw)",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle,rgba(139,92,246,0.14) 0%,transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-      <motion.div
-        animate={{ x: [0, 15, 0], y: [0, 15, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        style={{
-          position: "absolute",
-          top: "40%",
-          right: "20%",
-          width: "min(200px,35vw)",
-          height: "min(200px,35vw)",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle,rgba(16,185,129,0.12) 0%,transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-
       <motion.div
         style={{
           y,
@@ -254,23 +208,54 @@ export function Hero() {
               </div>
             </div>
           ))}
+          {/* Social proof */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4, duration: 0.6 }}
+            style={{
+              marginTop: 28,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              flexWrap: "wrap",
+            }}
+          >
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                background: "#ECFDF5",
+                border: "1px solid #A7F3D0",
+                borderRadius: 100,
+                padding: "6px 14px",
+                color: "#065F46",
+                fontSize: 13,
+                fontWeight: 600,
+              }}
+            >
+              <ShieldCheckIcon size={16} color="#065F46" /> Garantía de satisfacción: si no te gusta, no pagas
+            </span>
+          </motion.div>
         </motion.div>
       </motion.div>
 
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: "absolute",
-          bottom: 24,
-          left: "50%",
-          transform: "translateX(-50%)",
-          color: "#64748B",
-          fontSize: 22,
-        }}
-      >
-        ↓
-      </motion.div>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          style={{
+            position: "absolute",
+            bottom: 24,
+            left: "50%",
+            transform: "translateX(-50%)",
+            color: "#64748B",
+            fontSize: 22,
+          }}
+        >
+          ↓
+        </motion.div>
     </section>
   );
 }

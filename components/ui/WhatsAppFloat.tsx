@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useScrollSpy } from "@/components/hooks/useScrollSpy";
+import { MessageIcon } from "@/components/ui/icons/Icons";
 
 const CONTEXT_MESSAGES: Record<string, string> = {
   Inicio: WHATSAPP_MESSAGES.generico,
@@ -126,7 +127,7 @@ export function WhatsAppFloat() {
                 cursor: "pointer",
               }}
             >
-              💬 Chatea con nosotros
+              <MessageIcon size={16} color="#fff" /> Chatea con nosotros
             </motion.span>
 
             {/* Button with pulse */}

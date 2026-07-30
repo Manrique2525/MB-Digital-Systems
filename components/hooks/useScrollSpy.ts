@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-const SECTION_IDS = ["inicio", "servicios", "nosotros", "proyectos", "precios", "contacto"];
+const SECTION_IDS = ["inicio", "servicios", "por-que", "marketing", "nosotros", "testimonios", "proyectos", "precios", "faq", "contacto"];
 
 export function useScrollSpy() {
   const [active, setActive] = useState("Inicio");
@@ -19,9 +19,13 @@ export function useScrollSpy() {
           const sectionMap: Record<string, string> = {
             inicio: "Inicio",
             servicios: "Servicios",
+            "por-que": "Servicios",
+            "marketing": "Servicios",
             nosotros: "Nosotros",
+            testimonios: "Proyectos",
             proyectos: "Proyectos",
             precios: "Precios",
+            faq: "Contacto",
             contacto: "Contacto",
           };
           setActive(sectionMap[id] || "Inicio");

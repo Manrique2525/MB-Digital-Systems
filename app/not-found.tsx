@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { MessageIcon } from "@/components/ui/icons/Icons";
 
 export default function NotFound() {
   return (
@@ -102,7 +103,7 @@ export default function NotFound() {
               transition: "all 0.3s",
             }}
           >
-            💬 WhatsApp
+            <MessageIcon size={18} color="#fff" /> WhatsApp
           </a>
         </div>
       </motion.div>
