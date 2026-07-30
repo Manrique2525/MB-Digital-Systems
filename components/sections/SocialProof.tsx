@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { TESTIMONIOS, METRICS } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
@@ -185,15 +186,12 @@ export function SocialProof() {
 
                 {/* Persona */}
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                  <img
+                  <Image
                     src={t.avatar}
                     alt={`Logo de ${t.company}`}
                     width={52}
                     height={52}
-                    loading="lazy"
                     style={{
-                      width: 52,
-                      height: 52,
                       borderRadius: 12,
                       objectFit: "cover",
                       border: "1px solid #E8F0FE",

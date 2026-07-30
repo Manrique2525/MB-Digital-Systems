@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Sora } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Analytics } from "@/components/analytics/Analytics";
@@ -56,6 +55,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: {
+    canonical: "https://mbdigitalsystems.com",
+  },
   icons: {
     icon: "/favicon.svg",
     apple: "/favicon.svg",
@@ -70,7 +72,6 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${sora.variable} h-full antialiased`}>
       <head>
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
@@ -82,14 +83,11 @@ export default function RootLayout({
         <form name="contacto" data-netlify="true" netlify-honeypot="bot-field" hidden>
           <input type="hidden" name="form-name" value="contacto" />
           <input name="name" />
+          <input name="phone" />
           <input name="email" />
           <input name="subject" />
           <input name="message" />
         </form>
-        <Script
-          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
-          strategy="lazyOnload"
-        />
         <JsonLd />
         <Analytics />
         <CookieConsent />

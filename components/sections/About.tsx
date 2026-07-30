@@ -47,7 +47,7 @@ export function About() {
             No somos solo programadores.<br />
             <span
               style={{
-                background: "linear-gradient(90deg,#3B82F6,#6366F1)",
+                background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",

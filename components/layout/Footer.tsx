@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { NAV_LINKS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
-import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon, MessageIcon } from "@/components/ui/icons/Icons";
+import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon, MessageIcon, FacebookIcon, InstagramIcon, LinkedinIcon, WhatsAppIcon } from "@/components/ui/icons/Icons";
 
 export function Footer() {
   return (
@@ -58,10 +58,10 @@ export function Footer() {
             </p>
             <div style={{ display: "flex", gap: 10 }}>
               {[
-                { icon: "fab fa-facebook-f", href: "https://facebook.com/MBDigitalSystems", label: "Facebook" },
-                { icon: "fab fa-instagram", href: "https://instagram.com/mbdigitalsystems", label: "Instagram" },
-                { icon: "fab fa-linkedin-in", href: "https://linkedin.com/company/mbdigitalsystems", label: "LinkedIn" },
-                { icon: "fab fa-whatsapp", href: whatsappUrl(WHATSAPP_MESSAGES.contacto), label: "WhatsApp" },
+                { icon: "facebook", href: "https://facebook.com/MBDigitalSystems", label: "Facebook" },
+                { icon: "instagram", href: "https://instagram.com/mbdigitalsystems", label: "Instagram" },
+                { icon: "linkedin", href: "https://linkedin.com/company/mbdigitalsystems", label: "LinkedIn" },
+                { icon: "whatsapp", href: whatsappUrl(WHATSAPP_MESSAGES.contacto), label: "WhatsApp" },
               ].map((social) => (
                 <motion.a
                   key={social.icon}
@@ -83,7 +83,10 @@ export function Footer() {
                     textDecoration: "none",
                   }}
                 >
-                  <i className={social.icon} />
+                  {social.icon === "facebook" && <FacebookIcon size={16} color="#94A3B8" />}
+                  {social.icon === "instagram" && <InstagramIcon size={16} color="#94A3B8" />}
+                  {social.icon === "linkedin" && <LinkedinIcon size={16} color="#94A3B8" />}
+                  {social.icon === "whatsapp" && <WhatsAppIcon size={16} color="#94A3B8" />}
                 </motion.a>
               ))}
             </div>
@@ -182,7 +185,9 @@ export function Footer() {
                 <PhoneIcon size={16} color="#94A3B8" /> 993 178 2620
               </a>
               <span><MailIcon size={16} color="#94A3B8" /> contacto@mbdigitalsystems.com</span>
-              <span><MapPinIcon size={16} color="#94A3B8" /> Tabasco, México</span>
+              <a href="https://maps.google.com/?q=17.9869,-92.9303" target="_blank" rel="noopener noreferrer" style={{ color: "#94A3B8", textDecoration: "none", fontSize: 13 }}>
+                <MapPinIcon size={16} color="#94A3B8" /> Villahermosa, Tabasco
+              </a>
               <span><ClockIcon size={16} color="#94A3B8" /> Lun - Vie: 9:00 AM – 6:00 PM</span>
             </div>
             <motion.a
@@ -223,14 +228,16 @@ export function Footer() {
           <div>
             © 2026 MB Digital Systems. Todos los derechos reservados.
           </div>
-          <span
+          <a
+            href="/politica-privacidad"
             style={{
               color: "#64748B",
               fontSize: 12,
+              textDecoration: "none",
             }}
           >
             Política de Privacidad
-          </span>
+          </a>
         </div>
       </div>
     </footer>

@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { PlanCard } from "@/components/sections/Pricing/PlanCard";
-import { GiftIcon, InfoIcon, ShieldCheckIcon, MonitorIcon, GearIcon, MessageIcon, ZapIcon, ClipboardIcon, LockIcon } from "@/components/ui/icons/Icons";
+import { GiftIcon, InfoIcon, ShieldCheckIcon, MonitorIcon, GearIcon, MessageIcon, ZapIcon, ClipboardIcon, LockIcon, CodeIcon, DatabaseIcon, PlugIcon } from "@/components/ui/icons/Icons";
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
@@ -140,12 +140,12 @@ const DEV_STEPS = [
 ];
 
 const SYSTEM_STACK = [
-  { name: "Laravel", icon: "fab fa-laravel", color: "#FF2D20" },
-  { name: "Vue.js", icon: "fab fa-vuejs", color: "#42B883" },
-  { name: "React", icon: "fab fa-react", color: "#61DAFB" },
-  { name: "MySQL", icon: "fas fa-database", color: "#4479A1" },
-  { name: "PHP", icon: "fab fa-php", color: "#8892BE" },
-  { name: "APIs REST", icon: "fas fa-plug", color: "#10B981" },
+  { name: "Laravel", color: "#FF2D20", icon: "code" },
+  { name: "Vue.js", color: "#42B883", icon: "code" },
+  { name: "React", color: "#61DAFB", icon: "code" },
+  { name: "MySQL", color: "#4479A1", icon: "database" },
+  { name: "PHP", color: "#8892BE", icon: "code" },
+  { name: "APIs REST", color: "#10B981", icon: "plug" },
 ];
 
 
@@ -556,7 +556,9 @@ export function Pricing() {
                   cursor: "default",
                 }}
               >
-                <i className={tech.icon} style={{ color: tech.color, fontSize: 16 }} />
+                {tech.icon === "code" && <CodeIcon size={16} color={tech.color} />}
+                {tech.icon === "database" && <DatabaseIcon size={16} color={tech.color} />}
+                {tech.icon === "plug" && <PlugIcon size={16} color={tech.color} />}
                 <span style={{ fontSize: 13, fontWeight: 700, color: "#374151" }}>{tech.name}</span>
               </motion.div>
             ))}

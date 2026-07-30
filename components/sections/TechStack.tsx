@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { getBenefitIcon } from "@/components/ui/icons/Icons";
+import { getBenefitIcon, CodeIcon } from "@/components/ui/icons/Icons";
 
 const BENEFITS = [
   {
@@ -48,12 +48,12 @@ const BENEFITS = [
 ];
 
 const TECH_USED = [
-  { name: "React", icon: "fab fa-react", color: "#61DAFB" },
-  { name: "Next.js", icon: "fas fa-code", color: "#0F172A" },
-  { name: "Laravel", icon: "fab fa-laravel", color: "#FF2D20" },
-  { name: "Vue.js", icon: "fab fa-vuejs", color: "#42B883" },
-  { name: "MySQL", icon: "fas fa-database", color: "#4479A1" },
-  { name: "PHP", icon: "fab fa-php", color: "#8892BE" },
+  { name: "React", color: "#61DAFB" },
+  { name: "Next.js", color: "#0F172A" },
+  { name: "Laravel", color: "#FF2D20" },
+  { name: "Vue.js", color: "#42B883" },
+  { name: "MySQL", color: "#4479A1" },
+  { name: "PHP", color: "#8892BE" },
 ];
 
 export function TechStack() {
@@ -274,10 +274,7 @@ export function TechStack() {
                   cursor: "default",
                 }}
               >
-                <i
-                  className={tech.icon}
-                  style={{ color: tech.color, fontSize: 16 }}
-                />
+                <CodeIcon size={16} color={tech.color} />
                 <span
                   style={{ fontSize: 13, fontWeight: 700, color: "#374151" }}
                 >

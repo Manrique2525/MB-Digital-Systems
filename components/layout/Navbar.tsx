@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/data/constants";
 import { useIsMobile } from "@/components/hooks/useIsMobile";
 import { useScrollSpy } from "@/components/hooks/useScrollSpy";
+import { PhoneIcon, HamburgerIcon, CloseIcon } from "@/components/ui/icons/Icons";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -130,7 +131,7 @@ export function Navbar() {
                 onMouseEnter={(e) => { e.currentTarget.style.color = "#3B82F6"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.color = "#64748B"; }}
               >
-                <i className="fas fa-phone" style={{ fontSize: 11 }} />
+                <PhoneIcon size={14} color="#64748B" />
                 993 178 2620
               </a>
               <motion.button
@@ -172,7 +173,7 @@ export function Navbar() {
                 padding: 8,
               }}
             >
-              <i className={open ? "fas fa-times" : "fas fa-bars"} />
+              {open ? <CloseIcon size={22} color="#1E40AF" /> : <HamburgerIcon size={22} color="#1E40AF" />}
             </motion.button>
           )}
         </div>
@@ -249,7 +250,7 @@ export function Navbar() {
                   fontFamily: "inherit",
                 }}
               >
-                <i className="fas fa-phone" style={{ fontSize: 12 }} />
+                <PhoneIcon size={16} color="#1E40AF" />
                 Llamar ahora
               </a>
               <motion.button

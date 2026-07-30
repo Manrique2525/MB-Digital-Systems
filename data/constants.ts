@@ -134,7 +134,7 @@ export const PROJECTS: ProjectItem[] = [
     title: "Sistema SaaS de Torneos",
     desc: "Plataforma multi-tenant para administradores de torneos: generación de torneos, alta de equipos y jugadores, envío de roles a propietarios y gestión completa en la nube.",
     tags: ["SaaS", "Multi-tenant", "Cloud"],
-    img: "/img/sass_torneos.jpeg",
+    img: "/img/saas_torneos.jpeg",
     link: "#",
     comingSoon: true,
   },

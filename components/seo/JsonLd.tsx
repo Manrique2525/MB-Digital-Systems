@@ -54,7 +54,7 @@ export function JsonLd() {
         "Página web que aparece en Google, carga rápido y convierte visitas en mensajes de WhatsApp. Sin plantillas, 100% personalizada.",
       offers: {
         "@type": "Offer",
-        price: "4999",
+        price: "2999",
         priceCurrency: "MXN",
       },
     },
@@ -82,7 +82,7 @@ export function JsonLd() {
         "Tienda online que vende mientras duermes. Catálogo, carrito, pagos con tarjeta y envíos integrados.",
       offers: {
         "@type": "Offer",
-        price: "18999",
+        price: "16999",
         priceCurrency: "MXN",
       },
     },

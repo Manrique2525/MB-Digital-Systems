@@ -73,7 +73,7 @@ export default function NotFound() {
           <Link
             href="/"
             style={{
-              background: "linear-gradient(135deg, #3B82F6, #2563EB)",
+              background: "linear-gradient(135deg, #3B82F6, #1E40AF)",
               color: "#fff",
               padding: "16px 32px",
               borderRadius: "14px",

@@ -9,16 +9,18 @@ import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, CheckCircleIcon } from "@/c
 export function Contact() {
   const [form, setForm] = useState({
     name: "",
+    phone: "",
     message: "",
   });
   const [sent, setSent] = useState(false);
-  const [errors, setErrors] = useState<Record<string, boolean>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateAndSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newErrors: Record<string, boolean> = {};
-    if (!form.name.trim()) newErrors.name = true;
-    if (!form.message.trim()) newErrors.message = true;
+    const newErrors: Record<string, string> = {};
+    if (!form.name.trim()) newErrors.name = "El nombre es obligatorio";
+    if (!form.phone.trim()) newErrors.phone = "El teléfono es obligatorio";
+    if (!form.message.trim()) newErrors.message = "El mensaje es obligatorio";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -30,6 +32,7 @@ export function Contact() {
     const formData = new FormData();
     formData.append("form-name", "contacto");
     formData.append("name", form.name);
+    formData.append("phone", form.phone);
     formData.append("message", form.message);
 
     try {
@@ -40,16 +43,16 @@ export function Contact() {
       });
       setSent(true);
       setTimeout(() => setSent(false), 4000);
-      setForm({ name: "", message: "" });
+      setForm({ name: "", phone: "", message: "" });
     } catch {
-      setErrors({ submit: true });
+      setErrors({ submit: "Error al enviar. Intenta de nuevo." });
     }
   };
 
   const handleChange = (field: string, value: string) => {
     setForm({ ...form, [field]: value });
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: false }));
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
 
@@ -65,6 +68,16 @@ export function Contact() {
     width: "100%" as const,
     boxSizing: "border-box" as const,
     transition: "border-color 0.2s ease",
+  });
+
+  const errorTextStyle = (field: string): React.CSSProperties => ({
+    color: "#EF4444",
+    fontSize: 12,
+    fontWeight: 500,
+    marginTop: 4,
+    display: errors[field] ? "flex" : "none",
+    alignItems: "center",
+    gap: 4,
   });
 
   return (
@@ -120,7 +133,7 @@ export function Contact() {
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
             {([
-              ["map", <MapPinIcon key="map" size={18} color="#3B82F6" />, "Ubicación", "Fracc. Ciudad Bicentenario, Tabasco", null] as const,
+              ["map", <MapPinIcon key="map" size={18} color="#3B82F6" />, "Ubicación", "Villahermosa, Tabasco", "https://maps.google.com/?q=17.9869,-92.9303"] as const,
               ["phone", <PhoneIcon key="phone" size={18} color="#3B82F6" />, "Teléfono", "993 178 2620", "tel:+529931782620"] as const,
               ["mail", <MailIcon key="mail" size={18} color="#3B82F6" />, "Email", "contacto@mbdigitalsystems.com", null] as const,
               ["clock", <ClockIcon key="clock" size={18} color="#3B82F6" />, "Horario", "Lunes a Viernes: 9:00 AM – 6:00 PM", null] as const,
@@ -218,9 +231,40 @@ export function Contact() {
                 onChange={(e) => handleChange("name", e.target.value)}
                 required
                 aria-required="true"
-                aria-invalid={errors.name ? "true" : "false"}
-                style={inputStyle(errors.name)}
+                aria-invalid={!!errors.name}
+                aria-describedby="name-error"
+                style={inputStyle(!!errors.name)}
               />
+              <div id="name-error" style={errorTextStyle("name")} role="alert">
+                ⚠ {errors.name}
+              </div>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label htmlFor="contact-phone" style={{
+                position: "absolute",
+                width: 1,
+                height: 1,
+                overflow: "hidden",
+                clip: "rect(0,0,0,0)",
+                whiteSpace: "nowrap",
+              }}>
+                Teléfono
+              </label>
+              <input
+                id="contact-phone"
+                type="tel"
+                placeholder="Teléfono *"
+                value={form.phone}
+                onChange={(e) => handleChange("phone", e.target.value)}
+                required
+                aria-required="true"
+                aria-invalid={!!errors.phone}
+                aria-describedby="phone-error"
+                style={inputStyle(!!errors.phone)}
+              />
+              <div id="phone-error" style={errorTextStyle("phone")} role="alert">
+                ⚠ {errors.phone}
+              </div>
             </div>
             <div>
               <label htmlFor="contact-message" style={{
@@ -236,14 +280,18 @@ export function Contact() {
               <textarea
                 id="contact-message"
                 placeholder="Cuéntanos tu proyecto... *"
-                rows={5}
+                rows={4}
                 value={form.message}
                 onChange={(e) => handleChange("message", e.target.value)}
                 required
                 aria-required="true"
-                aria-invalid={errors.message ? "true" : "false"}
-                style={{ ...inputStyle(errors.message), resize: "vertical", marginBottom: 20 }}
+                aria-invalid={!!errors.message}
+                aria-describedby="message-error"
+                style={{ ...inputStyle(!!errors.message), resize: "vertical", marginBottom: 14 }}
               />
+              <div id="message-error" style={errorTextStyle("message")} role="alert">
+                ⚠ {errors.message}
+              </div>
             </div>
             <motion.button
               type="submit"
@@ -318,7 +366,7 @@ export function Contact() {
             }}
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120854.859453!2d-93.0!3d17.98!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85e8e0b1b5b5b5b5%3A0x0!2sTabasco%2C+M%C3%A9xico!5e0!3m2!1ses!2smx!4v1700000000000!5m2!1ses!2smx"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1912.918579182823!2d-92.9308478!3d17.9869428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85e8e0b1b5b5b5b5%3A0x0!2sVillahermosa%2C+Tab.!5e0!3m2!1ses!2smx!4v1700000000000!5m2!1ses!2smx"
               width="100%"
               height="100%"
               style={{ border: 0, minHeight: 300 }}

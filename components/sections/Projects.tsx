@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
@@ -123,21 +124,25 @@ export function Projects() {
                       aspectRatio: "16/9",
                     }}
                   >
-                    <motion.img
-                      src={p.img}
-                      alt={`Proyecto: ${p.title} - ${p.desc}`}
-                      width={600}
-                      height={338}
-                      loading="lazy"
+                    <motion.div
                       animate={{ scale: hovered === i ? 1.07 : 1 }}
                       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                      }}
-                    />
+                      style={{ width: "100%", height: "100%", position: "relative" }}
+                    >
+                      <Image
+                        src={p.img}
+                        alt={`Proyecto: ${p.title} - ${p.desc}`}
+                        width={600}
+                        height={338}
+                        loading="lazy"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          display: "block",
+                        }}
+                      />
+                    </motion.div>
                     <AnimatePresence>
                       {hovered === i && (
                         <motion.div
@@ -323,9 +328,11 @@ export function Projects() {
                   minHeight: 300,
                 }}
               >
-                <img
+                <Image
                   src={comingSoonProject.img}
                   alt={comingSoonProject.title}
+                  width={600}
+                  height={338}
                   style={{
                     width: "100%",
                     height: "100%",

@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useScrollSpy } from "@/components/hooks/useScrollSpy";
-import { MessageIcon } from "@/components/ui/icons/Icons";
+import { MessageIcon, WhatsAppIcon } from "@/components/ui/icons/Icons";
 
 const CONTEXT_MESSAGES: Record<string, string> = {
   Inicio: WHATSAPP_MESSAGES.generico,
@@ -184,7 +184,7 @@ export function WhatsAppFloat() {
                   position: "relative",
                 }}
               >
-                <i className="fab fa-whatsapp" />
+                <WhatsAppIcon size={28} color="#fff" />
               </motion.a>
             </div>
           </div>

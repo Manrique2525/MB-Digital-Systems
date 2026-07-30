@@ -142,7 +142,7 @@ export function Hero() {
               padding: "14px 28px",
               borderRadius: 100,
               fontSize: "clamp(14px,2vw,16px)",
-              boxShadow: "0 4px 24px rgba(59,130,264,0.35)",
+              boxShadow: "0 4px 24px rgba(59,130,246,0.35)",
             }}
           >
             <span>Cotización gratis por WhatsApp</span>

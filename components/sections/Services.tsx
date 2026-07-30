@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { SERVICES, FEATURES, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { getServiceIcon } from "@/components/ui/icons/ServiceIcons";
+import { getServiceIcon, MessageIcon } from "@/components/ui/icons/Icons";
 
 export function Services() {
   return (
@@ -165,7 +165,7 @@ export function Services() {
                   fontSize: 15,
                 }}
               >
-                💬 Solicitar Cotización
+                <MessageIcon size={18} color="#1E40AF" /> Solicitar Cotización
               </motion.a>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>

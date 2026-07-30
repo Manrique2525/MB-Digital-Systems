@@ -179,7 +179,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
             boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
           }}
         >
-          <MessageIcon size={18} color="#fff" /> {plan.cta}
+          <MessageIcon size={18} color="#1E40AF" /> {plan.cta}
         </motion.a>
       </motion.div>
     );
@@ -321,7 +321,7 @@ background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,
             boxShadow: `0 4px 20px ${plan.accentColor}35`,
           }}
         >
-          <MessageIcon size={18} color="#1E40AF" /> {plan.cta}
+          <MessageIcon size={18} color="#fff" /> {plan.cta}
       </motion.a>
     </motion.div>
   );
