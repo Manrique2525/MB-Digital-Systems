@@ -1,0 +1,116 @@
+@import '../../node_modules/filament/filament/dist/tailwind.css';
+
+@font-face {
+  font-family: 'Sora';
+  src: url('https://fonts.gstatic.com/s/sora/v12/xMQOuFFYT72X5wkB_18qmnndmScMmw-K.woff2') format('woff2');
+  font-weight: 400 800;
+  font-display: swap;
+}
+
+:root {
+  --font-sora: 'Sora', system-ui, sans-serif;
+}
+
+.fi-sidebar {
+  background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%) !important;
+  border-right: 1px solid rgba(59, 130, 246, 0.1) !important;
+}
+
+.fi-sidebar-item-active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.1)) !important;
+  border-right: 3px solid #3B82F6 !important;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-label {
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+.fi-sidebar-item-label {
+  color: #94A3B8 !important;
+  font-family: var(--font-sora), system-ui, sans-serif !important;
+}
+
+.fi-sidebar-item:hover {
+  background: rgba(59, 130, 246, 0.08) !important;
+}
+
+.fi-sidebar-item:hover .fi-sidebar-item-label {
+  color: #E2E8F0 !important;
+}
+
+.fi-topbar {
+  background: #fff !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.fi-btn-primary {
+  background: linear-gradient(135deg, #3B82F6, #1E40AF) !important;
+  border: none !important;
+  border-radius: 100px !important;
+  font-family: var(--font-sora), system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease !important;
+}
+
+.fi-btn-primary:hover {
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.35) !important;
+  transform: translateY(-1px) !important;
+}
+
+.fi-btn-danger {
+  background: #EF4444 !important;
+  border-radius: 100px !important;
+  font-weight: 700 !important;
+}
+
+.fi-input {
+  border-radius: 12px !important;
+  border: 1px solid #E2E8F0 !important;
+  font-family: var(--font-sora), system-ui, sans-serif !important;
+}
+
+.fi-input:focus {
+  border-color: #3B82F6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+}
+
+.fi-card {
+  border-radius: 20px !important;
+  border: 1px solid #E8F0FE !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+.fi-card-header {
+  font-family: var(--font-sora), system-ui, sans-serif !important;
+  font-weight: 800 !important;
+}
+
+.fi-badge {
+  border-radius: 100px !important;
+  font-weight: 600 !important;
+  padding: 2px 12px !important;
+}
+
+.fi-section {
+  border-radius: 20px !important;
+}
+
+.fi-dropdown-list {
+  border-radius: 16px !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08) !important;
+}
+
+.fi-ta-cell {
+  font-family: var(--font-sora), system-ui, sans-serif !important;
+}
+
+.fi-ta-header-cell {
+  font-weight: 700 !important;
+  color: #64748B !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  font-size: 11px !important;
+}

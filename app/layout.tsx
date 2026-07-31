@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { Analytics } from "@/components/analytics/Analytics";
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import { SkipLink } from "@/components/ui/SkipLink";
+import { PageViewTracker } from "@/components/ui/PageViewTracker";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -80,18 +81,11 @@ export default function RootLayout({
         style={{ fontFamily: "var(--font-sora), system-ui, sans-serif" }}
       >
         <SkipLink />
-        <form name="contacto" data-netlify="true" netlify-honeypot="bot-field" hidden>
-          <input type="hidden" name="form-name" value="contacto" />
-          <input name="name" />
-          <input name="phone" />
-          <input name="email" />
-          <input name="subject" />
-          <input name="message" />
-        </form>
         <JsonLd />
         <Analytics />
         <CookieConsent />
         {children}
+        <PageViewTracker />
       </body>
     </html>
   );

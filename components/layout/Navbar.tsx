@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/data/constants";
 import { useIsMobile } from "@/components/hooks/useIsMobile";
 import { useScrollSpy } from "@/components/hooks/useScrollSpy";
+import { useTracking } from "@/components/hooks/useTracking";
 import { PhoneIcon, HamburgerIcon, CloseIcon } from "@/components/ui/icons/Icons";
 
 export function Navbar() {
@@ -12,6 +13,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const isMobile = useIsMobile();
   const activeSection = useScrollSpy();
+  const { trackEvent } = useTracking();
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
@@ -21,6 +23,7 @@ export function Navbar() {
 
   const scrollTo = (id: string) => {
     setOpen(false);
+    trackEvent("nav_click", id.toLowerCase());
     const el = document.getElementById(id.toLowerCase());
     if (el) {
       window.scrollTo({

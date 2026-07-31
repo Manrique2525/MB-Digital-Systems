@@ -1,0 +1,15 @@
+/node_modules
+/vendor
+/.env
+/.env.production
+/.phpunit.cache
+/storage/framework/cache/data/*
+/storage/framework/cache/facade-*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/public/build
+.DS_Store
+Thumbs.db
+*.log
+/database/database.sqlite

@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { PlanCard } from "@/components/sections/Pricing/PlanCard";
+import { useSectionViewOnce, useTracking } from "@/components/hooks/useTracking";
 import { GiftIcon, InfoIcon, ShieldCheckIcon, MonitorIcon, GearIcon, MessageIcon, ZapIcon, ClipboardIcon, LockIcon, CodeIcon, DatabaseIcon, PlugIcon } from "@/components/ui/icons/Icons";
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
@@ -154,6 +155,9 @@ const SYSTEM_STACK = [
 
 export function Pricing() {
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  useSectionViewOnce("pricing_view", sectionRef);
+  const { trackEvent } = useTracking();
 
   return (
     <section
@@ -621,6 +625,7 @@ export function Pricing() {
                 target="_blank"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
+                onClick={() => trackEvent("wa_click", "precios", { plan: "Sistema a Medida" })}
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 10,
                   background: "#fff", color: "#1E40AF",

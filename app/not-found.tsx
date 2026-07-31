@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { useTracking } from "@/components/hooks/useTracking";
 import { MessageIcon } from "@/components/ui/icons/Icons";
 
 export default function NotFound() {
+  const { trackEvent } = useTracking();
   return (
     <div
       style={{
@@ -91,6 +93,7 @@ export default function NotFound() {
             href={whatsappUrl(WHATSAPP_MESSAGES.contacto)}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent("wa_click", "404", { plan: "Contacto" })}
             style={{
               background: "transparent",
               color: "#fff",

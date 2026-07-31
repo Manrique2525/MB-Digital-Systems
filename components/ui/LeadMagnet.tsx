@@ -4,14 +4,35 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { ChartBarIcon, CheckCircleIcon, MessageIcon, ZapIcon, LockIcon } from "@/components/ui/icons/Icons";
+import { useTracking } from "@/components/hooks/useTracking";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 export function LeadMagnet() {
+  const { getSessionId, trackEvent } = useTracking();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes("@")) return;
+
+    try {
+      await fetch(`${API_URL}/api/v1/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          session_id: getSessionId(),
+          name: email.split("@")[0],
+          email,
+          message: "Solicitó auditoría digital gratuita",
+          source: "lead_magnet",
+        }),
+      });
+    } catch {
+      // Silent fail — WhatsApp still opens
+    }
+
     setSubmitted(true);
   };
 
@@ -100,6 +121,7 @@ export function LeadMagnet() {
               whileTap={{ scale: 0.97 }}
               onClick={() => {
                 if (email && email.includes("@")) setSubmitted(true);
+                trackEvent("wa_click", "lead-magnet", { plan: "Auditoría gratuita" });
               }}
               style={{
                 display: "inline-flex",
@@ -151,6 +173,7 @@ export function LeadMagnet() {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
+              onClick={() => trackEvent("wa_click", "lead-magnet", { plan: "Auditoría gratuita" })}
               style={{
                 display: "inline-flex",
                 alignItems: "center",

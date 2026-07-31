@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { useTracking } from "@/components/hooks/useTracking";
 import { MessageIcon } from "@/components/ui/icons/Icons";
 
 const FAQ_DATA = [
@@ -145,6 +146,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
 }
 
 export function FAQ() {
+  const { trackEvent } = useTracking();
   return (
     <section
       id="faq"
@@ -238,6 +240,7 @@ export function FAQ() {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
+            onClick={() => trackEvent("wa_click", "faq", { plan: "Dudas generales" })}
             style={{
               display: "inline-flex",
               alignItems: "center",

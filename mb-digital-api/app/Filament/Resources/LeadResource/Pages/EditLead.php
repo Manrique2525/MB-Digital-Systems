@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Filament\Resources\LeadResource\Pages;
+
+use App\Filament\Resources\LeadResource;
+use Filament\Actions;
+use Filament\Resources\Pages\EditRecord;
+
+class EditLead extends EditRecord
+{
+    protected static string $resource = LeadResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\ViewAction::make()
+                ->label('Ver')
+                ->icon('heroicon-o-eye'),
+            Actions\DeleteAction::make()
+                ->label('Eliminar')
+                ->icon('heroicon-o-trash'),
+        ];
+    }
+}

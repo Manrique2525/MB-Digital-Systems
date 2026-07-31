@@ -5,11 +5,26 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { LeadMagnet } from "@/components/ui/LeadMagnet";
 import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, CheckCircleIcon } from "@/components/ui/icons/Icons";
+import { useTracking } from "@/components/hooks/useTracking";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+
+const SERVICE_OPTIONS = [
+  { value: "pagina_web", label: "Página Web", icon: "💻" },
+  { value: "ecommerce", label: "E-commerce", icon: "🛒" },
+  { value: "sistema_a_medida", label: "Sistema a Medida", icon: "⚙️" },
+  { value: "marketing_digital", label: "Marketing Digital", icon: "📣" },
+  { value: "diseno", label: "Diseño", icon: "🎨" },
+  { value: "otro", label: "No estoy seguro", icon: "🤔" },
+];
 
 export function Contact() {
+  const { trackEvent, getSessionId } = useTracking();
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    email: "",
+    service: "otro",
     message: "",
   });
   const [sent, setSent] = useState(false);
@@ -19,7 +34,11 @@ export function Contact() {
     e.preventDefault();
     const newErrors: Record<string, string> = {};
     if (!form.name.trim()) newErrors.name = "El nombre es obligatorio";
-    if (!form.phone.trim()) newErrors.phone = "El teléfono es obligatorio";
+    if (!/^\d{10}$/.test(form.phone.trim()))
+      newErrors.phone = "El teléfono debe tener 10 dígitos";
+    if (!form.email.trim()) newErrors.email = "El email es obligatorio";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
+      newErrors.email = "Ingresa un email válido";
     if (!form.message.trim()) newErrors.message = "El mensaje es obligatorio";
 
     if (Object.keys(newErrors).length > 0) {
@@ -29,27 +48,46 @@ export function Contact() {
 
     setErrors({});
 
-    const formData = new FormData();
-    formData.append("form-name", "contacto");
-    formData.append("name", form.name);
-    formData.append("phone", form.phone);
-    formData.append("message", form.message);
+    if (!API_URL) {
+      setErrors({ submit: "API no configurada - revisa NEXT_PUBLIC_API_URL" });
+      return;
+    }
 
     try {
-      await fetch("/__forms.html", {
+      const res = await fetch(`${API_URL}/api/v1/leads`, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          session_id: getSessionId(),
+          name: form.name,
+          phone: form.phone,
+          email: form.email.trim() || undefined,
+          service: form.service,
+          message: form.message,
+          source: "contact_form",
+        }),
       });
+
+      if (!res.ok) throw new Error("Error en el servidor");
+
+      trackEvent("form_submit", "contact");
       setSent(true);
       setTimeout(() => setSent(false), 4000);
-      setForm({ name: "", phone: "", message: "" });
+      setForm({ name: "", phone: "", email: "", service: "otro", message: "" });
     } catch {
       setErrors({ submit: "Error al enviar. Intenta de nuevo." });
     }
   };
 
   const handleChange = (field: string, value: string) => {
+    if (value && !sessionStorage.getItem("started_form")) {
+      trackEvent("form_start", "contact");
+      try {
+        sessionStorage.setItem("started_form", "1");
+      } catch {
+        // ignore
+      }
+    }
     setForm({ ...form, [field]: value });
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
@@ -193,9 +231,6 @@ export function Contact() {
 
         <AnimatedSection delay={0.15}>
           <motion.form
-            name="contacto"
-            method="POST"
-            action="/__forms.html"
             onSubmit={validateAndSubmit}
             noValidate
             whileHover={{ boxShadow: "0 20px 60px rgba(59,130,246,0.1)" }}
@@ -206,12 +241,7 @@ export function Contact() {
               padding: "clamp(24px,4vw,40px)",
             }}
           >
-            <input type="hidden" name="form-name" value="contacto" />
-            <p style={{ display: "none" }}>
-              <label>
-                Don&apos;t fill this out: <input name="bot-field" />
-              </label>
-            </p>
+
             <div style={{ marginBottom: 14 }}>
               <label htmlFor="contact-name" style={{
                 position: "absolute",
@@ -264,6 +294,81 @@ export function Contact() {
               />
               <div id="phone-error" style={errorTextStyle("phone")} role="alert">
                 ⚠ {errors.phone}
+              </div>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label htmlFor="contact-email" style={{
+                position: "absolute",
+                width: 1,
+                height: 1,
+                overflow: "hidden",
+                clip: "rect(0,0,0,0)",
+                whiteSpace: "nowrap",
+              }}>
+                Email
+              </label>
+              <input
+                id="contact-email"
+                type="email"
+                placeholder="Email *"
+                value={form.email}
+                onChange={(e) => handleChange("email", e.target.value)}
+                required
+                aria-required="true"
+                aria-invalid={!!errors.email}
+                aria-describedby="email-error"
+                style={inputStyle(!!errors.email)}
+              />
+              <div id="email-error" style={errorTextStyle("email")} role="alert">
+                ⚠ {errors.email}
+              </div>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: "#334155",
+                  marginBottom: 10,
+                }}
+              >
+                ¿Qué necesitas? <span style={{ color: "#EF4444" }}>*</span>
+              </div>
+              <div
+                role="radiogroup"
+                aria-label="¿Qué necesitas?"
+                style={{ display: "flex", flexWrap: "wrap", gap: 8 }}
+              >
+                {SERVICE_OPTIONS.map((opt) => {
+                  const active = form.service === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      role="radio"
+                      aria-checked={active}
+                      onClick={() => handleChange("service", opt.value)}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                        padding: "8px 14px",
+                        borderRadius: 100,
+                        border: `1.5px solid ${active ? "#3B82F6" : "#E2E8F0"}`,
+                        background: active ? "#EFF6FF" : "#fff",
+                        color: active ? "#1E40AF" : "#475569",
+                        fontWeight: active ? 700 : 500,
+                        fontSize: 13,
+                        cursor: "pointer",
+                        fontFamily: "inherit",
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      <span aria-hidden="true">{opt.icon}</span>
+                      {opt.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
             <div>

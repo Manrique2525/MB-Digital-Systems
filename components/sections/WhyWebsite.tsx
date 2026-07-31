@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { useTracking } from "@/components/hooks/useTracking";
 import { AlertIcon, SlashCircleIcon, MoonIcon, FrownIcon, MessageIcon, ZapIcon } from "@/components/ui/icons/Icons";
 
 const PAIN_POINTS = [
@@ -64,6 +65,7 @@ function PainCard({ icon, title, desc, index }: { icon: React.ReactNode; title: 
 }
 
 export function WhyWebsite() {
+  const { trackEvent } = useTracking();
   return (
     <section
       id="por-que"
@@ -176,6 +178,7 @@ export function WhyWebsite() {
                   target="_blank"
                   whileHover={{ scale: 1.07, boxShadow: "0 10px 40px rgba(255,255,255,0.25)" }}
                   whileTap={{ scale: 0.97 }}
+                  onClick={() => trackEvent("wa_click", "por-que", { plan: "Página Web" })}
                   style={{
                     display: "inline-flex", alignItems: "center", gap: 10,
                     background: "#fff", color: "#1E40AF",

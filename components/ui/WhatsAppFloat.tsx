@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useScrollSpy } from "@/components/hooks/useScrollSpy";
 import { MessageIcon, WhatsAppIcon } from "@/components/ui/icons/Icons";
+import { useTracking } from "@/components/hooks/useTracking";
 
 const CONTEXT_MESSAGES: Record<string, string> = {
   Inicio: WHATSAPP_MESSAGES.generico,
@@ -25,6 +26,7 @@ const TOOLTIPS: Record<string, string> = {
 };
 
 export function WhatsAppFloat() {
+  const { trackEvent } = useTracking();
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState(false);
   const activeSection = useScrollSpy();
@@ -167,6 +169,7 @@ export function WhatsAppFloat() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Contactar por WhatsApp"
+                onClick={() => trackEvent("wa_click", "whatsapp-float", { section: activeSection })}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 style={{

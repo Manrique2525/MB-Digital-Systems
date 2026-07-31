@@ -1,0 +1,217 @@
+/* ============================================================
+   MB Digital Systems — Panel Admin
+   Patrón de diseño de la landing: azul #3B82F6, violeta #8B5CF6,
+   verde #10B981, bordes redondeados 20px, gradientes suaves, Sora.
+   ============================================================ */
+
+:root {
+    --mb-blue: #3B82F6;
+    --mb-blue-dark: #1E40AF;
+    --mb-violet: #8B5CF6;
+    --mb-green: #10B981;
+    --mb-gradient: linear-gradient(135deg, #3B82F6 0%, #1E40AF 60%, #8B5CF6 100%);
+    --mb-soft-gradient: linear-gradient(135deg, #EFF6FF 0%, #EDE9FE 100%);
+    --mb-radius: 20px;
+}
+
+/* Tipografía del sistema */
+.fi-body {
+    font-family: 'Sora', var(--font-family), system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Sidebar ---------- */
+.fi-sidebar {
+    background: #fff;
+    border-inline-end: 1px solid rgba(59, 130, 246, 0.08);
+}
+
+.fi-sidebar-header {
+    background: #fff;
+}
+
+.fi-sidebar-group-label {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-button {
+    background: var(--mb-gradient);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-icon,
+.fi-sidebar-item.fi-active .fi-sidebar-item-label,
+.fi-sidebar-item.fi-active .fi-sidebar-item-badge {
+    color: #fff;
+}
+
+.fi-sidebar-item.fi-active .fi-sidebar-item-badge {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.fi-sidebar-item-button:hover {
+    background: rgba(59, 130, 246, 0.08);
+}
+
+/* ---------- Topbar ---------- */
+.fi-topbar {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* ---------- Tarjetas / secciones ---------- */
+.fi-section,
+.fi-ta,
+.fi-wi-stats-overview-stat,
+.fi-card {
+    border-radius: var(--mb-radius);
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.08);
+}
+
+.fi-section-header-heading {
+    font-weight: 700;
+}
+
+/* ---------- Stats ---------- */
+.fi-wi-stats-overview-stat {
+    position: relative;
+    overflow: hidden;
+}
+
+.fi-wi-stats-overview-stat::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 3px;
+    background: var(--mb-gradient);
+    opacity: 0.85;
+}
+
+.fi-wi-stats-overview-stat-value {
+    color: #0F172A;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.fi-wi-stats-overview-stat-description {
+    color: #64748B;
+}
+
+/* ---------- Tabla ---------- */
+.fi-ta-content {
+    border-radius: var(--mb-radius);
+}
+
+.fi-table-search .fi-input {
+    border-radius: 9999px;
+}
+
+.fi-ta-header-toolbar {
+    padding-block: 0.75rem;
+}
+
+/* ---------- Botones ---------- */
+.fi-btn {
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.fi-btn.fi-btn-color-primary {
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+}
+
+/* ---------- Modal ---------- */
+.fi-modal-window,
+.fi-modal .fi-window {
+    border-radius: 24px;
+}
+
+.fi-modal-window-close-btn {
+    border-radius: 9999px;
+}
+
+/* ---------- Login (layout simple) ---------- */
+.fi-simple-layout {
+    background:
+        radial-gradient(800px 420px at 85% 10%, rgba(139, 92, 246, 0.16), transparent 60%),
+        radial-gradient(760px 420px at 8% 90%, rgba(59, 130, 246, 0.18), transparent 60%),
+        linear-gradient(160deg, #EFF6FF 0%, #F8FAFF 45%, #EDE9FE 100%);
+}
+
+.fi-simple-page .fi-section,
+.fi-simple-page-card {
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(30, 64, 175, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+/* ============================================================
+   Responsive — móvil primero
+   ============================================================ */
+
+@media (max-width: 639px) {
+    .fi-wi-stats-overview-stat {
+        padding: 1.25rem;
+    }
+
+    .fi-wi-stats-overview-stat-value {
+        font-size: 1.75rem;
+    }
+
+    .fi-section {
+        border-radius: 16px;
+    }
+
+    .fi-page-header-heading-text {
+        font-size: 1.35rem;
+    }
+
+    .fi-page-header-actions,
+    .fi-page-header-actions .fi-btn {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .fi-page-header-actions .fi-btn {
+        justify-content: center;
+    }
+
+    .fi-ta-header-toolbar,
+    .fi-ta-content {
+        padding-inline: 0.75rem;
+    }
+
+    .fi-breadcrumbs {
+        overflow-x: auto;
+        white-space: nowrap;
+        max-width: 100%;
+        padding-block: 0.35rem;
+    }
+}
+
+@media (max-width: 1023px) {
+    .fi-sidebar {
+        box-shadow: 0 0 40px rgba(15, 23, 42, 0.12);
+    }
+
+    .fi-simple-layout {
+        padding-inline: 1rem;
+    }
+
+    .fi-simple-page .fi-section,
+    .fi-simple-page-card {
+        border-radius: 20px;
+    }
+}
+
+/* Evita que los encabezados de la tabla se desborden en pantallas chicas */
+.fi-ta th,
+.fi-ta td {
+    white-space: normal;
+    vertical-align: top;
+}

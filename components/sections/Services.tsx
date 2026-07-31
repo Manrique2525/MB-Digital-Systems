@@ -3,9 +3,11 @@
 import { motion } from "framer-motion";
 import { SERVICES, FEATURES, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { useTracking } from "@/components/hooks/useTracking";
 import { getServiceIcon, MessageIcon } from "@/components/ui/icons/Icons";
 
 export function Services() {
+  const { trackEvent } = useTracking();
   return (
     <section
       id="servicios"
@@ -92,6 +94,10 @@ export function Services() {
                   href={whatsappUrl(`Hola, me interesa el servicio de ${s.title}`)}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    trackEvent("service_click", s.title);
+                    trackEvent("wa_click", "servicios", { plan: s.title });
+                  }}
                   style={{
                     marginTop: 28,
                     display: "inline-flex",
@@ -152,6 +158,7 @@ export function Services() {
                 target="_blank"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
+                onClick={() => trackEvent("wa_click", "servicios", { plan: "Sistema a Medida" })}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",

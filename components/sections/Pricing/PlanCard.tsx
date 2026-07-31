@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { whatsappUrl } from "@/data/constants";
+import { useTracking } from "@/components/hooks/useTracking";
 import { StarIcon, CheckIcon, GiftIcon, MessageIcon } from "@/components/ui/icons/Icons";
 
 interface PlanCardProps {
@@ -29,6 +30,7 @@ interface PlanCardProps {
 
 export function PlanCard({ plan, index }: PlanCardProps) {
   const [hovered, setHovered] = useState(false);
+  const { trackEvent } = useTracking();
 
   if (plan.highlight) {
     return (
@@ -170,6 +172,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
           target="_blank"
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.97 }}
+          onClick={() => trackEvent("wa_click", "precios", { plan: plan.name })}
           style={{
             display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
             background: "#fff", color: "#1E40AF",
@@ -312,6 +315,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
         target="_blank"
         whileHover={{ scale: 1.04, boxShadow: `0 8px 32px ${plan.accentColor}40` }}
         whileTap={{ scale: 0.97 }}
+        onClick={() => trackEvent("wa_click", "precios", { plan: plan.name })}
         style={{
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
 background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,

@@ -3,10 +3,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { useTracking } from "@/components/hooks/useTracking";
 
 export function ExitIntentPopup() {
   const [show, setShow] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const { trackEvent } = useTracking();
 
   const handleMouseLeave = useCallback(
     (e: MouseEvent) => {
@@ -121,7 +123,10 @@ export function ExitIntentPopup() {
               href={whatsappUrl(WHATSAPP_MESSAGES.auditoria)}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={close}
+              onClick={() => {
+                trackEvent("wa_click", "exit-intent", { plan: "Auditoría gratuita" });
+                close();
+              }}
               style={{
                 display: "inline-block",
                 background: "linear-gradient(135deg, #25D366, #128C7E)",

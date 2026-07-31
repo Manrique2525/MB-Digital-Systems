@@ -2,9 +2,11 @@
 
 import { motion } from "framer-motion";
 import { NAV_LINKS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { useTracking } from "@/components/hooks/useTracking";
 import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon, MessageIcon, FacebookIcon, InstagramIcon, LinkedinIcon, WhatsAppIcon } from "@/components/ui/icons/Icons";
 
 export function Footer() {
+  const { trackEvent } = useTracking();
   return (
     <footer
       style={{
@@ -70,6 +72,11 @@ export function Footer() {
                   rel="noopener noreferrer"
                   aria-label={social.label}
                   whileHover={{ y: -3, color: "#3B82F6" }}
+                  onClick={
+                    social.icon === "whatsapp"
+                      ? () => trackEvent("wa_click", "footer", { plan: "Contacto" })
+                      : undefined
+                  }
                   style={{
                     width: 36,
                     height: 36,
@@ -194,6 +201,7 @@ export function Footer() {
               href={whatsappUrl(WHATSAPP_MESSAGES.contacto)}
               target="_blank"
               whileHover={{ scale: 1.03 }}
+              onClick={() => trackEvent("wa_click", "footer", { plan: "Contacto" })}
               style={{
                 display: "inline-flex",
                 alignItems: "center",

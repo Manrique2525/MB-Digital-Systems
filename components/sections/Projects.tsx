@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { useSectionViewOnce, useTracking } from "@/components/hooks/useTracking";
 import { RocketIcon, MessageIcon } from "@/components/ui/icons/Icons";
 
 const PROJECT_HIGHLIGHTS: Record<string, { metric: string; metricLabel: string }> = {
@@ -14,6 +15,10 @@ const PROJECT_HIGHLIGHTS: Record<string, { metric: string; metricLabel: string }
 
 export function Projects() {
   const [hovered, setHovered] = useState<number | null>(null);
+  const { trackEvent } = useTracking();
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  useSectionViewOnce("portfolio_view", sectionRef);
 
   const comingSoonProject = PROJECTS.find((p) => p.comingSoon);
   const otherProjects = PROJECTS.filter((p) => !p.comingSoon);
@@ -21,6 +26,7 @@ export function Projects() {
   return (
     <section
       id="proyectos"
+      ref={sectionRef}
       style={{ padding: "clamp(60px,10vw,120px) 20px", background: "#F8FAFF" }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -164,6 +170,7 @@ export function Projects() {
                             href={p.link}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => trackEvent("project_click", p.title)}
                             initial={{ y: 12, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.05 }}
@@ -524,6 +531,7 @@ Próximamente
               href={whatsappUrl(WHATSAPP_MESSAGES.proyectoSimilar)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackEvent("wa_click", "proyectos", { plan: "Proyecto similar" })}
               whileHover={{
                 scale: 1.05,
                 boxShadow: "0 8px 40px rgba(59,130,246,0.35)",

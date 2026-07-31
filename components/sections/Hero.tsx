@@ -2,12 +2,14 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { useTracking } from "@/components/hooks/useTracking";
 import { ShieldCheckIcon } from "@/components/ui/icons/Icons";
 
 export function Hero() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 120]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const { trackEvent } = useTracking();
 
   return (
     <section
@@ -129,6 +131,10 @@ export function Hero() {
             href={whatsappUrl(WHATSAPP_MESSAGES.paginaWeb)}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => {
+              trackEvent("hero_cta", "inicio");
+              trackEvent("wa_click", "inicio", { plan: "Página Web" });
+            }}
             whileHover={{ scale: 1.05, boxShadow: "0 8px 40px rgba(59,130,246,0.45)" }}
             whileTap={{ scale: 0.97 }}
             style={{
