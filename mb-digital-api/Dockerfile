@@ -34,7 +34,8 @@ RUN cp .env.example .env \
     && php artisan key:generate --force \
     && composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --no-scripts \
     && php artisan package:discover --ansi \
-    && mkdir -p storage/logs storage/framework/cache/data storage/framework/sessions storage/framework/views \
+    && mkdir -p storage/logs storage/app/public storage/framework/cache/data storage/framework/sessions storage/framework/views \
+    && php artisan storage:link --force \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod +x docker-entrypoint.sh
 
