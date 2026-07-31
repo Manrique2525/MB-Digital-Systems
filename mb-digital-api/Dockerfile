@@ -1,6 +1,7 @@
 FROM php:8.3-apache
 
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+ENV PORT=10000
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
@@ -20,6 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         /etc/apache2/sites-available/*.conf \
         /etc/apache2/apache2.conf \
         /etc/apache2/conf-available/*.conf \
+    && sed -ri -e 's/^Listen 80.*/Listen ${PORT}/' /etc/apache2/ports.conf \
+    && sed -ri -e 's/:80/:${PORT}/g' /etc/apache2/sites-available/*.conf \
     && { \
         echo 'opcache.enable=1'; \
         echo 'opcache.memory_consumption=128'; \
@@ -44,6 +47,6 @@ RUN cp .env.example .env \
 
 USER www-data
 
-EXPOSE 80
+EXPOSE 10000
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
