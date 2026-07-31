@@ -34,8 +34,8 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN cp .env.example .env \
-    && php artisan key:generate --force \
     && composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --no-scripts \
+    && php artisan key:generate --force \
     && php artisan package:discover --ansi \
     && mkdir -p storage/logs storage/app/public storage/framework/cache/data storage/framework/sessions storage/framework/views \
     && php artisan storage:link --force \
