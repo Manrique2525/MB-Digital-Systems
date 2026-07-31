@@ -20,7 +20,7 @@ if ($databaseUrl) {
     $parsed = parse_url($databaseUrl);
 
     $pgsql['host'] = $parsed['host'] ?? $pgsql['host'];
-    $pgsql['port'] = $parsed['port'] ?? $pgsql['port'];
+    $pgsql['port'] = $parsed['port'] ?? '5432';
     $pgsql['database'] = ltrim($parsed['path'] ?? '', '/') ?: $pgsql['database'];
     $pgsql['username'] = $parsed['user'] ?? $pgsql['username'];
     $pgsql['password'] = $parsed['pass'] ?? $pgsql['password'];
