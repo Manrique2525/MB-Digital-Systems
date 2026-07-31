@@ -1,0 +1,54 @@
+databases:
+  - name: mb-digital-db
+    plan: free
+
+services:
+  - type: web
+    name: mb-digital-systems
+    runtime: node
+    plan: free
+    branch: main
+    rootDir: .
+    buildCommand: npm install; npm run build
+    startCommand: npm run start
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NEXT_PUBLIC_API_URL
+        value: https://mb-digital-api.onrender.com
+
+  - type: web
+    name: mb-digital-api
+    runtime: docker
+    plan: free
+    branch: main
+    rootDir: mb-digital-api
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    healthCheckPath: /up
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        value: https://mb-digital-api.onrender.com
+      - key: FRONTEND_URL
+        value: https://mb-digital-systems.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: SESSION_DRIVER
+        value: file
+      - key: MAIL_MAILER
+        value: log
+      - key: SANCTUM_STATEFUL_DOMAINS
+        value: localhost,mbdigitalsystems.com
+      - key: ADMIN_EMAIL
+        value: contacto@mbdigitalsystems.com
+      - key: WHATSAPP_NUMBER
+        value: "529931782620"
+    databases:
+      - database: mb-digital-db
