@@ -34,10 +34,10 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN cp .env.example .env \
+    && mkdir -p storage/logs storage/app/public storage/framework/cache/data storage/framework/sessions storage/framework/views \
     && composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction --no-scripts \
     && php artisan key:generate --force \
     && php artisan package:discover --ansi \
-    && mkdir -p storage/logs storage/app/public storage/framework/cache/data storage/framework/sessions storage/framework/views \
     && php artisan storage:link --force \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod +x docker-entrypoint.sh
