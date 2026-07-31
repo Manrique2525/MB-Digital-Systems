@@ -10,8 +10,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libjpeg-dev \
         libwebp-dev \
         libzip-dev \
+        libicu-dev \
+        libonig-dev \
+        libcurl4-openssl-dev \
     && docker-php-ext-configure gd --with-jpeg --with-webp \
-    && docker-php-ext-install -j"$(nproc)" pdo_pgsql gd zip intl opcache exif \
+    && docker-php-ext-install -j"$(nproc)" pdo_pgsql gd zip intl mbstring curl opcache exif \
     && a2enmod rewrite headers \
     && sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
         /etc/apache2/sites-available/*.conf \
