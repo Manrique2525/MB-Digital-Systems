@@ -110,7 +110,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
             <span style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", fontWeight: 600 }}>MXN</span>
           </div>
           <div style={{ fontSize: 13, color: "#10B981", fontWeight: 700, marginTop: 4 }}>
-            Ahorras ${(parseInt(plan.originalPrice.replace(",", "")) - parseInt(plan.price.replace(",", ""))).toLocaleString()} MXN
+            Ahorras ${(parseInt(plan.originalPrice.replace(",", "")) - parseInt(plan.price.replace(",", ""))).toLocaleString("en-US")} MXN
           </div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginTop: 2 }}>
             Válido hasta {plan.promoEnd}
@@ -253,7 +253,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
           <span style={{ fontSize: 14, color: "#64748B", fontWeight: 600 }}>MXN</span>
         </div>
         <div style={{ fontSize: 13, color: "#10B981", fontWeight: 700, marginTop: 4 }}>
-          Ahorras ${(parseInt(plan.originalPrice.replace(",", "")) - parseInt(plan.price.replace(",", ""))).toLocaleString()} MXN
+          Ahorras ${(parseInt(plan.originalPrice.replace(",", "")) - parseInt(plan.price.replace(",", ""))).toLocaleString("en-US")} MXN
         </div>
         <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 2 }}>
           Válido hasta {plan.promoEnd}
