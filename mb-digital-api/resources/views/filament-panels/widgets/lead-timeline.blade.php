@@ -27,7 +27,7 @@
                     </span>
 
                     <div class="min-w-0 flex-1">
-                        <div class="flex items-start justify-between gap-2">
+                        <div class="flex flex-wrap items-start justify-between gap-x-2 gap-y-0.5">
                             <span class="break-words text-sm font-semibold {{ $highlight ? 'text-primary-600' : 'text-gray-700' }}">
                                 {{ $entry['title'] }}
                             </span>

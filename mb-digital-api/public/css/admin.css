@@ -187,11 +187,59 @@
         padding-inline: 0.75rem;
     }
 
+    .fi-ta-header-toolbar {
+        gap: 0.5rem;
+    }
+
+    .fi-ta-header-toolbar > * {
+        flex-wrap: wrap;
+    }
+
+    .fi-ta-content {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .fi-wi-chart {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .fi-topbar {
+        padding-inline: 0.75rem;
+    }
+
     .fi-breadcrumbs {
         overflow-x: auto;
         white-space: nowrap;
         max-width: 100%;
         padding-block: 0.35rem;
+    }
+
+    .fi-tabs-nav {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 479px) {
+    .fi-wi-stats-overview-stat {
+        padding: 1rem;
+    }
+
+    .fi-wi-stats-overview-stat-value {
+        font-size: 1.5rem;
+    }
+
+    .fi-wi-stats-overview-grid {
+        gap: 0.75rem;
+    }
+
+    .fi-section {
+        padding-inline: 0.875rem;
+    }
+
+    .fi-page-header-heading-text {
+        font-size: 1.2rem;
     }
 }
 

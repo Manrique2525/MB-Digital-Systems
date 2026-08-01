@@ -133,7 +133,8 @@ class LeadResource extends Resource
                     ->label('#')
                     ->sortable()
                     ->toggleable()
-                    ->width(60),
+                    ->width(60)
+                    ->hiddenFrom('md'),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nombre')
@@ -146,14 +147,16 @@ class LeadResource extends Resource
                     ->searchable()
                     ->icon('heroicon-o-envelope')
                     ->copyable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->hiddenFrom('md'),
 
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Teléfono')
                     ->searchable()
                     ->icon('heroicon-o-phone')
                     ->copyable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->hiddenFrom('md'),
 
                 Tables\Columns\TextColumn::make('service')
                     ->label('Interés')
@@ -168,7 +171,8 @@ class LeadResource extends Resource
                     } : 'gray')
                     ->formatStateUsing(fn (Lead $lead) => $lead->service?->label() ?? '—')
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->hiddenFrom('md'),
 
                 Tables\Columns\TextColumn::make('source')
                     ->label('Fuente')
@@ -180,7 +184,8 @@ class LeadResource extends Resource
                         LeadSource::Referral => 'warning',
                         LeadSource::Landing => 'info',
                     })
-                    ->formatStateUsing(fn (Lead $lead) => $lead->source->label()),
+                    ->formatStateUsing(fn (Lead $lead) => $lead->source->label())
+                    ->hiddenFrom('md'),
 
                 Tables\Columns\TextColumn::make('status')
                     ->label('Estado')
@@ -200,7 +205,8 @@ class LeadResource extends Resource
                     ->label('Páginas')
                     ->sortable()
                     ->toggleable()
-                    ->alignment('center'),
+                    ->alignment('center')
+                    ->hiddenFrom('md'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Recibido')
@@ -212,7 +218,8 @@ class LeadResource extends Resource
                     ->label('Contactado')
                     ->since()
                     ->toggleable()
-                    ->tooltip(fn (Lead $lead) => $lead->contacted_at?->format('d/m/Y H:i')),
+                    ->tooltip(fn (Lead $lead) => $lead->contacted_at?->format('d/m/Y H:i'))
+                    ->hiddenFrom('md'),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

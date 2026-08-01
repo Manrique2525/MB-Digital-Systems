@@ -51,4 +51,25 @@ class LeadsTrendChartWidget extends ChartWidget
     {
         return 'line';
     }
+
+    /** @return array<string, mixed> */
+    protected function getOptions(): array
+    {
+        return [
+            'scales' => [
+                'x' => [
+                    'ticks' => [
+                        'maxTicksLimit' => 6,
+                        'maxRotation' => 0,
+                        'autoSkip' => true,
+                    ],
+                ],
+            ],
+            'plugins' => [
+                'legend' => [
+                    'display' => false,
+                ],
+            ],
+        ];
+    }
 }

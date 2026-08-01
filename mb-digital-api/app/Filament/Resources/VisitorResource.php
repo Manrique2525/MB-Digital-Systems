@@ -30,7 +30,8 @@ class VisitorResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label('#')
                     ->sortable()
-                    ->width(60),
+                    ->width(60)
+                    ->hiddenFrom('md'),
 
                 Tables\Columns\TextColumn::make('first_page')
                     ->label('Primera página')
@@ -54,7 +55,8 @@ class VisitorResource extends Resource
                     ->label('Primera visita')
                     ->dateTime('d/m/Y H:i')
                     ->sortable()
-                    ->since(),
+                    ->since()
+                    ->hiddenFrom('md'),
 
                 Tables\Columns\TextColumn::make('last_seen_at')
                     ->label('Última visita')
@@ -65,12 +67,14 @@ class VisitorResource extends Resource
                 Tables\Columns\TextColumn::make('utm_source')
                     ->label('UTM Source')
                     ->searchable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->hiddenFrom('md'),
 
                 Tables\Columns\TextColumn::make('referrer')
                     ->label('Referente')
                     ->limit(40)
-                    ->toggleable(),
+                    ->toggleable()
+                    ->hiddenFrom('md'),
             ])
             ->defaultSort('last_seen_at', 'desc')
             ->filters([
