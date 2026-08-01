@@ -10,7 +10,10 @@ class LeadsServiceChartWidget extends ChartWidget
 {
     protected static ?string $heading = 'Leads por servicio de interés';
 
-    protected int|string|array $columnSpan = 6;
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 6,
+    ];
 
     protected static ?string $pollingInterval = null;
 

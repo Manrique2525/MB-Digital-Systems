@@ -10,7 +10,10 @@ class LeadsTrendChartWidget extends ChartWidget
 {
     protected static ?string $heading = 'Leads por día (últimos 30 días)';
 
-    protected int|string|array $columnSpan = 12;
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 12,
+    ];
 
     protected static ?string $pollingInterval = '60s';
 

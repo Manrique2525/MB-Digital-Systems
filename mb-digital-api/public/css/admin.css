@@ -266,14 +266,21 @@
 }
 
 /* ---------- Charts ---------- */
-.fi-wi-chart canvas {
-    height: 320px !important;
+.fi-wi-chart,
+.fi-wi-chart .fi-section-content,
+.fi-wi-chart .fi-section-content > div {
     width: 100% !important;
+}
+
+.fi-wi-chart canvas {
+    display: block !important;
+    width: 100% !important;
+    height: 320px !important;
 }
 
 @media (max-width: 639px) {
     .fi-wi-chart canvas {
-        height: 280px !important;
+        height: 260px !important;
     }
 }
 

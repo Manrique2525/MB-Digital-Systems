@@ -12,7 +12,10 @@ class TopInteractionsWidget extends BaseWidget
 {
     protected static ?string $heading = 'Top interacciones';
 
-    protected int|string|array $columnSpan = 12;
+    protected int|string|array $columnSpan = [
+        'default' => 'full',
+        'lg' => 12,
+    ];
 
     protected static ?string $pollingInterval = '60s';
 
