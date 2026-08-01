@@ -28,6 +28,7 @@ export function Contact() {
     message: "",
   });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateAndSubmit = async (e: React.FormEvent) => {
@@ -53,6 +54,9 @@ export function Contact() {
       return;
     }
 
+    setSending(true);
+    setErrors((prev) => ({ ...prev, submit: "" }));
+
     try {
       const res = await fetch(`${API_URL}/api/v1/leads`, {
         method: "POST",
@@ -68,14 +72,34 @@ export function Contact() {
         }),
       });
 
-      if (!res.ok) throw new Error("Error en el servidor");
+      if (!res.ok) {
+        let message = "Error al enviar. Intenta de nuevo.";
+        try {
+          const data = await res.json();
+          if (data?.message) message = data.message;
+          else if (data?.errors) {
+            const first = Object.values(data.errors)[0];
+            if (Array.isArray(first) && first.length > 0) message = first[0];
+          }
+        } catch {
+          // keep generic message
+        }
+        throw new Error(message);
+      }
 
       trackEvent("form_submit", "contact");
       setSent(true);
       setTimeout(() => setSent(false), 4000);
       setForm({ name: "", phone: "", email: "", service: "otro", message: "" });
-    } catch {
-      setErrors({ submit: "Error al enviar. Intenta de nuevo." });
+    } catch (err) {
+      setErrors({
+        submit:
+          err instanceof Error
+            ? err.message
+            : "Error al enviar. Intenta de nuevo.",
+      });
+    } finally {
+      setSending(false);
     }
   };
 
@@ -398,10 +422,36 @@ export function Contact() {
                 ⚠ {errors.message}
               </div>
             </div>
+            {errors.submit ? (
+              <div
+                role="alert"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "#FEF2F2",
+                  border: "1px solid #FECACA",
+                  color: "#B91C1C",
+                  borderRadius: 12,
+                  padding: "10px 14px",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  marginBottom: 14,
+                }}
+              >
+                <span aria-hidden="true">⚠</span>
+                {errors.submit}
+              </div>
+            ) : null}
             <motion.button
               type="submit"
-              whileHover={{ scale: 1.03, boxShadow: "0 8px 32px rgba(59,130,246,0.35)" }}
-              whileTap={{ scale: 0.97 }}
+              disabled={sending}
+              whileHover={
+                sending
+                  ? {}
+                  : { scale: 1.03, boxShadow: "0 8px 32px rgba(59,130,246,0.35)" }
+              }
+              whileTap={sending ? {} : { scale: 0.97 }}
               style={{
                 width: "100%",
                 background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
@@ -411,7 +461,8 @@ export function Contact() {
                 padding: "14px 28px",
                 fontSize: 16,
                 fontWeight: 700,
-                cursor: "pointer",
+                cursor: sending ? "not-allowed" : "pointer",
+                opacity: sending ? 0.7 : 1,
                 fontFamily: "inherit",
                 display: "flex",
                 alignItems: "center",
@@ -430,6 +481,16 @@ export function Contact() {
                   >
                     <CheckCircleIcon size={20} color="#10B981" />
                     Mensaje enviado correctamente
+                  </motion.span>
+                ) : sending ? (
+                  <motion.span
+                    key="sending"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
+                  >
+                    <MailIcon size={18} color="#fff" /> Enviando…
                   </motion.span>
                 ) : (
                   <motion.span

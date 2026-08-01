@@ -12,13 +12,20 @@ export function LeadMagnet() {
   const { getSessionId, trackEvent } = useTracking();
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     if (!email || !email.includes("@")) return;
 
+    if (!API_URL) {
+      setError("API no configurada - revisa NEXT_PUBLIC_API_URL");
+      return;
+    }
+
     try {
-      await fetch(`${API_URL}/api/v1/leads`, {
+      const res = await fetch(`${API_URL}/api/v1/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -29,8 +36,14 @@ export function LeadMagnet() {
           source: "lead_magnet",
         }),
       });
+
+      if (!res.ok) {
+        setError("No se pudo guardar tu auditoría. WhatsApp sigue disponible.");
+        return;
+      }
     } catch {
-      // Silent fail — WhatsApp still opens
+      setError("No se pudo guardar tu auditoría. WhatsApp sigue disponible.");
+      return;
     }
 
     setSubmitted(true);
@@ -76,8 +89,9 @@ export function LeadMagnet() {
 
       <AnimatePresence mode="wait">
         {!submitted ? (
-          <motion.form
-            key="form"
+          <>
+            <motion.form
+              key="form"
             onSubmit={handleSubmit}
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, y: -10 }}
@@ -140,7 +154,22 @@ export function LeadMagnet() {
             >
               Quiero mi auditoría
             </motion.a>
-          </motion.form>
+            </motion.form>
+            {error ? (
+              <p
+                role="alert"
+                style={{
+                  color: "#FCA5A5",
+                  fontSize: 12,
+                  marginTop: 12,
+                  marginBottom: 0,
+                  textAlign: "center",
+                }}
+              >
+                ⚠ {error}
+              </p>
+            ) : null}
+          </>
         ) : (
           <motion.div
             key="success"
