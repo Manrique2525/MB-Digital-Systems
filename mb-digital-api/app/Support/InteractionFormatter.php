@@ -14,16 +14,16 @@ class InteractionFormatter
     public static function icon(string $eventType): string
     {
         return match ($eventType) {
-            'wa_click' => '💬',
-            'pricing_view' => '💰',
-            'portfolio_view' => '🖼️',
-            'hero_cta' => '🎯',
-            'form_start' => '✍️',
-            'form_submit' => '📝',
-            'project_click' => '🔗',
-            'service_click' => '🧩',
-            'nav_click' => '🧭',
-            default => '👆',
+            'wa_click' => 'heroicon-o-chat-bubble-oval-left-ellipsis',
+            'pricing_view' => 'heroicon-o-banknotes',
+            'portfolio_view' => 'heroicon-o-photo',
+            'hero_cta' => 'heroicon-o-arrow-trending-up',
+            'form_start' => 'heroicon-o-pencil-square',
+            'form_submit' => 'heroicon-o-paper-airplane',
+            'project_click' => 'heroicon-o-link',
+            'service_click' => 'heroicon-o-puzzle-piece',
+            'nav_click' => 'heroicon-o-map',
+            default => 'heroicon-o-cursor-arrow-rays',
         };
     }
 

@@ -72,6 +72,7 @@
 }
 
 .fi-section-header-heading {
+    font-family: 'Sora', var(--font-family), system-ui, -apple-system, sans-serif;
     font-weight: 700;
 }
 
@@ -214,4 +215,20 @@
 .fi-ta td {
     white-space: normal;
     vertical-align: top;
+}
+
+/* ---------- Timeline ---------- */
+.mb-timeline__line {
+    position: absolute;
+    left: 13px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--mb-gradient);
+    border-radius: 2px;
+}
+
+.mb-timeline__dot {
+    position: relative;
+    z-index: 1;
 }

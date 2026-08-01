@@ -44,43 +44,61 @@ class LeadResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Información del Lead')
+                Forms\Components\Section::make('Información de contacto')
+                    ->description('Datos del visitante y mensaje recibido desde la landing.')
+                    ->icon('heroicon-o-identification')
                     ->schema([
                         Forms\Components\Select::make('visitor_id')
-                            ->label('Visitante (vinculado)')
+                            ->label('Visitante vinculado')
                             ->relationship('visitor', 'session_id')
                             ->searchable()
                             ->preload()
                             ->nullable()
+                            ->helperText('Se vincula automáticamente al enviar el formulario de la landing.')
                             ->default(fn () => request('visitor_id')),
                         Forms\Components\TextInput::make('name')
                             ->label('Nombre')
                             ->required()
-                            ->maxLength(200),
+                            ->maxLength(200)
+                            ->prefixIcon('heroicon-o-user')
+                            ->placeholder('Nombre completo'),
                         Forms\Components\TextInput::make('email')
                             ->label('Email')
                             ->email()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->prefixIcon('heroicon-o-envelope')
+                            ->placeholder('nombre@correo.com'),
                         Forms\Components\TextInput::make('phone')
                             ->label('Teléfono')
                             ->tel()
-                            ->maxLength(50),
+                            ->maxLength(50)
+                            ->prefixIcon('heroicon-o-phone')
+                            ->placeholder('55 1234 5678'),
                         Forms\Components\Textarea::make('message')
                             ->label('Mensaje')
+                            ->rows(4)
                             ->maxLength(5000)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->placeholder('Escribe aquí el mensaje del visitante...'),
+                    ])->columns(2),
+                Forms\Components\Section::make('Gestión comercial')
+                    ->description('Clasifica el interés, la fuente y el estado del seguimiento.')
+                    ->icon('heroicon-o-briefcase')
+                    ->schema([
                         Forms\Components\Select::make('service')
                             ->label('Interés (servicio)')
                             ->options(collect(LeadService::cases())->mapWithKeys(
                                 fn ($case) => [$case->value => $case->label()]
                             ))
                             ->placeholder('Selecciona un servicio')
+                            ->helperText('Servicio por el que mostró interés.')
                             ->nullable(),
                         Forms\Components\Select::make('source')
                             ->label('Fuente')
                             ->options(collect(LeadSource::cases())->mapWithKeys(
                                 fn ($case) => [$case->value => $case->label()]
                             ))
+                            ->helperText('De dónde llegó este contacto.')
                             ->required(),
                         Forms\Components\Select::make('status')
                             ->label('Estado')
@@ -93,10 +111,14 @@ class LeadResource extends Resource
                             ->numeric()
                             ->minValue(1)
                             ->maxValue(5)
+                            ->placeholder('1 a 5')
+                            ->helperText('Qué tan calificado está este contacto.')
                             ->nullable(),
                         Forms\Components\Textarea::make('notes')
                             ->label('Notas internas')
-                            ->columnSpanFull(),
+                            ->rows(4)
+                            ->columnSpanFull()
+                            ->placeholder('Anota aquí el contexto de la conversación...'),
                     ])->columns(2),
             ]);
     }
@@ -104,6 +126,8 @@ class LeadResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->striped()
+            ->poll('30s')
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('#')
@@ -180,15 +204,15 @@ class LeadResource extends Resource
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Recibido')
-                    ->dateTime('d/m/Y H:i')
+                    ->since()
                     ->sortable()
-                    ->since(),
+                    ->tooltip(fn (Lead $lead) => $lead->created_at->format('d/m/Y H:i')),
 
                 Tables\Columns\TextColumn::make('contacted_at')
                     ->label('Contactado')
-                    ->dateTime('d/m/Y H:i')
+                    ->since()
                     ->toggleable()
-                    ->since(),
+                    ->tooltip(fn (Lead $lead) => $lead->contacted_at?->format('d/m/Y H:i')),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

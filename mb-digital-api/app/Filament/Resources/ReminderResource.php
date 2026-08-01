@@ -41,25 +41,32 @@ class ReminderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Recordatorio')
+                    ->description('Agenda un seguimiento para un lead.')
+                    ->icon('heroicon-o-bell')
                     ->schema([
                         Forms\Components\Select::make('lead_id')
                             ->label('Lead')
                             ->relationship('lead', 'name')
                             ->searchable()
                             ->preload()
-                            ->required(),
+                            ->required()
+                            ->helperText('Lead al que estará asociado este recordatorio.'),
                         Forms\Components\TextInput::make('title')
                             ->label('Título')
                             ->required()
-                            ->maxLength(200),
+                            ->maxLength(200)
+                            ->prefixIcon('heroicon-o-pencil-square')
+                            ->placeholder('Ej. Llamar para presentar la propuesta'),
                         Forms\Components\Textarea::make('description')
                             ->label('Descripción')
                             ->rows(3)
-                            ->maxLength(2000),
+                            ->maxLength(2000)
+                            ->placeholder('Contexto del seguimiento...'),
                         Forms\Components\DateTimePicker::make('due_at')
                             ->label('Vence')
                             ->default(now()->addHours(24))
-                            ->required(),
+                            ->required()
+                            ->helperText('Fecha y hora límite para completar el seguimiento.'),
                         Forms\Components\Toggle::make('completed')
                             ->label('Completada')
                             ->default(false),

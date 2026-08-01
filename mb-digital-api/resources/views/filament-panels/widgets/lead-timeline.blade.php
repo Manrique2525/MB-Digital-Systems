@@ -1,8 +1,8 @@
 <x-filament::section>
     <x-slot name="heading">
-        <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:20px;">📊</span>
-            <span style="font-family:var(--font-sora),system-ui,sans-serif;font-weight:700;color:#1E293B;">
+        <div class="flex items-center gap-2">
+            <x-filament::icon icon="heroicon-o-clock" class="h-5 w-5 text-primary-600" aria-hidden="true" />
+            <span class="text-base font-bold tracking-tight">
                 Línea de tiempo del visitante
             </span>
         </div>
@@ -10,38 +10,43 @@
 
     @php $timelineEntries = $this->getTimeline(); @endphp
 
-    <div style="position:relative;padding-left:28px;">
-        {{-- Línea vertical --}}
-        <div style="position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#3B82F6,#8B5CF6);border-radius:2px;"></div>
+    <div class="relative">
+        <div class="mb-timeline__line" aria-hidden="true"></div>
 
-        @forelse($timelineEntries as $entry)
-            <div style="position:relative;margin-bottom:20px;padding-left:20px;">
-                {{-- Punto en la línea --}}
-                <div style="position:absolute;left:-24px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid {{ $entry['highlight'] ?? false ? '#10B981' : '#3B82F6' }};display:flex;align-items:center;justify-content:center;font-size:10px;">
-                    <span>{{ $entry['icon'] }}</span>
-                </div>
-
-                {{-- Contenido --}}
-                <div style="display:flex;gap:12px;align-items:flex-start;">
-                    <span style="font-size:11px;color:#94A3B8;font-family:monospace;white-space:nowrap;margin-top:2px;min-width:42px;">
-                        {{ $entry['time'] }}
+        <div class="relative z-10">
+            @forelse($timelineEntries as $entry)
+                @php
+                    $highlight = $entry['highlight'] ?? false;
+                    $dotClass = $highlight
+                        ? 'bg-primary-500 text-white ring-1'
+                        : 'bg-primary-50 text-primary-600 ring-1';
+                @endphp
+                <div class="mb-5 flex items-start gap-3">
+                    <span class="mb-timeline__dot inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full {{ $dotClass }}">
+                        <x-filament::icon :icon="$entry['icon']" class="h-3.5 w-3.5" aria-hidden="true" />
                     </span>
-                    <div style="min-width:0;max-width:100%;">
-                        <div style="font-size:14px;font-weight:600;color:#0F172A;overflow-wrap:anywhere;{{ ($entry['highlight'] ?? false) ? 'color:#10B981;' : '' }}">
-                            {{ $entry['icon'] }} {{ $entry['title'] }}
+
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="break-words text-sm font-semibold {{ $highlight ? 'text-primary-600' : 'text-gray-700' }}">
+                                {{ $entry['title'] }}
+                            </span>
+                            <span class="shrink-0 whitespace-nowrap font-mono text-xs text-gray-500">
+                                {{ $entry['time'] }} · {{ $entry['date'] }}
+                            </span>
                         </div>
-                        @if($entry['description'] ?? false)
-                            <div style="font-size:13px;color:#64748B;margin-top:2px;overflow-wrap:anywhere;word-break:break-word;">
+                        @if ($entry['description'] ?? false)
+                            <p class="mt-0.5 break-words text-xs text-gray-500">
                                 {{ $entry['description'] }}
-                            </div>
+                            </p>
                         @endif
                     </div>
                 </div>
-            </div>
-        @empty
-            <div style="text-align:center;padding:32px 0;color:#94A3B8;font-size:14px;">
-                No hay actividad registrada para este lead.
-            </div>
-        @endforelse
+            @empty
+                <div class="py-6 text-center text-sm text-gray-500">
+                    No hay actividad registrada para este lead.
+                </div>
+            @endforelse
+        </div>
     </div>
 </x-filament::section>

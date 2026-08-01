@@ -23,7 +23,7 @@ class LeadTimelineWidget extends Widget
                 [
                     'time' => $this->record->created_at->format('H:i'),
                     'date' => $this->record->created_at->format('d/m/Y'),
-                    'icon' => '📝',
+                    'icon' => 'heroicon-o-user-plus',
                     'title' => 'Lead creado manualmente',
                     'description' => 'Sin actividad de navegación registrada',
                 ],
@@ -34,7 +34,7 @@ class LeadTimelineWidget extends Widget
             $entries[] = [
                 'time' => $pageView->created_at->format('H:i'),
                 'date' => $pageView->created_at->format('d/m/Y'),
-                'icon' => '🌐',
+                'icon' => 'heroicon-o-globe-alt',
                 'title' => 'Visitó página',
                 'description' => $pageView->title ?? $pageView->url,
             ];
@@ -53,7 +53,7 @@ class LeadTimelineWidget extends Widget
         $entries[] = [
             'time' => $this->record->created_at->format('H:i'),
             'date' => $this->record->created_at->format('d/m/Y'),
-            'icon' => '📝',
+            'icon' => 'heroicon-o-check-badge',
             'title' => 'Se convirtió en lead',
             'description' => "Fuente: {$this->record->source->label()}",
             'highlight' => true,
@@ -63,7 +63,7 @@ class LeadTimelineWidget extends Widget
             $entries[] = [
                 'time' => $note->created_at->format('H:i'),
                 'date' => $note->created_at->format('d/m/Y'),
-                'icon' => '📌',
+                'icon' => 'heroicon-o-document-text',
                 'title' => "Nota: {$note->note}",
                 'description' => $note->created_by ? "Por: {$note->created_by}" : '',
             ];
@@ -73,7 +73,7 @@ class LeadTimelineWidget extends Widget
             $entries[] = [
                 'time' => $reminder->due_at->format('H:i'),
                 'date' => $reminder->due_at->format('d/m/Y'),
-                'icon' => $reminder->completed ? '✅' : '⏰',
+                'icon' => $reminder->completed ? 'heroicon-o-check-circle' : 'heroicon-o-clock',
                 'title' => "Recordatorio: {$reminder->title}",
                 'description' => $reminder->completed ? 'Completado' : 'Pendiente',
             ];

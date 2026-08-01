@@ -20,7 +20,7 @@ class VisitorTimelineWidget extends Widget
             $entries[] = [
                 'time' => $pageView->created_at->format('H:i'),
                 'date' => $pageView->created_at->format('d/m/Y'),
-                'icon' => '🌐',
+                'icon' => 'heroicon-o-globe-alt',
                 'title' => 'Visitó página',
                 'description' => $pageView->title ?? $pageView->url,
             ];
