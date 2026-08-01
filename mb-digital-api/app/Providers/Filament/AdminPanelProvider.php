@@ -40,7 +40,9 @@ class AdminPanelProvider extends PanelProvider
                 provider: GoogleFontProvider::class,
             )
             ->assets([
-                Css::make('admin-brand', asset('css/admin.css')),
+                Css::make('admin-brand')->html(
+                    fn (): string => '/css/admin.css?v='.filemtime(public_path('css/admin.css')),
+                ),
             ])
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
