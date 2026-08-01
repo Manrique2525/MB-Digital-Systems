@@ -50,4 +50,17 @@ class LeadsSourceChartWidget extends ChartWidget
     {
         return 'doughnut';
     }
+
+    /** @return array<string, mixed> */
+    protected function getOptions(): array
+    {
+        return [
+            'maintainAspectRatio' => false,
+            'plugins' => [
+                'legend' => [
+                    'position' => 'bottom',
+                ],
+            ],
+        ];
+    }
 }

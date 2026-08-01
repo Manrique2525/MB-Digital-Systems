@@ -265,6 +265,18 @@
     vertical-align: top;
 }
 
+/* ---------- Charts ---------- */
+.fi-wi-chart canvas {
+    height: 320px !important;
+    width: 100% !important;
+}
+
+@media (max-width: 639px) {
+    .fi-wi-chart canvas {
+        height: 280px !important;
+    }
+}
+
 /* ---------- Timeline ---------- */
 .mb-timeline__line {
     position: absolute;

@@ -56,6 +56,7 @@ class LeadsTrendChartWidget extends ChartWidget
     protected function getOptions(): array
     {
         return [
+            'maintainAspectRatio' => false,
             'scales' => [
                 'x' => [
                     'ticks' => [
