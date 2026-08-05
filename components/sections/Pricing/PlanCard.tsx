@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { whatsappUrl } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
 import { StarIcon, CheckIcon, GiftIcon, MessageIcon, getPlanIcon, getBonusIcon } from "@/components/ui/icons/Icons";
+import { easing, radius } from "@/data/theme";
 
 interface PlanCardProps {
   plan: {
@@ -38,12 +39,12 @@ export function PlanCard({ plan, index }: PlanCardProps) {
         initial={{ opacity: 0, y: 32, scale: 0.95 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true }}
-        transition={{ delay: index * 0.12, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ delay: index * 0.12, duration: 0.65, ease: easing }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
           background: plan.accentBg as string,
-          borderRadius: 24,
+          borderRadius: radius.panel,
           padding: "clamp(28px,4vw,44px) clamp(22px,3vw,36px)",
           position: "relative",
           overflow: "hidden",
@@ -65,7 +66,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 6,
           background: "rgba(255,255,255,0.2)",
-          borderRadius: 100, padding: "4px 14px",
+          borderRadius: radius.pill, padding: "4px 14px",
           marginBottom: 24, fontSize: 11, fontWeight: 700,
           color: "#fff", letterSpacing: 1.5, textTransform: "uppercase",
         }}>
@@ -88,7 +89,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
             <span style={{
               background: "rgba(255,255,255,0.2)",
-              borderRadius: 100, padding: "3px 10px",
+              borderRadius: radius.pill, padding: "3px 10px",
               fontSize: 10, fontWeight: 800, color: "#fff",
               letterSpacing: 0.5,
             }}>
@@ -174,7 +175,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
             display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
             background: "#fff", color: "#1E40AF",
             textDecoration: "none", fontWeight: 800,
-            padding: "14px 24px", borderRadius: 100,
+            padding: "14px 24px", borderRadius: radius.pill,
             fontSize: 15, width: "100%",
             boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
           }}
@@ -190,13 +191,13 @@ export function PlanCard({ plan, index }: PlanCardProps) {
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.12, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: index * 0.12, duration: 0.65, ease: easing }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         background: hovered ? "#fff" : "#F8FAFF",
         border: `1px solid ${hovered ? plan.accentColor + "40" : "#E8F0FE"}`,
-        borderRadius: 24,
+        borderRadius: radius.panel,
         padding: "clamp(28px,4vw,44px) clamp(22px,3vw,36px)",
         boxShadow: hovered
           ? `0 24px 60px ${plan.accentColor}20`
@@ -223,7 +224,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
           <span style={{
             background: `${plan.accentColor}15`,
             border: `1px solid ${plan.accentColor}30`,
-            borderRadius: 100, padding: "3px 10px",
+            borderRadius: radius.pill, padding: "3px 10px",
             fontSize: 10, fontWeight: 800, color: plan.accentColor,
             letterSpacing: 0.5,
           }}>
@@ -314,7 +315,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
 background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,
             color: "#fff", textDecoration: "none", fontWeight: 800,
-            padding: "14px 24px", borderRadius: 100,
+            padding: "14px 24px", borderRadius: radius.pill,
             fontSize: 15, width: "100%",
             boxShadow: `0 4px 20px ${plan.accentColor}35`,
           }}

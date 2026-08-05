@@ -2,6 +2,7 @@
 
 import { useRef, ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
+import { easing } from "@/data/theme";
 
 interface AnimatedSectionProps {
   children: ReactNode;
@@ -17,7 +18,7 @@ export function AnimatedSection({ children, delay = 0, style = {} }: AnimatedSec
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.7, delay, ease: easing }}
       style={style}
     >
       {children}

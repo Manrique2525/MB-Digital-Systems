@@ -3,12 +3,13 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { MonitorIcon } from "@/components/ui/icons/Icons";
+import { section, gradients, easing, radius } from "@/data/theme";
 
 export function About() {
   return (
     <section
       id="nosotros"
-      style={{ padding: "clamp(60px,10vw,120px) 20px", background: "#fff" }}
+      style={{ padding: section.padding, background: "#fff" }}
     >
       <div
         style={{
@@ -47,7 +48,7 @@ export function About() {
             No somos solo programadores.<br />
             <span
               style={{
-                background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
+                background: gradients.text,
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -111,11 +112,11 @@ export function About() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.8, ease: easing }}
               style={{
-                borderRadius: 24,
+                borderRadius: radius.panel,
                 overflow: "hidden",
-                background: "linear-gradient(160deg,#EFF6FF 0%,#DBEAFE 40%,#EDE9FE 100%)",
+                background: gradients.heroBg,
                 aspectRatio: "4/3",
                 position: "relative",
                 boxShadow: "0 32px 80px rgba(59,130,246,0.18)",
@@ -162,7 +163,7 @@ export function About() {
                 position: "absolute",
                 bottom: -20,
                 left: -16,
-                background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                background: gradients.button,
                 borderRadius: 18,
                 padding: "16px 22px",
                 boxShadow: "0 16px 40px rgba(59,130,246,0.3)",

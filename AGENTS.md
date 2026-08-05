@@ -17,10 +17,10 @@ precios, y formulario de contacto con integración a WhatsApp.
 | Estilos       | Tailwind CSS v4      | ^4 (PostCSS) |
 | Animaciones   | Framer Motion        | ^12.40.0   |
 | Fuentes       | Google Fonts (Sora)  | CDN dinámico |
-| Iconos        | Font Awesome 6       | CDN externo |
+| Iconos        | SVG inline (Icons.tsx) | propios |
 | Bundler       | Turbopack            | integrado  |
-| Despliegue    | Netlify              | plugin Next.js |
-| Node          | Node.js              | 20         |
+| Despliegue    | Netlify              | static export (`out/`) |
+| Node          | Node.js              | 22 (Netlify) / 24 (local) |
 | Linting       | ESLint 9             | next/core-web-vitals + typescript |
 
 ## Estructura del proyecto

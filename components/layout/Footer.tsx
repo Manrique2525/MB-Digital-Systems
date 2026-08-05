@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { NAV_LINKS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
 import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon, MessageIcon, FacebookIcon, InstagramIcon, LinkedinIcon, WhatsAppIcon } from "@/components/ui/icons/Icons";
+import { gradients, radius } from "@/data/theme";
 
 export function Footer() {
   const { trackEvent } = useTracking();
@@ -206,12 +207,12 @@ export function Footer() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 8,
-                background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                background: gradients.button,
                 color: "#fff",
                 textDecoration: "none",
                 fontWeight: 700,
                 padding: "10px 20px",
-                borderRadius: 100,
+                borderRadius: radius.pill,
                 fontSize: 13,
                 marginTop: 16,
               }}

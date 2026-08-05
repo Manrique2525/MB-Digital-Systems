@@ -5,13 +5,14 @@ import { SERVICES, FEATURES, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/const
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { useTracking } from "@/components/hooks/useTracking";
 import { getServiceIcon, MessageIcon } from "@/components/ui/icons/Icons";
+import { section, gradients, radius } from "@/data/theme";
 
 export function Services() {
   const { trackEvent } = useTracking();
   return (
     <section
       id="servicios"
-      style={{ padding: "clamp(60px,10vw,120px) 20px", background: "#fff" }}
+      style={{ padding: section.padding, background: "#fff" }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <AnimatedSection
@@ -68,7 +69,7 @@ export function Services() {
                 style={{
                   background: "#F8FAFF",
                   border: "1px solid #E8F0FE",
-                  borderRadius: 20,
+                  borderRadius: radius.card,
                   padding: "clamp(24px,4vw,40px) clamp(20px,3vw,32px)",
                   height: "100%",
                   cursor: "default",
@@ -122,8 +123,8 @@ export function Services() {
           <div
             style={{
               background:
-                "linear-gradient(135deg,#1E40AF 0%,#3B82F6 50%,#6366F1 100%)",
-              borderRadius: 24,
+                gradients.section,
+              borderRadius: radius.panel,
               padding: "clamp(32px,5vw,64px) clamp(20px,4vw,48px)",
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))",
@@ -170,7 +171,7 @@ export function Services() {
                   textDecoration: "none",
                   fontWeight: 800,
                   padding: "14px 28px",
-                  borderRadius: 100,
+                  borderRadius: radius.pill,
                   fontSize: 15,
                 }}
               >

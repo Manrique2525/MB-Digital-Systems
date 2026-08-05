@@ -7,6 +7,7 @@ import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { PlanCard } from "@/components/sections/Pricing/PlanCard";
 import { useSectionViewOnce, useTracking } from "@/components/hooks/useTracking";
 import { GiftIcon, InfoIcon, ShieldCheckIcon, MonitorIcon, GearIcon, MessageIcon, ZapIcon, ClipboardIcon, LockIcon, CodeIcon, DatabaseIcon, PlugIcon, getUseCaseIcon, getDevStepIcon } from "@/components/ui/icons/Icons";
+import { section, gradients, easing, radius } from "@/data/theme";
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
@@ -165,7 +166,7 @@ export function Pricing() {
       ref={sectionRef}
       style={{
         background: "#fff",
-        padding: "clamp(72px,12vw,140px) 20px",
+        padding: section.paddingWide,
         position: "relative",
         overflow: "hidden",
       }}
@@ -177,7 +178,7 @@ export function Pricing() {
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             background: "rgba(59,130,246,0.1)", border: "1px solid rgba(59,130,246,0.2)",
-            borderRadius: 100, padding: "6px 18px", marginBottom: 28,
+            borderRadius: radius.pill, padding: "6px 18px", marginBottom: 28,
             color: "#1E40AF", fontSize: 13, fontWeight: 600,
           }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#10B981", display: "inline-block" }} />
@@ -190,7 +191,7 @@ export function Pricing() {
           }}>
             Planes para hacer<br />
             <span style={{
-              background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
+              background: gradients.text,
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
             }}>
               crecer tu negocio
@@ -212,7 +213,7 @@ export function Pricing() {
                 gap: 8,
                 background: "linear-gradient(135deg,#ECFDF5,#D1FAE5)",
                 border: "1px solid #A7F3D0",
-                borderRadius: 100,
+                borderRadius: radius.pill,
                 padding: "10px 22px",
                 color: "#065F46",
                 fontSize: 14,
@@ -236,7 +237,7 @@ export function Pricing() {
             <div style={{
               display: "flex", alignItems: "center", gap: 10,
               background: "#F8FAFF", border: "1px solid #E8F0FE",
-              borderRadius: 100, padding: "8px 20px",
+              borderRadius: radius.pill, padding: "8px 20px",
             }}>
               <MonitorIcon size={18} color="#1E40AF" />
               <span style={{ fontSize: 13, fontWeight: 700, color: "#1E40AF", letterSpacing: 1.5, textTransform: "uppercase" }}>
@@ -277,7 +278,7 @@ export function Pricing() {
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 8,
               background: "#ECFDF5", border: "1px solid #A7F3D0",
-              borderRadius: 100, padding: "6px 16px",
+              borderRadius: radius.pill, padding: "6px 16px",
               color: "#065F46", fontWeight: 600,
             }}>
               <ShieldCheckIcon size={16} color="#065F46" />
@@ -297,7 +298,7 @@ export function Pricing() {
             <div style={{
               display: "flex", alignItems: "center", gap: 10,
               background: "#F8FAFF", border: "1px solid #E8F0FE",
-              borderRadius: 100, padding: "8px 20px",
+              borderRadius: radius.pill, padding: "8px 20px",
             }}>
               <GearIcon size={18} color="#1E40AF" />
               <span style={{ fontSize: 13, fontWeight: 700, color: "#1E40AF", letterSpacing: 1.5, textTransform: "uppercase" }}>
@@ -319,7 +320,7 @@ export function Pricing() {
             }}>
               Automatiza y escala<br />
               <span style={{
-                background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
+                background: gradients.text,
                 WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
               }}>
                 tu negocio
@@ -344,11 +345,11 @@ export function Pricing() {
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, ease: easing }}
               style={{
                 background: "#F8FAFF",
                 border: "1px solid #E8F0FE",
-                borderRadius: 24,
+                borderRadius: radius.panel,
                 padding: "clamp(28px,4vw,44px) clamp(22px,3vw,36px)",
               }}
             >
@@ -382,7 +383,7 @@ export function Pricing() {
                   >
                     <span style={{
                       width: 18, height: 18, borderRadius: "50%", flexShrink: 0,
-                      background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                      background: gradients.button,
                       display: "flex", alignItems: "center", justifyContent: "center",
                       fontSize: 9, color: "#fff", fontWeight: 800, marginTop: 1,
                     }}>✓</span>
@@ -397,11 +398,11 @@ export function Pricing() {
               initial={{ opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, ease: easing }}
               style={{
                 background: "#F8FAFF",
                 border: "1px solid #E8F0FE",
-                borderRadius: 24,
+                borderRadius: radius.panel,
                 padding: "clamp(28px,4vw,44px) clamp(22px,3vw,36px)",
               }}
             >
@@ -458,7 +459,7 @@ export function Pricing() {
             style={{
               background: "#F8FAFF",
               border: "1px solid #E8F0FE",
-              borderRadius: 24,
+              borderRadius: radius.panel,
               padding: "clamp(28px,4vw,44px) clamp(22px,3vw,36px)",
               marginBottom: 24,
             }}
@@ -486,7 +487,7 @@ export function Pricing() {
                   initial={{ opacity: 0, scale: 0.88 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: i * 0.1, duration: 0.5, ease: easing }}
                   style={{ textAlign: "center", position: "relative" }}
                 >
                   {i < DEV_STEPS.length - 1 && (
@@ -496,7 +497,7 @@ export function Pricing() {
                       style={{
                         position: "absolute", top: 30, right: "-12%",
                         width: "24%", height: 2,
-                        background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
+                        background: gradients.text,
                       }}
                     />
                   )}
@@ -511,7 +512,7 @@ export function Pricing() {
                     <span style={{
                       position: "absolute", top: -8, right: -8,
                       width: 22, height: 22, borderRadius: "50%",
-                      background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                      background: gradients.button,
                       color: "#fff", fontSize: 9, fontWeight: 800,
                       display: "flex", alignItems: "center", justifyContent: "center",
                     }}>
@@ -536,7 +537,7 @@ export function Pricing() {
             viewport={{ once: true }}
             style={{
               background: "#F8FAFF", border: "1px solid #E8F0FE",
-              borderRadius: 20, padding: "24px 32px",
+              borderRadius: radius.card, padding: "24px 32px",
               display: "flex", alignItems: "center",
               gap: 20, flexWrap: "wrap", justifyContent: "center",
               marginBottom: 40,
@@ -556,7 +557,7 @@ export function Pricing() {
                 style={{
                   display: "flex", alignItems: "center", gap: 6,
                   background: "#fff", border: "1px solid #E8F0FE",
-                  borderRadius: 100, padding: "6px 14px",
+                  borderRadius: radius.pill, padding: "6px 14px",
                   cursor: "default",
                 }}
               >
@@ -576,7 +577,7 @@ export function Pricing() {
             transition={{ duration: 0.7 }}
             style={{
               background: "linear-gradient(135deg,#1E40AF 0%,#3B82F6 50%,#8B5CF6 100%)",
-              borderRadius: 24,
+              borderRadius: radius.panel,
               padding: "clamp(40px,6vw,64px) clamp(24px,5vw,56px)",
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
@@ -615,7 +616,7 @@ export function Pricing() {
                 <span style={{
                   background: "rgba(255,255,255,0.2)", color: "#fff",
                   fontSize: 12, fontWeight: 700, padding: "4px 12px",
-                  borderRadius: 100,
+                  borderRadius: radius.pill,
                 }}>
                   Proyectos desde $25,000 MXN
                 </span>
@@ -630,7 +631,7 @@ export function Pricing() {
                   display: "inline-flex", alignItems: "center", gap: 10,
                   background: "#fff", color: "#1E40AF",
                   textDecoration: "none", fontWeight: 800,
-                  padding: "14px 28px", borderRadius: 100, fontSize: 15,
+                  padding: "14px 28px", borderRadius: radius.pill, fontSize: 15,
                   boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
                 }}
               >

@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
 import { ShieldCheckIcon, StarIcon, ArrowRightIcon } from "@/components/ui/icons/Icons";
+import { gradients, easing, radius } from "@/data/theme";
 
 const STATS: { value: string; label: string; rating?: boolean }[] = [
   { value: "20+", label: "Proyectos entregados" },
@@ -92,7 +93,7 @@ export function Hero() {
             gap: 8,
             background: "rgba(255,255,255,0.8)",
             border: "1px solid rgba(59,130,246,0.2)",
-            borderRadius: 100,
+            borderRadius: radius.pill,
             padding: "7px 18px",
             marginBottom: 28,
             color: "#1E40AF",
@@ -109,7 +110,7 @@ export function Hero() {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.35, duration: 0.8, ease: easing }}
           style={{
             fontSize: "clamp(38px,7vw,80px)",
             fontWeight: 800,
@@ -123,7 +124,7 @@ export function Hero() {
           Del primer mensaje<br />
           <span
             style={{
-              background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
+              background: gradients.text,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -179,12 +180,12 @@ export function Hero() {
               display: "inline-flex",
               alignItems: "center",
               gap: 10,
-              background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+              background: gradients.button,
               color: "#fff",
               textDecoration: "none",
               fontWeight: 700,
               padding: "14px 28px",
-              borderRadius: 100,
+              borderRadius: radius.pill,
               fontSize: "clamp(14px,2vw,16px)",
               boxShadow: "0 4px 24px rgba(59,130,246,0.35)",
             }}
@@ -207,7 +208,7 @@ export function Hero() {
               color: "#1E40AF",
               fontWeight: 600,
               padding: "14px 24px",
-              borderRadius: 100,
+              borderRadius: radius.pill,
               fontSize: "clamp(13px,2vw,15px)",
               cursor: "pointer",
               backdropFilter: "blur(8px)",

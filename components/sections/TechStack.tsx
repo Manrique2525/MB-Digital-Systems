@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { getBenefitIcon, CodeIcon } from "@/components/ui/icons/Icons";
+import { section, radius } from "@/data/theme";
 
 const BENEFITS = [
   {
@@ -59,7 +60,7 @@ const TECH_USED = [
 export function TechStack() {
   return (
     <section
-      style={{ padding: "clamp(60px,10vw,120px) 20px", background: "#F8FAFF" }}
+      style={{ padding: section.padding, background: "#F8FAFF" }}
     >
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <AnimatedSection
@@ -72,7 +73,7 @@ export function TechStack() {
               gap: 8,
               background: "rgba(59,130,246,0.1)",
               border: "1px solid rgba(59,130,246,0.2)",
-              borderRadius: 100,
+              borderRadius: radius.pill,
               padding: "6px 16px",
               marginBottom: 24,
               color: "#1E40AF",
@@ -148,7 +149,7 @@ export function TechStack() {
                 style={{
                   background: "#fff",
                   border: `1px solid ${b.border}`,
-                  borderRadius: 20,
+                  borderRadius: radius.card,
                   padding: "clamp(24px,3vw,32px)",
                   height: "100%",
                   cursor: "default",
@@ -234,7 +235,7 @@ export function TechStack() {
             style={{
               background: "#fff",
               border: "1px solid #E8F0FE",
-              borderRadius: 20,
+              borderRadius: radius.card,
               padding: "24px 32px",
               display: "flex",
               alignItems: "center",
@@ -269,7 +270,7 @@ export function TechStack() {
                   gap: 6,
                   background: "#F8FAFF",
                   border: "1px solid #E8F0FE",
-                  borderRadius: 100,
+                  borderRadius: radius.pill,
                   padding: "6px 14px",
                   cursor: "default",
                 }}

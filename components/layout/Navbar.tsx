@@ -6,6 +6,7 @@ import { NAV_LINKS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useScrollSpy } from "@/components/hooks/useScrollSpy";
 import { useTracking } from "@/components/hooks/useTracking";
 import { PhoneIcon, HamburgerIcon, CloseIcon, MessageIcon } from "@/components/ui/icons/Icons";
+import { gradients, easing, radius } from "@/data/theme";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -36,7 +37,7 @@ export function Navbar() {
       <motion.header
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.6, ease: easing }}
         style={{
           position: "fixed",
           top: 0,
@@ -168,14 +169,14 @@ export function Navbar() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 6,
-                background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                background: gradients.button,
                 color: "#fff",
                 textDecoration: "none",
                 cursor: "pointer",
                 fontSize: 13,
                 fontWeight: 700,
                 padding: "10px 22px",
-                borderRadius: 100,
+                borderRadius: radius.pill,
                 fontFamily: "inherit",
                 marginLeft: 4,
                 boxShadow: "0 4px 20px rgba(59,130,246,0.35)",
@@ -295,7 +296,7 @@ export function Navbar() {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: 6,
-                  background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                  background: gradients.button,
                   color: "#fff",
                   textDecoration: "none",
                   fontSize: 15,

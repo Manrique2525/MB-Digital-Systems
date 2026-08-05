@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { ChartBarIcon, CheckCircleIcon, MessageIcon, ZapIcon, LockIcon } from "@/components/ui/icons/Icons";
 import { useTracking } from "@/components/hooks/useTracking";
+import { radius } from "@/data/theme";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -53,7 +54,7 @@ export function LeadMagnet() {
     <div
       style={{
         background: "linear-gradient(135deg, #1E293B 0%, #0F172A 100%)",
-        borderRadius: 20,
+        borderRadius: radius.card,
         padding: "clamp(28px, 4vw, 40px)",
         border: "1px solid rgba(59,130,246,0.2)",
         textAlign: "center",

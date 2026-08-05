@@ -6,6 +6,7 @@ import { TESTIMONIOS, METRICS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/con
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { useTracking } from "@/components/hooks/useTracking";
 import { StarIcon, ChartUpIcon, MessageIcon, ArrowRightIcon, getMetricIcon } from "@/components/ui/icons/Icons";
+import { gradients, radius } from "@/data/theme";
 
 export function SocialProof() {
   const { trackEvent } = useTracking();
@@ -38,7 +39,7 @@ export function SocialProof() {
                   padding: "clamp(24px, 3vw, 36px) 16px",
                   background: "#F8FAFF",
                   border: "1px solid #E8F0FE",
-                  borderRadius: 20,
+                  borderRadius: radius.card,
                 }}
               >
                 <div
@@ -95,7 +96,7 @@ export function SocialProof() {
               gap: 8,
               background: "rgba(59, 130, 246, 0.1)",
               border: "1px solid rgba(59, 130, 246, 0.2)",
-              borderRadius: 100,
+              borderRadius: radius.pill,
               padding: "6px 16px",
               marginBottom: 24,
               color: "#1E40AF",
@@ -156,7 +157,7 @@ export function SocialProof() {
                 style={{
                   background: "#F8FAFF",
                   border: "1px solid #E8F0FE",
-                  borderRadius: 24,
+                  borderRadius: radius.panel,
                   padding: "clamp(24px, 4vw, 36px)",
                   height: "100%",
                   display: "flex",
@@ -176,7 +177,7 @@ export function SocialProof() {
                     <div style={{
                       background: "#ECFDF5",
                       border: "1px solid #A7F3D0",
-                      borderRadius: 100,
+                      borderRadius: radius.pill,
                       padding: "4px 12px",
                       fontSize: 12,
                       fontWeight: 800,
@@ -245,7 +246,7 @@ export function SocialProof() {
             style={{
               background: "#F8FAFF",
               border: "1px solid #E8F0FE",
-              borderRadius: 24,
+              borderRadius: radius.panel,
               padding: "clamp(36px,5vw,56px) clamp(24px,4vw,48px)",
               maxWidth: 720,
               margin: "0 auto",
@@ -304,12 +305,12 @@ export function SocialProof() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 10,
-                  background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                  background: gradients.button,
                   color: "#fff",
                   textDecoration: "none",
                   fontWeight: 700,
                   padding: "16px 36px",
-                  borderRadius: 100,
+                  borderRadius: radius.pill,
                   fontSize: "clamp(14px,2vw,16px)",
                   boxShadow: "0 4px 24px rgba(59,130,246,0.3)",
                 }}

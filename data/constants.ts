@@ -3,9 +3,9 @@ import { ServiceItem, ProjectItem, TestimonialItem, MetricItem } from "@/types";
 export const WHATSAPP_NUMBER = "+529931782620";
 
 export const WHATSAPP_MESSAGES = {
-  landingPage: "Hola MB Digital, me interesa la Landing Page ($4,999 MXN). Quiero una página web para mi negocio en Tabasco.",
-  paginaEmpresarial: "Hola MB Digital, me interesa el plan Página Empresarial ($9,999 MXN). Necesito una web profesional con blog y múltiples secciones.",
-  ecomerce: "Hola MB Digital, me interesa el plan E-commerce ($18,999 MXN). Quiero una tienda online para vender mis productos 24/7.",
+  landingPage: "Hola MB Digital, me interesa la Landing Page ($2,999 MXN). Quiero una página web para mi negocio en Tabasco.",
+  paginaEmpresarial: "Hola MB Digital, me interesa el plan Página Empresarial ($8,999 MXN). Necesito una web profesional con blog y múltiples secciones.",
+  ecomerce: "Hola MB Digital, me interesa el plan E-commerce ($16,999 MXN). Quiero una tienda online para vender mis productos 24/7.",
   sistemasAMedida: "Hola MB Digital, me interesa un Sistema a Medida. Quiero automatizar un proceso de mi negocio y necesito una cotización personalizada.",
   desarrolloWeb: "Hola MB Digital, me interesa el servicio de Desarrollo Web. Quiero una página web profesional que aparezca en Google.",
   seo: "Hola MB Digital, me interesa el servicio de SEO. Mi negocio no aparece en Google y quiero estar en la primera página.",

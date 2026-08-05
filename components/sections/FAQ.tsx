@@ -6,6 +6,7 @@ import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
 import { MessageIcon } from "@/components/ui/icons/Icons";
+import { gradients, easing, radius } from "@/data/theme";
 
 const FAQ_DATA = [
   {
@@ -121,7 +122,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         aria-labelledby={`faq-button-${index}`}
         initial={false}
         animate={{ gridTemplateRows: open ? "1fr" : "0fr", opacity: open ? 1 : 0 }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.3, ease: easing }}
         style={{ display: "grid", gridTemplateRows: "0fr" }}
       >
         <div style={{ overflow: "hidden", minHeight: 0 }}>
@@ -161,7 +162,7 @@ export function FAQ() {
               gap: 8,
               background: "rgba(59, 130, 246, 0.1)",
               border: "1px solid rgba(59, 130, 246, 0.2)",
-              borderRadius: 100,
+              borderRadius: radius.pill,
               padding: "6px 16px",
               marginBottom: 24,
               color: "#1E40AF",
@@ -211,7 +212,7 @@ export function FAQ() {
             style={{
               background: "#fff",
               border: "1px solid #E8F0FE",
-              borderRadius: 24,
+              borderRadius: radius.panel,
               padding: "clamp(16px, 3vw, 32px)",
             }}
           >
@@ -242,12 +243,12 @@ export function FAQ() {
               display: "inline-flex",
               alignItems: "center",
               gap: 10,
-              background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+              background: gradients.button,
               color: "#fff",
               textDecoration: "none",
               fontWeight: 700,
               padding: "14px 28px",
-              borderRadius: 100,
+              borderRadius: radius.pill,
               fontSize: 15,
             }}
           >

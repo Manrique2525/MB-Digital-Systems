@@ -7,6 +7,7 @@ import { PROJECTS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { useSectionViewOnce, useTracking } from "@/components/hooks/useTracking";
 import { RocketIcon, MessageIcon } from "@/components/ui/icons/Icons";
+import { section, gradients, shadows, easing, radius } from "@/data/theme";
 
 const PROJECT_HIGHLIGHTS: Record<string, { metric: string; metricLabel: string }> = {
   "Llantas Gamma": { metric: "3x", metricLabel: "más vistas" },
@@ -29,7 +30,7 @@ export function Projects() {
     <section
       id="proyectos"
       ref={sectionRef}
-      style={{ padding: "clamp(60px,10vw,120px) 20px", background: "#F8FAFF" }}
+      style={{ padding: section.padding, background: "#F8FAFF" }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <AnimatedSection
@@ -42,7 +43,7 @@ export function Projects() {
               gap: 8,
               background: "rgba(59,130,246,0.1)",
               border: "1px solid rgba(59,130,246,0.2)",
-              borderRadius: 100,
+              borderRadius: radius.pill,
               padding: "6px 16px",
               marginBottom: 24,
               color: "#1E40AF",
@@ -115,13 +116,13 @@ export function Projects() {
                   whileHover={{ y: -10 }}
                   style={{
                     background: "#fff",
-                    borderRadius: 24,
+                    borderRadius: radius.panel,
                     overflow: "hidden",
                     border: "1px solid #E8F0FE",
                     boxShadow:
                       hovered === i
-                        ? "0 24px 60px rgba(59,130,246,0.18)"
-                        : "0 2px 12px rgba(0,0,0,0.04)",
+                        ? shadows.glow
+                        : shadows.card,
                     transition: "box-shadow 0.3s",
                   }}
                 >
@@ -194,7 +195,7 @@ export function Projects() {
                               background: "rgba(255,255,255,0.95)",
                               color: "#0F172A",
                               border: "none",
-                              borderRadius: 100,
+                              borderRadius: radius.pill,
                               padding: "6px 12px",
                               fontSize: 12,
                               fontWeight: 700,
@@ -214,7 +215,7 @@ export function Projects() {
                               background: "rgba(255,255,255,0.95)",
                               color: "#1E40AF",
                               textDecoration: "none",
-                              borderRadius: 100,
+                              borderRadius: radius.pill,
                               padding: "6px 12px",
                               fontSize: 12,
                               fontWeight: 700,
@@ -229,7 +230,7 @@ export function Projects() {
                       <>
                         <motion.div
                           animate={{ scale: hovered === i ? 1.07 : 1 }}
-                          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                          transition={{ duration: 0.5, ease: easing }}
                           style={{ width: "100%", height: "100%", position: "relative" }}
                         >
                           <Image
@@ -274,7 +275,7 @@ export function Projects() {
                                 style={{
                                   color: "#fff",
                                   border: "2px solid #fff",
-                                  borderRadius: 100,
+                                  borderRadius: radius.pill,
                                   padding: "10px 28px",
                                   fontWeight: 700,
                                   fontSize: 14,
@@ -319,7 +320,7 @@ export function Projects() {
                               background: "rgba(16,185,129,0.95)",
                               color: "#fff",
                               border: "none",
-                              borderRadius: 100,
+                              borderRadius: radius.pill,
                               padding: "6px 12px",
                               fontSize: 12,
                               fontWeight: 700,
@@ -359,7 +360,7 @@ export function Projects() {
                               background: "rgba(59,130,246,0.95)",
                               color: "#fff",
                               textDecoration: "none",
-                              borderRadius: 100,
+                              borderRadius: radius.pill,
                               padding: "6px 12px",
                               fontSize: 12,
                               fontWeight: 700,
@@ -378,7 +379,7 @@ export function Projects() {
                           top: 16,
                           right: 16,
                           background: "#10B981",
-                          borderRadius: 100,
+                          borderRadius: radius.pill,
                           padding: "6px 14px",
                           display: "flex",
                           alignItems: "center",
@@ -438,7 +439,7 @@ export function Projects() {
                             fontSize: 12,
                             fontWeight: 700,
                             padding: "4px 12px",
-                            borderRadius: 100,
+                            borderRadius: radius.pill,
                           }}
                         >
                           {t}
@@ -478,7 +479,7 @@ export function Projects() {
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.7, ease: easing }}
               style={{
                 background:
                   "linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%)",
@@ -558,7 +559,7 @@ export function Projects() {
                     gap: 8,
                     background: "rgba(59,130,246,0.9)",
                     backdropFilter: "blur(8px)",
-                    borderRadius: 100,
+                    borderRadius: radius.pill,
                     padding: "8px 20px",
                   }}
                 >
@@ -658,7 +659,7 @@ Próximamente
                         fontSize: 12,
                         fontWeight: 700,
                         padding: "5px 14px",
-                        borderRadius: 100,
+                        borderRadius: radius.pill,
                       }}
                     >
                       {t}
@@ -687,7 +688,7 @@ Próximamente
             style={{
               background: "#fff",
               border: "1px solid #E8F0FE",
-              borderRadius: 24,
+              borderRadius: radius.panel,
               padding: "clamp(32px,5vw,48px) clamp(24px,4vw,40px)",
               maxWidth: 600,
               margin: "0 auto",
@@ -730,12 +731,12 @@ Próximamente
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 10,
-                background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                background: gradients.button,
                 color: "#fff",
                 textDecoration: "none",
                 fontWeight: 700,
                 padding: "16px 36px",
-                borderRadius: 100,
+                borderRadius: radius.pill,
                 fontSize: "clamp(14px,2vw,16px)",
                 boxShadow: "0 4px 24px rgba(59,130,246,0.3)",
               }}

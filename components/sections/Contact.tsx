@@ -6,6 +6,7 @@ import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { LeadMagnet } from "@/components/ui/LeadMagnet";
 import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, CheckCircleIcon, ShieldCheckIcon } from "@/components/ui/icons/Icons";
 import { useTracking } from "@/components/hooks/useTracking";
+import { section, gradients, radius } from "@/data/theme";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -145,7 +146,7 @@ export function Contact() {
   return (
     <section
       id="contacto"
-      style={{ padding: "clamp(60px,10vw,120px) 20px", background: "#fff" }}
+      style={{ padding: section.padding, background: "#fff" }}
     >
       <div
         style={{
@@ -261,7 +262,7 @@ export function Contact() {
             style={{
               background: "#F8FAFF",
               border: "1px solid #E8F0FE",
-              borderRadius: 24,
+              borderRadius: radius.panel,
               padding: "clamp(24px,4vw,40px)",
             }}
           >
@@ -377,7 +378,7 @@ export function Contact() {
                         alignItems: "center",
                         gap: 6,
                         padding: "8px 14px",
-                        borderRadius: 100,
+                        borderRadius: radius.pill,
                         border: `1.5px solid ${active ? "#3B82F6" : "#E2E8F0"}`,
                         background: active ? "#EFF6FF" : "#fff",
                         color: active ? "#1E40AF" : "#475569",
@@ -454,10 +455,10 @@ export function Contact() {
               whileTap={sending ? {} : { scale: 0.97 }}
               style={{
                 width: "100%",
-                background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                background: gradients.button,
                 color: "#fff",
                 border: "none",
-                borderRadius: 100,
+                borderRadius: radius.pill,
                 padding: "14px 28px",
                 fontSize: 16,
                 fontWeight: 700,
@@ -539,7 +540,7 @@ export function Contact() {
         <AnimatedSection>
           <div
             style={{
-              borderRadius: 20,
+              borderRadius: radius.card,
               overflow: "hidden",
               border: "1px solid #E2E8F0",
               height: "100%",

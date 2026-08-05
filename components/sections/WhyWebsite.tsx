@@ -5,6 +5,7 @@ import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
 import { AlertIcon, SlashCircleIcon, MoonIcon, FrownIcon, MessageIcon, ZapIcon } from "@/components/ui/icons/Icons";
+import { gradients, easing, radius } from "@/data/theme";
 
 const PAIN_POINTS = [
   {
@@ -35,12 +36,12 @@ function PainCard({ icon, title, desc, index }: { icon: React.ReactNode; title: 
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay: index * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: index * 0.1, duration: 0.6, ease: easing }}
       whileHover={{ y: -4, boxShadow: "0 16px 48px rgba(59,130,246,0.12)" }}
       style={{
         background: "#F8FAFF",
         border: "1px solid #E8F0FE",
-        borderRadius: 20,
+        borderRadius: radius.card,
         padding: "clamp(22px,3vw,32px)",
         cursor: "default",
         transition: "all 0.28s ease",
@@ -70,7 +71,7 @@ export function WhyWebsite() {
     <section
       id="por-que"
       style={{
-        background: "linear-gradient(160deg,#EFF6FF 0%,#DBEAFE 40%,#EDE9FE 100%)",
+        background: gradients.heroBg,
         padding: "clamp(72px,12vw,120px) 20px",
         position: "relative",
         overflow: "hidden",
@@ -88,7 +89,7 @@ export function WhyWebsite() {
           }}>
             Cada día sin web,<br />
             <span style={{
-              background: "linear-gradient(90deg,#3B82F6,#8B5CF6)",
+              background: gradients.text,
               WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
             }}>
               son clientes que se van.
@@ -138,7 +139,7 @@ export function WhyWebsite() {
           <motion.div
             whileHover={{ scale: 1.005 }}
             style={{
-              background: "linear-gradient(135deg,#1E40AF 0%,#3B82F6 50%,#6366F1 100%)",
+              background: gradients.section,
               borderRadius: 28,
               padding: "clamp(48px,7vw,72px) clamp(28px,5vw,64px)",
               textAlign: "center",
@@ -183,7 +184,7 @@ export function WhyWebsite() {
                     display: "inline-flex", alignItems: "center", gap: 10,
                     background: "#fff", color: "#1E40AF",
                     textDecoration: "none", fontWeight: 800,
-                    padding: "16px 32px", borderRadius: 100,
+                    padding: "16px 32px", borderRadius: radius.pill,
                     fontSize: "clamp(14px,1.8vw,17px)",
                     boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
                   }}
@@ -199,7 +200,7 @@ export function WhyWebsite() {
                     background: "rgba(255,255,255,0.1)",
                     border: "1px solid rgba(255,255,255,0.3)",
                     color: "#fff", fontWeight: 600,
-                    padding: "16px 28px", borderRadius: 100,
+                    padding: "16px 28px", borderRadius: radius.pill,
                     fontSize: "clamp(13px,1.8vw,16px)",
                     cursor: "pointer", fontFamily: "inherit",
                   }}

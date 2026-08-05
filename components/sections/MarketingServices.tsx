@@ -5,6 +5,7 @@ import { MARKETING_SERVICES, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/const
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { useTracking } from "@/components/hooks/useTracking";
 import { getServiceIcon, ChartBarIcon, TargetIcon, MoneyIcon, ChartUpIcon } from "@/components/ui/icons/Icons";
+import { radius } from "@/data/theme";
 
 export function MarketingServices() {
   const { trackEvent } = useTracking();
@@ -24,7 +25,7 @@ export function MarketingServices() {
               gap: 8,
               background: "rgba(139, 92, 246, 0.1)",
               border: "1px solid rgba(139, 92, 246, 0.2)",
-              borderRadius: 100,
+              borderRadius: radius.pill,
               padding: "6px 16px",
               marginBottom: 24,
               color: "#8B5CF6",
@@ -97,7 +98,7 @@ export function MarketingServices() {
                 style={{
                   background: "#fff",
                   border: "1px solid #E8F0FE",
-                  borderRadius: 20,
+                  borderRadius: radius.card,
                   padding: "clamp(24px, 4vw, 40px) clamp(20px, 3vw, 32px)",
                   height: "100%",
                   cursor: "default",
@@ -169,7 +170,7 @@ export function MarketingServices() {
                     fontSize: 14,
                     textDecoration: "none",
                     padding: "12px 20px",
-                    borderRadius: 100,
+                    borderRadius: radius.pill,
                   }}
                 >
                   Cotizar ahora →
@@ -187,7 +188,7 @@ export function MarketingServices() {
             transition={{ duration: 0.7 }}
             style={{
               background: "linear-gradient(135deg, #8B5CF6 0%, #1E40AF 50%, #3B82F6 100%)",
-              borderRadius: 24,
+              borderRadius: radius.panel,
               padding: "clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px)",
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -250,7 +251,7 @@ export function MarketingServices() {
                   textDecoration: "none",
                   fontWeight: 800,
                   padding: "14px 28px",
-                  borderRadius: 100,
+                  borderRadius: radius.pill,
                   fontSize: 15,
                 }}
               >
