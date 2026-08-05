@@ -6,14 +6,14 @@ import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { PlanCard } from "@/components/sections/Pricing/PlanCard";
 import { useSectionViewOnce, useTracking } from "@/components/hooks/useTracking";
-import { GiftIcon, InfoIcon, ShieldCheckIcon, MonitorIcon, GearIcon, MessageIcon, ZapIcon, ClipboardIcon, LockIcon, CodeIcon, DatabaseIcon, PlugIcon } from "@/components/ui/icons/Icons";
+import { GiftIcon, InfoIcon, ShieldCheckIcon, MonitorIcon, GearIcon, MessageIcon, ZapIcon, ClipboardIcon, LockIcon, CodeIcon, DatabaseIcon, PlugIcon, getUseCaseIcon, getDevStepIcon } from "@/components/ui/icons/Icons";
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const WEB_PLANS = [
   {
     id: "starter",
-    icon: "🚀",
+    icon: "rocket",
     name: "Landing Page",
     tagline: "Empieza a captar clientes hoy",
     price: "2,999",
@@ -30,9 +30,9 @@ const WEB_PLANS = [
       "1 revisión incluida",
     ],
     launchBonus: [
-      { icon: "🌐", text: "Dominio gratis 1 año", value: "$250" },
-      { icon: "🖥️", text: "Hosting 3 meses gratis", value: "$300" },
-      { icon: "🔍", text: "SEO básico configurado", value: "$1,500" },
+      { icon: "globe", text: "Dominio gratis 1 año", value: "$250" },
+      { icon: "monitor", text: "Hosting 3 meses gratis", value: "$300" },
+      { icon: "search", text: "SEO básico configurado", value: "$1,500" },
     ],
     cta: "Quiero mi landing page",
     whatsappMessage: WHATSAPP_MESSAGES.landingPage,
@@ -43,7 +43,7 @@ const WEB_PLANS = [
   },
   {
     id: "business",
-    icon: "🏢",
+    icon: "building",
     name: "Página Empresarial",
     tagline: "La más elegida por nuestros clientes",
     price: "8,999",
@@ -61,10 +61,10 @@ const WEB_PLANS = [
       "Soporte prioritario 30 días",
     ],
     launchBonus: [
-      { icon: "🌐", text: "Dominio gratis 1 año", value: "$250" },
-      { icon: "🖥️", text: "Hosting 6 meses gratis", value: "$600" },
-      { icon: "🔍", text: "SEO avanzado configurado", value: "$3,000" },
-      { icon: "📊", text: "Google Analytics configurado", value: "$1,000" },
+      { icon: "globe", text: "Dominio gratis 1 año", value: "$250" },
+      { icon: "monitor", text: "Hosting 6 meses gratis", value: "$600" },
+      { icon: "search", text: "SEO avanzado configurado", value: "$3,000" },
+      { icon: "chart", text: "Google Analytics configurado", value: "$1,000" },
     ],
     cta: "Quiero mi página empresarial",
     whatsappMessage: WHATSAPP_MESSAGES.paginaEmpresarial,
@@ -75,7 +75,7 @@ const WEB_PLANS = [
   },
   {
     id: "premium",
-    icon: "🛒",
+    icon: "cart",
     name: "E-commerce",
     tagline: "Vende 24/7 sin límites",
     price: "16,999",
@@ -93,11 +93,11 @@ const WEB_PLANS = [
       "Soporte 60 días",
     ],
     launchBonus: [
-      { icon: "🌐", text: "Dominio gratis 1 año", value: "$250" },
-      { icon: "🖥️", text: "Hosting 12 meses gratis", value: "$1,200" },
-      { icon: "🔍", text: "SEO avanzado configurado", value: "$3,000" },
-      { icon: "📊", text: "Google Analytics + Meta Pixel", value: "$2,000" },
-      { icon: "📸", text: "Fotos de producto profesionales", value: "$2,500" },
+      { icon: "globe", text: "Dominio gratis 1 año", value: "$250" },
+      { icon: "monitor", text: "Hosting 12 meses gratis", value: "$1,200" },
+      { icon: "search", text: "SEO avanzado configurado", value: "$3,000" },
+      { icon: "chart", text: "Google Analytics + Meta Pixel", value: "$2,000" },
+      { icon: "camera", text: "Fotos de producto profesionales", value: "$2,500" },
     ],
     cta: "Quiero mi tienda online",
     whatsappMessage: WHATSAPP_MESSAGES.ecomerce,
@@ -124,20 +124,20 @@ const SYSTEM_CAPABILITIES = [
 ];
 
 const USE_CASES = [
-  { icon: "🎓", title: "Gestión Escolar", desc: "Control de alumnos, asistencias, calificaciones y pagos.", color: "#3B82F6", bg: "#EFF6FF" },
-  { icon: "👥", title: "CRM Empresarial", desc: "Seguimiento de clientes, ventas y oportunidades de negocio.", color: "#8B5CF6", bg: "#F5F3FF" },
-  { icon: "📦", title: "Control de Inventarios", desc: "Automatización de almacenes, entradas, salidas y alertas.", color: "#10B981", bg: "#ECFDF5" },
-  { icon: "🏥", title: "Sistemas Médicos", desc: "Expedientes de pacientes, citas, seguimiento y historial.", color: "#3B82F6", bg: "#EFF6FF" },
-  { icon: "🏨", title: "Gestión Hotelera", desc: "Reservaciones, habitaciones, servicios y reportes.", color: "#10B981", bg: "#ECFDF5" },
-  { icon: "🏪", title: "Punto de Venta", desc: "Ventas, caja, inventario y reportes diarios en tiempo real.", color: "#1E40AF", bg: "#EFF6FF" },
+  { icon: "graduation", title: "Gestión Escolar", desc: "Control de alumnos, asistencias, calificaciones y pagos.", color: "#3B82F6", bg: "#EFF6FF" },
+  { icon: "users", title: "CRM Empresarial", desc: "Seguimiento de clientes, ventas y oportunidades de negocio.", color: "#8B5CF6", bg: "#F5F3FF" },
+  { icon: "box", title: "Control de Inventarios", desc: "Automatización de almacenes, entradas, salidas y alertas.", color: "#10B981", bg: "#ECFDF5" },
+  { icon: "hospital", title: "Sistemas Médicos", desc: "Expedientes de pacientes, citas, seguimiento y historial.", color: "#3B82F6", bg: "#EFF6FF" },
+  { icon: "hotel", title: "Gestión Hotelera", desc: "Reservaciones, habitaciones, servicios y reportes.", color: "#10B981", bg: "#ECFDF5" },
+  { icon: "store", title: "Punto de Venta", desc: "Ventas, caja, inventario y reportes diarios en tiempo real.", color: "#1E40AF", bg: "#EFF6FF" },
 ];
 
 const DEV_STEPS = [
-  { num: "01", icon: "🔍", title: "Análisis", desc: "Entendemos tu proceso, objetivos y requerimientos exactos." },
-  { num: "02", icon: "🎨", title: "UX / UI", desc: "Diseñamos las pantallas y el flujo antes de escribir código." },
-  { num: "03", icon: "⚙️", title: "Desarrollo", desc: "Construimos con tecnología moderna, segura y escalable." },
-  { num: "04", icon: "🧪", title: "Pruebas", desc: "Testing exhaustivo antes de entregar para garantizar calidad." },
-  { num: "05", icon: "🚀", title: "Lanzamiento", desc: "Implementación, capacitación y soporte post-entrega incluido." },
+  { num: "01", icon: "search", title: "Análisis", desc: "Entendemos tu proceso, objetivos y requerimientos exactos." },
+  { num: "02", icon: "palette", title: "UX / UI", desc: "Diseñamos las pantallas y el flujo antes de escribir código." },
+  { num: "03", icon: "gear", title: "Desarrollo", desc: "Construimos con tecnología moderna, segura y escalable." },
+  { num: "04", icon: "flask", title: "Pruebas", desc: "Testing exhaustivo antes de entregar para garantizar calidad." },
+  { num: "05", icon: "rocket", title: "Lanzamiento", desc: "Implementación, capacitación y soporte post-entrega incluido." },
 ];
 
 const SYSTEM_STACK = [
@@ -220,7 +220,7 @@ export function Pricing() {
               }}
             >
               <GiftIcon size={18} color="#065F46" />
-              🔥 10% de descuento por lanzamiento — Válido hasta el 31 de agosto
+              10% de descuento por lanzamiento — Válido hasta el 31 de agosto
             </div>
           </div>
         </AnimatedSection>
@@ -435,9 +435,9 @@ export function Pricing() {
                       width: 42, height: 42, borderRadius: 12,
                       background: uc.bg, border: `1px solid ${uc.color}22`,
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 20, flexShrink: 0,
+                      flexShrink: 0, color: uc.color,
                     }}>
-                      {uc.icon}
+                      {getUseCaseIcon(uc.icon, 20)}
                     </div>
                     <div>
                       <div style={{ fontSize: 14, fontWeight: 800, color: "#0F172A", marginBottom: 2 }}>{uc.title}</div>
@@ -505,9 +505,9 @@ export function Pricing() {
                     background: "linear-gradient(135deg,#EFF6FF,#E0E7FF)",
                     border: "2px solid rgba(59,130,246,0.2)",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    margin: "0 auto 16px", fontSize: 24, position: "relative",
+                    margin: "0 auto 16px", position: "relative", color: "#1E40AF",
                   }}>
-                    {step.icon}
+                    {getDevStepIcon(step.icon, 24)}
                     <span style={{
                       position: "absolute", top: -8, right: -8,
                       width: 22, height: 22, borderRadius: "50%",

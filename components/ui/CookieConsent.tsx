@@ -33,6 +33,9 @@ export function CookieConsent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
+          role="dialog"
+          aria-modal="false"
+          aria-label="Aviso de privacidad y cookies"
           style={{
             position: "fixed",
             bottom: 0,

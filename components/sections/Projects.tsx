@@ -9,12 +9,14 @@ import { useSectionViewOnce, useTracking } from "@/components/hooks/useTracking"
 import { RocketIcon, MessageIcon } from "@/components/ui/icons/Icons";
 
 const PROJECT_HIGHLIGHTS: Record<string, { metric: string; metricLabel: string }> = {
-  "Llantas Gamma": { metric: "3x", metricLabel: "mas vistas" },
+  "Llantas Gamma": { metric: "3x", metricLabel: "más vistas" },
   "Las Tortas Del Chiche": { metric: "+40%", metricLabel: "pedidos" },
 };
 
 export function Projects() {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
   const { trackEvent } = useTracking();
   const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -130,78 +132,245 @@ export function Projects() {
                       aspectRatio: "16/9",
                     }}
                   >
-                    <motion.div
-                      animate={{ scale: hovered === i ? 1.07 : 1 }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      style={{ width: "100%", height: "100%", position: "relative" }}
-                    >
-                      <Image
-                        src={p.img}
-                        alt={`Proyecto: ${p.title} - ${p.desc}`}
-                        width={600}
-                        height={338}
-                        loading="lazy"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          display: "block",
-                        }}
-                      />
-                    </motion.div>
-                    <AnimatePresence>
-                      {hovered === i && (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
+                    {previewIndex === i ? (
+                      <>
+                        <iframe
+                          src={p.link}
+                          title={`Vista previa en vivo de ${p.title}`}
+                          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          onLoad={() => setPreviewLoading(false)}
                           style={{
                             position: "absolute",
                             inset: 0,
-                            background: "rgba(30,64,175,0.8)",
+                            width: "100%",
+                            height: "100%",
+                            border: 0,
+                          }}
+                        />
+                        {previewLoading && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              inset: 0,
+                              zIndex: 1,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              background: "#fff",
+                            }}
+                          >
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                              style={{
+                                width: 28,
+                                height: 28,
+                                border: "3px solid #E2E8F0",
+                                borderTopColor: "#3B82F6",
+                                borderRadius: "50%",
+                              }}
+                            />
+                          </div>
+                        )}
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: 10,
+                            left: 10,
+                            zIndex: 2,
                             display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: 12,
+                            gap: 8,
+                            flexWrap: "wrap",
                           }}
                         >
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setPreviewIndex(null);
+                              setPreviewLoading(true);
+                            }}
+                            style={{
+                              background: "rgba(255,255,255,0.95)",
+                              color: "#0F172A",
+                              border: "none",
+                              borderRadius: 100,
+                              padding: "6px 12px",
+                              fontSize: 12,
+                              fontWeight: 700,
+                              cursor: "pointer",
+                              fontFamily: "inherit",
+                              boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
+                            }}
+                          >
+                            ✕ Cerrar vista previa
+                          </button>
+                          <a
+                            href={p.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => trackEvent("project_click", p.title)}
+                            style={{
+                              background: "rgba(255,255,255,0.95)",
+                              color: "#1E40AF",
+                              textDecoration: "none",
+                              borderRadius: 100,
+                              padding: "6px 12px",
+                              fontSize: 12,
+                              fontWeight: 700,
+                              boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
+                            }}
+                          >
+                            Abrir en pestaña nueva
+                          </a>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <motion.div
+                          animate={{ scale: hovered === i ? 1.07 : 1 }}
+                          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                          style={{ width: "100%", height: "100%", position: "relative" }}
+                        >
+                          <Image
+                            src={p.img}
+                            alt={`Proyecto: ${p.title} - ${p.desc}`}
+                            width={600}
+                            height={338}
+                            loading="lazy"
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              display: "block",
+                            }}
+                          />
+                        </motion.div>
+                        <AnimatePresence>
+                          {hovered === i && (
+                            <motion.div
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                background: "rgba(30,64,175,0.8)",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: 12,
+                              }}
+                            >
+                              <motion.a
+                                href={p.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => trackEvent("project_click", p.title)}
+                                initial={{ y: 12, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.05 }}
+                                style={{
+                                  color: "#fff",
+                                  border: "2px solid #fff",
+                                  borderRadius: 100,
+                                  padding: "10px 28px",
+                                  fontWeight: 700,
+                                  fontSize: 14,
+                                  textDecoration: "none",
+                                  backdropFilter: "blur(4px)",
+                                }}
+                              >
+                                Visitar Sitio
+                              </motion.a>
+                              <motion.span
+                                initial={{ y: 12, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.12 }}
+                                style={{
+                                  color: "rgba(255,255,255,0.7)",
+                                  fontSize: 13,
+                                  fontWeight: 500,
+                                }}
+                              >
+                                Abre en nueva pestaña
+                              </motion.span>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                        {p.preview ? (
+                          <motion.button
+                            type="button"
+                            onClick={() => {
+                              setPreviewIndex(i);
+                              setPreviewLoading(true);
+                              trackEvent("project_preview", p.title);
+                            }}
+                            whileTap={{ scale: 0.94 }}
+                            style={{
+                              position: "absolute",
+                              bottom: 12,
+                              left: 12,
+                              zIndex: 2,
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 6,
+                              background: "rgba(16,185,129,0.95)",
+                              color: "#fff",
+                              border: "none",
+                              borderRadius: 100,
+                              padding: "6px 12px",
+                              fontSize: 12,
+                              fontWeight: 700,
+                              cursor: "pointer",
+                              fontFamily: "inherit",
+                              boxShadow: "0 2px 12px rgba(0,0,0,0.2)",
+                            }}
+                          >
+                            <motion.span
+                              animate={{ scale: [1, 1.35, 1] }}
+                              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                              style={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: "50%",
+                                background: "#fff",
+                                display: "inline-block",
+                              }}
+                            />
+                            Ver en vivo
+                          </motion.button>
+                        ) : (
                           <motion.a
                             href={p.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => trackEvent("project_click", p.title)}
-                            initial={{ y: 12, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.05 }}
+                            whileTap={{ scale: 0.94 }}
                             style={{
+                              position: "absolute",
+                              bottom: 12,
+                              left: 12,
+                              zIndex: 2,
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 6,
+                              background: "rgba(59,130,246,0.95)",
                               color: "#fff",
-                              border: "2px solid #fff",
-                              borderRadius: 100,
-                              padding: "10px 28px",
-                              fontWeight: 700,
-                              fontSize: 14,
                               textDecoration: "none",
-                              backdropFilter: "blur(4px)",
+                              borderRadius: 100,
+                              padding: "6px 12px",
+                              fontSize: 12,
+                              fontWeight: 700,
+                              boxShadow: "0 2px 12px rgba(0,0,0,0.2)",
                             }}
                           >
-                            Visitar Sitio
+                            Visitar sitio
                           </motion.a>
-                          <motion.span
-                            initial={{ y: 12, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.12 }}
-                            style={{
-                              color: "rgba(255,255,255,0.7)",
-                              fontSize: 13,
-                              fontWeight: 500,
-                            }}
-                          >
-                            Abre en nueva pestaña
-                          </motion.span>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                        )}
+                      </>
+                    )}
                     {highlight && (
                       <div
                         style={{
@@ -276,6 +445,26 @@ export function Projects() {
                         </span>
                       ))}
                     </div>
+                    {p.preview && (
+                      <a
+                        href={p.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => trackEvent("project_click", p.title)}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 6,
+                          marginTop: 14,
+                          color: "#1E40AF",
+                          fontSize: 13,
+                          fontWeight: 700,
+                          textDecoration: "none",
+                        }}
+                      >
+                        Visitar sitio en vivo ↗
+                      </a>
+                    )}
                   </div>
                 </motion.div>
               </AnimatedSection>
@@ -514,7 +703,7 @@ Próximamente
                 fontFamily: "'Sora', sans-serif",
               }}
             >
-              ¿Tu proyecto podria ser el proximo?
+              ¿Tu proyecto podría ser el próximo?
             </h3>
             <p
               style={{
@@ -524,7 +713,7 @@ Próximamente
                 margin: "0 0 28px",
               }}
             >
-              Cuéntanos tu idea y te damos una cotizacion sin compromiso.
+              Cuéntanos tu idea y te damos una cotización sin compromiso.
               Cada proyecto es único y lo sabemos.
             </p>
             <motion.a

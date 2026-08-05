@@ -1,14 +1,3 @@
-export interface TechItem {
-    name: string;
-    icon: string;
-    color: string;
-  }
-  
-  export interface TechCardProps {
-    tech: TechItem;
-    i: number;
-  }
-  
   export interface ServiceItem {
     icon: string;
     title: string;
@@ -24,6 +13,7 @@ export interface TechItem {
     img: string;
     link: string;
     comingSoon?: boolean;
+    preview?: boolean;
   }
 
   export interface TestimonialItem {

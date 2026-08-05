@@ -129,7 +129,7 @@ export function WhatsAppFloat() {
                 cursor: "pointer",
               }}
             >
-              <MessageIcon size={16} color="#fff" /> Chatea con nosotros
+              <MessageIcon size={16} color="#0F172A" /> Chatea con nosotros
             </motion.span>
 
             {/* Button with pulse */}

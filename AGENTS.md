@@ -46,8 +46,11 @@ components/
   ui/
     AnimatedSection.tsx # Wrapper de animación reutilizable (IntersectionObserver)
     WhatsAppFloat.tsx   # Botón flotante de WhatsApp
+    CookieConsent.tsx   # Banner de privacidad/cookies
+    LeadMagnet.tsx      # Auditoría digital gratuita
   hooks/
-    useIsMobile.ts     # Hook para detectar viewport móvil
+    useScrollSpy.ts     # Sección activa al hacer scroll (observer singleton)
+    useTracking.ts      # Tracking de eventos (analytics)
 data/
   constants.ts         # Datos estáticos: nav links, servicios, tecnologías, proyectos
 types/

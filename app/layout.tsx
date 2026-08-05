@@ -38,10 +38,10 @@ export const metadata: Metadata = {
       "Creamos páginas web que convierten visitantes en clientes. Diseño moderno, marketing digital y sistemas a medida para hacer crecer tu negocio.",
     images: [
       {
-        url: "/img/og-image.svg",
+        url: "/img/og-image.png",
         width: 1200,
         height: 630,
-        alt: "MB Digital Systems - Desarrollo Web y Marketing Digital",
+        alt: "MB Digital Systems - Desarrollo Web y Marketing Digital en Tabasco",
       },
     ],
   },
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "MB Digital Systems | Desarrollo Web y Marketing Digital",
     description:
       "Creamos páginas web que convierten visitantes en clientes. Diseño moderno, marketing digital y sistemas a medida.",
-    images: ["/img/og-image.svg"],
+    images: ["/img/og-image.png"],
   },
   robots: {
     index: true,

@@ -1,4 +1,4 @@
-import { ServiceItem, ProjectItem, TechItem, TestimonialItem, MetricItem } from "@/types";
+import { ServiceItem, ProjectItem, TestimonialItem, MetricItem } from "@/types";
 
 export const WHATSAPP_NUMBER = "+529931782620";
 
@@ -15,6 +15,7 @@ export const WHATSAPP_MESSAGES = {
   auditoria: "Hola MB Digital, quiero una auditoría digital gratuita para mi negocio. Quiero saber qué puedo mejorar.",
   paginaWeb: "Hola MB Digital, quiero mi página web. Vi su página y me interesa empezar cuanto antes.",
   proyectoSimilar: "Hola MB Digital, vi su portafolio y quiero un proyecto similar. ¿Cuánto cuesta y cuánto tarda?",
+  resultadosSimilares: "Hola MB Digital, vi los testimonios de clientes en su página y quiero resultados similares para mi negocio. ¿Cómo empezamos?",
   duda: "Hola MB Digital, tengo una duda sobre sus servicios. ¿Me pueden ayudar?",
   contacto: "Hola MB Digital, necesito información sobre sus servicios. ¿Tienen disponibilidad este mes?",
   generico: "Hola MB Digital, me gustaría recibir información sobre sus servicios. Vi su página y me pareció profesional.",
@@ -63,72 +64,6 @@ export const FEATURES = [
   "Reporting en tiempo real para tomar decisiones",
 ];
 
-export const TECH_FRONTEND: TechItem[] = [
-  {
-    name: "HTML5",
-    icon: "fab fa-html5",
-    color: "#E34F26",
-  },
-  {
-    name: "CSS3",
-    icon: "fab fa-css3-alt",
-    color: "#1572B6",
-  },
-  {
-    name: "JavaScript",
-    icon: "fab fa-js",
-    color: "#F7DF1E",
-  },
-  {
-    name: "Bootstrap",
-    icon: "fab fa-bootstrap",
-    color: "#7952B3",
-  },
-  {
-    name: "Tailwind CSS",
-    icon: "fas fa-wind",
-    color: "#06B6D4",
-  },
-  {
-    name: "VueJS",
-    icon: "fab fa-vuejs",
-    color: "#42B883",
-  },
-  {
-    name: "React",
-    icon: "fab fa-react",
-    color: "#61DAFB",
-  },
-  {
-    name: "TypeScript",
-    icon: "fas fa-code",
-    color: "#3178C6",
-  },
-];
-
-export const TECH_BACKEND: TechItem[] = [
-  {
-    name: "PHP",
-    icon: "fab fa-php",
-    color: "#8892BE",
-  },
-  {
-    name: "Laravel",
-    icon: "fab fa-laravel",
-    color: "#FF2D20",
-  },
-  {
-    name: "MySQL",
-    icon: "fas fa-database",
-    color: "#4479A1",
-  },
-  {
-    name: "SQL Server",
-    icon: "fas fa-server",
-    color: "#CC2927",
-  },
-];
-
 export const PROJECTS: ProjectItem[] = [
   {
     title: "Sistema SaaS de Torneos",
@@ -143,14 +78,15 @@ export const PROJECTS: ProjectItem[] = [
     desc: "Página web para llantera local con diseño moderno, catálogo de productos y botón de WhatsApp para generar clientes a través de presencia en línea.",
     tags: ["Next.js", "Tailwind CSS", "HTML"],
     img: "/img/GAMMA_logo.jpeg",
-    link: "https://llantasgamma.netlify.app/",
+    link: "https://llantasgama.com/",
   },
   {
     title: "Las Tortas Del Chiche",
     desc: "Tienda en línea para pedidos con carrito de compra, pagos en efectivo y tarjeta, y dashboard administrativo para el dueño del negocio.",
     tags: ["E-commerce", "Carrito", "Dashboard"],
-    img: "/img/tortas_del_chiche.png",
+    img: "/img/tortas_del_chiche.webp",
     link: "https://lastortasdelchiche.com/",
+    preview: true,
   },
 ];
 
@@ -191,7 +127,7 @@ export const TESTIMONIOS: TestimonialItem[] = [
     role: "Dueño",
     company: "Las Tortas Del Chiche",
     text: "Desde que MB Digital Systems creó nuestro sitio web, los pedidos en línea aumentaron un 40%. Pasamos de 5 pedidos diarios por WhatsApp a 15+ sin contratar a nadie nuevo. El equipo es profesional y entregó antes de lo prometido.",
-    avatar: "/img/logo_tortas.jpeg",
+    avatar: "/img/logo_tortas_avatar.webp",
     rating: 5,
   },
   {
@@ -205,8 +141,8 @@ export const TESTIMONIOS: TestimonialItem[] = [
 ];
 
 export const METRICS: MetricItem[] = [
-  { value: "20+", label: "Proyectos entregados", icon: "🚀" },
-  { value: "15+", label: "Clientes satisfechos", icon: "😊" },
-  { value: "3+", label: "Años de experiencia", icon: "⏱️" },
-  { value: "7 días", label: "Tiempo de entrega", icon: "⚡" },
+  { value: "20+", label: "Proyectos entregados", icon: "rocket" },
+  { value: "15+", label: "Clientes satisfechos", icon: "smile" },
+  { value: "3+", label: "Años de experiencia", icon: "clock" },
+  { value: "7 días", label: "Tiempo de entrega", icon: "zap" },
 ];

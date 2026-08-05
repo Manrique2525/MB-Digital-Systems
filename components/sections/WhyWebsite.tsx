@@ -188,7 +188,7 @@ export function WhyWebsite() {
                     boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
                   }}
                 >
-                  <MessageIcon size={18} color="#fff" /> Quiero mi página web
+                  <MessageIcon size={18} color="#1E40AF" /> Quiero mi página web
                 </motion.a>
                 <motion.button
                   onClick={() => document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" })}

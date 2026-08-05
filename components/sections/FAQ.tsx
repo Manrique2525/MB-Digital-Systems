@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
@@ -115,32 +115,29 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
           +
         </motion.span>
       </motion.button>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            id={panelId}
-            role="region"
-            aria-labelledby={`faq-button-${index}`}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            style={{ overflow: "hidden" }}
+      <motion.div
+        id={panelId}
+        role="region"
+        aria-labelledby={`faq-button-${index}`}
+        initial={false}
+        animate={{ gridTemplateRows: open ? "1fr" : "0fr", opacity: open ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        style={{ display: "grid", gridTemplateRows: "0fr" }}
+      >
+        <div style={{ overflow: "hidden", minHeight: 0 }}>
+          <p
+            style={{
+              fontSize: "clamp(14px, 1.6vw, 15px)",
+              color: "#64748B",
+              lineHeight: 1.75,
+              paddingBottom: 20,
+              margin: 0,
+            }}
           >
-            <p
-              style={{
-                fontSize: "clamp(14px, 1.6vw, 15px)",
-                color: "#64748B",
-                lineHeight: 1.75,
-                paddingBottom: 20,
-                margin: 0,
-              }}
-            >
-              {a}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {a}
+          </p>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }

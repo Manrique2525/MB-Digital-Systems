@@ -14,11 +14,10 @@ import dynamic from "next/dynamic";
 
 const MarketingServices = dynamic(() => import("@/components/sections/MarketingServices").then((m) => ({ default: m.MarketingServices })));
 const FAQ = dynamic(() => import("@/components/sections/FAQ").then((m) => ({ default: m.FAQ })));
-const ExitIntentPopup = dynamic(() => import("@/components/ui/ExitIntentPopup").then((m) => ({ default: m.ExitIntentPopup })));
 
 export default function Home() {
   return (
-    <div id="main-content" style={{ overflowX: "hidden" }}>
+    <main id="main-content" style={{ overflowX: "hidden" }}>
       <Navbar />
       <Hero />
       <WhyWebsite />
@@ -33,7 +32,6 @@ export default function Home() {
       <Contact />
       <Footer />
       <WhatsAppFloat />
-      <ExitIntentPopup />
-    </div>
+    </main>
   );
 }

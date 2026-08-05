@@ -47,3 +47,15 @@ input::placeholder,
 textarea::placeholder {
   color: #94A3B8;
 }
+
+@media (max-width: 900px) {
+  .mb-nav-desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 901px) {
+  .mb-nav-mobile {
+    display: none !important;
+  }
+}

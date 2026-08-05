@@ -27,7 +27,7 @@ const BENEFITS = [
   },
   {
     icon: "📈",
-    title: "Escalable sin limites",
+    title: "Escalable sin límites",
     desc: "Empieza con una landing y crece a e-commerce o sistema completo sin reconstruir desde cero.",
     stat: "3x",
     statLabel: "más rápido",
@@ -38,9 +38,9 @@ const BENEFITS = [
   {
     icon: "📱",
     title: "Mobile-first",
-    desc: "El 80% de tus clientes buscan desde el celular. Tu pagina se ve perfecta en cualquier dispositivo.",
+    desc: "El 80% de tus clientes buscan desde el celular. Tu página se ve perfecta en cualquier dispositivo.",
     stat: "80%",
-    statLabel: "trafico movil",
+    statLabel: "tráfico móvil",
     color: "#F59E0B",
     bg: "#FFFBEB",
     border: "rgba(245,158,11,0.2)",

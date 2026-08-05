@@ -121,96 +121,6 @@ export function RocketIcon({ size = 40, color = "currentColor" }: IconProps) {
   );
 }
 
-export function BuildingIcon({ size = 40, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <rect x="4" y="2" width="16" height="20" rx="2" />
-      <line x1="9" y1="6" x2="9" y2="10" />
-      <line x1="15" y1="6" x2="15" y2="10" />
-      <line x1="9" y1="14" x2="9" y2="18" />
-      <line x1="15" y1="14" x2="15" y2="18" />
-      <line x1="6" y1="22" x2="18" y2="22" />
-    </Svg>
-  );
-}
-
-// ── Use Case Icons ────────────────────────────────────────────────────────────
-
-export function GraduationIcon({ size = 24, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-      <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" />
-    </Svg>
-  );
-}
-
-export function UsersIcon({ size = 24, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </Svg>
-  );
-}
-
-export function PackageIcon({ size = 24, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-      <line x1="12" y1="22.08" x2="12" y2="12" />
-    </Svg>
-  );
-}
-
-export function HospitalIcon({ size = 24, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z" />
-      <line x1="12" y1="8" x2="12" y2="16" />
-      <line x1="8" y1="12" x2="16" y2="12" />
-    </Svg>
-  );
-}
-
-export function StoreIcon({ size = 24, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <path d="M3 3h18v2H3z" />
-      <path d="M21 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5" />
-      <path d="M15 9a3 3 0 0 1-6 0" />
-    </Svg>
-  );
-}
-
-// ── Dev Step Icons ───────────────────────────────────────────────────────────
-
-export function PaletteIcon({ size = 24, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <circle cx="13.5" cy="6.5" r="2.5" />
-      <circle cx="4" cy="10" r="2" />
-      <circle cx="20" cy="10" r="2" />
-      <circle cx="6" cy="18" r="2" />
-      <circle cx="17" cy="17" r="2" />
-      <path d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10z" />
-    </Svg>
-  );
-}
-
-export function FlaskIcon({ size = 24, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <path d="M9 2v7.5L4 20c-.4.7.1 1.5.9 1.5h14.2c.8 0 1.3-.8.9-1.5L15 9.5V2" />
-      <line x1="9" y1="2" x2="15" y2="2" />
-      <line x1="9" y1="8" x2="15" y2="8" />
-    </Svg>
-  );
-}
-
 // ── Feature / Benefit Icons ──────────────────────────────────────────────────
 
 export function ZapIcon({ size = 20, color = "currentColor" }: IconProps) {
@@ -484,28 +394,6 @@ export function MoneyIcon({ size = 20, color = "currentColor" }: IconProps) {
   );
 }
 
-export function SmileIcon({ size = 20, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <circle cx="12" cy="12" r="10" />
-      <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-      <line x1="9" y1="9" x2="9.01" y2="9" />
-      <line x1="15" y1="9" x2="15.01" y2="9" />
-    </Svg>
-  );
-}
-
-export function TimerIcon({ size = 20, color = "currentColor" }: IconProps) {
-  return (
-    <Svg size={size} color={color}>
-      <line x1="10" y1="2" x2="14" y2="2" />
-      <line x1="12" y1="2" x2="12" y2="6" />
-      <circle cx="12" cy="13" r="9" />
-      <polyline points="12 9 12 13 15 15" />
-    </Svg>
-  );
-}
-
 // ── Pain Point Icons (WhyWebsite) ────────────────────────────────────────────
 
 export function AlertIcon({ size = 32, color = "#EF4444" }: IconProps) {
@@ -556,61 +444,193 @@ export function CheckIcon({ size = 20, color = "currentColor" }: IconProps) {
   );
 }
 
-// ── Data mapping helpers ─────────────────────────────────────────────────────
-
-export function getPlanIcon(title: string, size?: number) {
-  const p = { size };
-  switch (title) {
-    case "Landing Page": return <RocketIcon {...p} />;
-    case "Página Empresarial": return <BuildingIcon {...p} />;
-    case "E-commerce": return <CartIcon {...p} />;
-    default: return null;
-  }
-}
-
-export function getUseCaseIcon(title: string, size?: number) {
-  const p = { size };
-  switch (title) {
-    case "Gestión Escolar": return <GraduationIcon {...p} />;
-    case "CRM Empresarial": return <UsersIcon {...p} />;
-    case "Control de Inventarios": return <PackageIcon {...p} />;
-    case "Sistemas Médicos": return <HospitalIcon {...p} />;
-    case "Gestión Hotelera": return <BuildingIcon {...p} />;
-    case "Punto de Venta": return <StoreIcon {...p} />;
-    default: return null;
-  }
-}
-
-export function getDevStepIcon(title: string, size?: number) {
-  const p = { size };
-  switch (title) {
-    case "Análisis": return <SearchIcon {...p} />;
-    case "UX / UI": return <PaletteIcon {...p} />;
-    case "Desarrollo": return <GearIcon {...p} />;
-    case "Pruebas": return <FlaskIcon {...p} />;
-    case "Lanzamiento": return <RocketIcon {...p} />;
-    default: return null;
-  }
-}
-
 export function getBenefitIcon(title: string, size?: number) {
   const p = { size };
   switch (title) {
     case "Velocidad que vende": return <ZapIcon {...p} />;
     case "Seguridad garantizada": return <LockIcon {...p} />;
-    case "Escalable sin limites": return <ChartUpIcon {...p} />;
+    case "Escalable sin límites": return <ChartUpIcon {...p} />;
     case "Mobile-first": return <SmartphoneIcon {...p} />;
     default: return null;
   }
 }
 
-export function getMetricIcon(label: string, size?: number) {
+// ── Plan & Use Case Icons (Pricing) ──────────────────────────────────────────
+
+export function BuildingIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+      <path d="M9 22v-4h6v4" />
+      <path d="M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01" />
+    </Svg>
+  );
+}
+
+export function GraduationIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <path d="M22 10L12 5 2 10l10 5 10-5z" />
+      <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" />
+      <path d="M22 10v6" />
+    </Svg>
+  );
+}
+
+export function UsersIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </Svg>
+  );
+}
+
+export function BoxIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+      <line x1="12" y1="22.08" x2="12" y2="12" />
+    </Svg>
+  );
+}
+
+export function HospitalIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z" />
+      <path d="M12 8v6M9 11h6" />
+    </Svg>
+  );
+}
+
+export function HotelIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <path d="M2 20V4h2v12h7V6h8a3 3 0 0 1 3 3v11" />
+      <path d="M2 20h20" />
+      <path d="M14 12h4M14 16h4M14 8h4" />
+    </Svg>
+  );
+}
+
+export function StoreIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <path d="M4 9v11h16V9" />
+      <path d="M3 4l1.5 5h15L21 4" />
+      <path d="M7 20v-5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v5" />
+    </Svg>
+  );
+}
+
+export function PaletteIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <path d="M12 22a10 10 0 1 1 10-10c0 2-1.5 3-3 3h-2a2 2 0 0 0-2 2c0 1.5.5 2 .5 2S17 21 12 22z" />
+      <circle cx="7.5" cy="11" r="1" fill={color} />
+      <circle cx="11" cy="7.5" r="1" fill={color} />
+      <circle cx="16" cy="8.5" r="1" fill={color} />
+    </Svg>
+  );
+}
+
+export function FlaskIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <path d="M9 3h6" />
+      <path d="M10 3v6l-6 9a3 3 0 0 0 2.6 4.5h10.8A3 3 0 0 0 20 18l-6-9V3" />
+      <path d="M7.5 15h9" />
+    </Svg>
+  );
+}
+
+export function SmileIcon({ size = 40, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+      <line x1="9" y1="9" x2="9.01" y2="9" />
+      <line x1="15" y1="9" x2="15.01" y2="9" />
+    </Svg>
+  );
+}
+
+export function ArrowRightIcon({ size = 18, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </Svg>
+  );
+}
+
+export function SparklesIcon({ size = 18, color = "currentColor" }: IconProps) {
+  return (
+    <Svg size={size} color={color}>
+      <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z" />
+      <path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z" />
+    </Svg>
+  );
+}
+
+export function getPlanIcon(key: string, size?: number) {
   const p = { size };
-  switch (label) {
-    case "Proyectos entregados": return <RocketIcon {...p} />;
-    case "Clientes satisfechos": return <SmileIcon {...p} />;
-    case "Años de experiencia": return <TimerIcon {...p} />;
-    case "Tiempo de entrega": return <ZapIcon {...p} />;
+  switch (key) {
+    case "rocket": return <RocketIcon {...p} />;
+    case "building": return <BuildingIcon {...p} />;
+    case "cart": return <CartIcon {...p} />;
+    default: return null;
+  }
+}
+
+export function getUseCaseIcon(key: string, size?: number) {
+  const p = { size };
+  switch (key) {
+    case "graduation": return <GraduationIcon {...p} />;
+    case "users": return <UsersIcon {...p} />;
+    case "box": return <BoxIcon {...p} />;
+    case "hospital": return <HospitalIcon {...p} />;
+    case "hotel": return <HotelIcon {...p} />;
+    case "store": return <StoreIcon {...p} />;
+    default: return null;
+  }
+}
+
+export function getDevStepIcon(key: string, size?: number) {
+  const p = { size };
+  switch (key) {
+    case "search": return <SearchIcon {...p} />;
+    case "palette": return <PaletteIcon {...p} />;
+    case "gear": return <GearIcon {...p} />;
+    case "flask": return <FlaskIcon {...p} />;
+    case "rocket": return <RocketIcon {...p} />;
+    default: return null;
+  }
+}
+
+export function getBonusIcon(key: string, size?: number) {
+  const p = { size };
+  switch (key) {
+    case "globe": return <GlobeIcon {...p} />;
+    case "monitor": return <MonitorIcon {...p} />;
+    case "search": return <SearchIcon {...p} />;
+    case "chart": return <ChartBarIcon {...p} />;
+    case "camera": return <CameraIcon {...p} />;
+    default: return null;
+  }
+}
+
+export function getMetricIcon(key: string, size?: number) {
+  const p = { size };
+  switch (key) {
+    case "rocket": return <RocketIcon {...p} />;
+    case "smile": return <SmileIcon {...p} />;
+    case "clock": return <ClockIcon {...p} />;
+    case "zap": return <ZapIcon {...p} />;
     default: return null;
   }
 }

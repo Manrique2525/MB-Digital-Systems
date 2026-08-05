@@ -92,7 +92,7 @@ export function MarketingServices() {
               <motion.div
                 whileHover={{
                   y: -8,
-                  boxShadow: `0 24px 60px ${s.color}15`,
+                  boxShadow: `0 28px 64px ${s.color}20`,
                 }}
                 style={{
                   background: "#fff",
@@ -101,10 +101,12 @@ export function MarketingServices() {
                   padding: "clamp(24px, 4vw, 40px) clamp(20px, 3vw, 32px)",
                   height: "100%",
                   cursor: "default",
-                  transition: "border-color 0.3s",
+                  transition: "border-color 0.3s, box-shadow 0.3s",
                   display: "flex",
                   flexDirection: "column",
                 }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = s.color + "45"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#E8F0FE"; }}
               >
                 <div style={{ marginBottom: 20 }}>{getServiceIcon(s.title, 44)}</div>
                 <h3
@@ -252,7 +254,7 @@ export function MarketingServices() {
                   fontSize: 15,
                 }}
               >
-                <ChartBarIcon size={18} color="#fff" /> Auditoría digital gratuita
+                <ChartBarIcon size={18} color="#8B5CF6" /> Auditoría digital gratuita
               </motion.a>
             </div>
 

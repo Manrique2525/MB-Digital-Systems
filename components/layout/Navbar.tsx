@@ -2,22 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { NAV_LINKS } from "@/data/constants";
-import { useIsMobile } from "@/components/hooks/useIsMobile";
+import { NAV_LINKS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useScrollSpy } from "@/components/hooks/useScrollSpy";
 import { useTracking } from "@/components/hooks/useTracking";
-import { PhoneIcon, HamburgerIcon, CloseIcon } from "@/components/ui/icons/Icons";
+import { PhoneIcon, HamburgerIcon, CloseIcon, MessageIcon } from "@/components/ui/icons/Icons";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const isMobile = useIsMobile();
   const activeSection = useScrollSpy();
   const { trackEvent } = useTracking();
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", fn);
+    window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
@@ -45,8 +43,9 @@ export function Navbar() {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: scrolled ? "rgba(255,255,255,0.95)" : "transparent",
+          background: scrolled ? "rgba(255,255,255,0.92)" : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
           borderBottom: scrolled ? "1px solid rgba(59,130,246,0.12)" : "none",
           transition: "all 0.4s ease",
         }}
@@ -91,102 +90,127 @@ export function Navbar() {
             </div>
           </motion.div>
 
-          {!isMobile && (
-            <nav aria-label="Navegación principal" style={{ display: "flex", gap: 4, alignItems: "center" }}>
-              {NAV_LINKS.map((link) => {
-                const isActive = activeSection === link;
-                return (
-                  <motion.button
-                    key={link}
-                    onClick={() => scrollTo(link)}
-                    whileHover={{ color: "#3B82F6" }}
-                    style={{
-                      background: isActive ? "rgba(59,130,246,0.1)" : "none",
-                      border: "none",
-                      cursor: "pointer",
-                      fontSize: 14,
-                      color: isActive ? "#3B82F6" : "#374151",
-                      fontWeight: isActive ? 700 : 500,
-                      padding: "8px 14px",
-                      borderRadius: 8,
-                      fontFamily: "inherit",
-                      transition: "all 0.2s",
-                    }}
-                  >
-                    {link}
-                  </motion.button>
-                );
-              })}
-              <a
-                href="tel:+529931782620"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 6,
-                  fontSize: 13,
-                  color: "#64748B",
-                  fontWeight: 600,
-                  textDecoration: "none",
-                  padding: "8px 12px",
-                  borderRadius: 8,
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = "#3B82F6"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = "#64748B"; }}
-              >
-                <PhoneIcon size={14} color="#64748B" />
-                993 178 2620
-              </a>
-              <motion.button
-                onClick={() => scrollTo("contacto")}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
-                  color: "#fff",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: 13,
-                  fontWeight: 700,
-                  padding: "10px 22px",
-                  borderRadius: 100,
-                  fontFamily: "inherit",
-                  marginLeft: 4,
-                  boxShadow: "0 4px 20px rgba(59,130,246,0.35)",
-                }}
-              >
-                Cotización gratis
-              </motion.button>
-            </nav>
-          )}
-
-          {isMobile && (
-            <motion.button
-              onClick={() => setOpen(!open)}
-              whileTap={{ scale: 0.9 }}
-              aria-label={open ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
-              aria-expanded={open}
-              aria-controls="mobile-menu"
+          <nav
+            aria-label="Navegación principal"
+            className="mb-nav-desktop"
+            style={{ display: "flex", gap: 2, alignItems: "center" }}
+          >
+            {NAV_LINKS.map((link) => {
+              const isActive = activeSection === link;
+              return (
+                <motion.button
+                  key={link}
+                  onClick={() => scrollTo(link)}
+                  style={{
+                    position: "relative",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: 14,
+                    color: isActive ? "#1E40AF" : "#374151",
+                    fontWeight: isActive ? 700 : 500,
+                    padding: "8px 14px",
+                    borderRadius: 10,
+                    fontFamily: "inherit",
+                    transition: "color 0.2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) e.currentTarget.style.color = "#3B82F6";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) e.currentTarget.style.color = "#374151";
+                  }}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        borderRadius: 10,
+                        background: "rgba(59,130,246,0.12)",
+                      }}
+                    />
+                  )}
+                  <span style={{ position: "relative", zIndex: 1 }}>{link}</span>
+                </motion.button>
+              );
+            })}
+            <a
+              href="tel:+529931782620"
               style={{
-                background: "none",
-                border: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                fontSize: 13,
+                color: "#64748B",
+                fontWeight: 600,
+                textDecoration: "none",
+                padding: "8px 12px",
+                borderRadius: 8,
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "#3B82F6"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "#64748B"; }}
+            >
+              <PhoneIcon size={14} color="#64748B" />
+              993 178 2620
+            </a>
+            <motion.a
+              href={whatsappUrl(WHATSAPP_MESSAGES.paginaWeb)}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent("wa_click", "navbar", { plan: "Página Web" })}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
+                color: "#fff",
+                textDecoration: "none",
                 cursor: "pointer",
-                fontSize: 24,
-                color: "#1E40AF",
-                padding: 8,
+                fontSize: 13,
+                fontWeight: 700,
+                padding: "10px 22px",
+                borderRadius: 100,
+                fontFamily: "inherit",
+                marginLeft: 4,
+                boxShadow: "0 4px 20px rgba(59,130,246,0.35)",
               }}
             >
-              {open ? <CloseIcon size={22} color="#1E40AF" /> : <HamburgerIcon size={22} color="#1E40AF" />}
-            </motion.button>
-          )}
+              <MessageIcon size={14} color="#fff" /> Cotización gratis
+            </motion.a>
+          </nav>
+
+          <motion.button
+            className="mb-nav-mobile"
+            onClick={() => setOpen(!open)}
+            whileTap={{ scale: 0.9 }}
+            aria-label={open ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontSize: 24,
+              color: "#1E40AF",
+              padding: 8,
+            }}
+          >
+            {open ? <CloseIcon size={22} color="#1E40AF" /> : <HamburgerIcon size={22} color="#1E40AF" />}
+          </motion.button>
         </div>
       </motion.header>
 
       <AnimatePresence>
-        {open && isMobile && (
+        {open && (
           <motion.div
             id="mobile-menu"
-            role="menu"
+            className="mb-nav-mobile"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -256,18 +280,24 @@ export function Navbar() {
                 <PhoneIcon size={16} color="#1E40AF" />
                 Llamar ahora
               </a>
-              <motion.button
-                onClick={() => scrollTo("contacto")}
+              <motion.a
+                href={whatsappUrl(WHATSAPP_MESSAGES.paginaWeb)}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackEvent("wa_click", "navbar", { plan: "Página Web" })}
                 whileTap={{ scale: 0.97 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.28 }}
                 style={{
                   flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 6,
                   background: "linear-gradient(135deg,#3B82F6,#1E40AF)",
                   color: "#fff",
-                  border: "none",
-                  cursor: "pointer",
+                  textDecoration: "none",
                   fontSize: 15,
                   fontWeight: 700,
                   padding: "14px",
@@ -275,8 +305,8 @@ export function Navbar() {
                   fontFamily: "inherit",
                 }}
               >
-                Cotización gratis
-              </motion.button>
+                <MessageIcon size={16} color="#fff" /> Cotización gratis
+              </motion.a>
             </div>
           </motion.div>
         )}

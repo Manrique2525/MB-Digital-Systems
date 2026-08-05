@@ -64,7 +64,7 @@ export function Services() {
           {SERVICES.map((s, i) => (
             <AnimatedSection key={s.title} delay={i * 0.12}>
               <motion.div
-                whileHover={{ y: -8, boxShadow: "0 24px 60px rgba(59,130,246,0.15)" }}
+                whileHover={{ y: -8, boxShadow: `0 28px 64px ${s.color}22` }}
                 style={{
                   background: "#F8FAFF",
                   border: "1px solid #E8F0FE",
@@ -72,8 +72,10 @@ export function Services() {
                   padding: "clamp(24px,4vw,40px) clamp(20px,3vw,32px)",
                   height: "100%",
                   cursor: "default",
-                  transition: "border-color 0.3s",
+                  transition: "border-color 0.3s, box-shadow 0.3s",
                 }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = s.color + "45"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#E8F0FE"; }}
               >
                 <div style={{ marginBottom: 20 }}>{getServiceIcon(s.title, 44)}</div>
                 <h3

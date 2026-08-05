@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { LeadMagnet } from "@/components/ui/LeadMagnet";
-import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, CheckCircleIcon } from "@/components/ui/icons/Icons";
+import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, CheckCircleIcon, ShieldCheckIcon } from "@/components/ui/icons/Icons";
 import { useTracking } from "@/components/hooks/useTracking";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
@@ -504,7 +504,22 @@ export function Contact() {
                 )}
               </AnimatePresence>
             </motion.button>
-            <p style={{ fontSize: 12, color: "#64748B", marginTop: 12, textAlign: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 6,
+                marginTop: 14,
+                color: "#065F46",
+                fontSize: 12,
+                fontWeight: 600,
+              }}
+            >
+              <ShieldCheckIcon size={16} color="#10B981" />
+              Garantía de satisfacción: si no te gusta, no pagas
+            </div>
+            <p style={{ fontSize: 12, color: "#64748B", marginTop: 8, textAlign: "center" }}>
               * Campos obligatorios. Respondemos en menos de 24 horas.
             </p>
           </motion.form>

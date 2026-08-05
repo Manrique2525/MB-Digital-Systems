@@ -1,14 +1,20 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
-import { ShieldCheckIcon } from "@/components/ui/icons/Icons";
+import { ShieldCheckIcon, StarIcon, ArrowRightIcon } from "@/components/ui/icons/Icons";
+
+const STATS: { value: string; label: string; rating?: boolean }[] = [
+  { value: "20+", label: "Proyectos entregados" },
+  { value: "5/5", label: "Satisfacción", rating: true },
+  { value: "< 24h", label: "Respuesta garantizada" },
+];
 
 export function Hero() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 120]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const bgY = useTransform(scrollY, [0, 600], [0, 140]);
   const { trackEvent } = useTracking();
 
   return (
@@ -21,14 +27,52 @@ export function Hero() {
         justifyContent: "center",
         position: "relative",
         overflow: "hidden",
-        background:
-          "linear-gradient(160deg,#EFF6FF 0%,#DBEAFE 40%,#EDE9FE 100%)",
+        background: "#F8FAFF",
       }}
     >
       <motion.div
+        style={{ y: bgY, position: "absolute", inset: "-15% 0 0", zIndex: 0 }}
+        aria-hidden="true"
+      >
+        <Image
+          src="/img/hero-workspace.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          style={{ objectFit: "cover", objectPosition: "center 30%", opacity: 0.18 }}
+        />
+      </motion.div>
+
+      <div
+        aria-hidden="true"
         style={{
-          y,
-          opacity,
+          position: "absolute",
+          inset: 0,
+          zIndex: 1,
+          background:
+            "linear-gradient(180deg,rgba(239,246,255,0.92) 0%,rgba(248,250,255,0.94) 55%,#F8FAFF 100%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "-20%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "min(720px,90vw)",
+          height: 560,
+          zIndex: 1,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(closest-side,rgba(59,130,246,0.14) 0%,rgba(139,92,246,0.08) 55%,transparent 100%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div
+        style={{
           position: "relative",
           zIndex: 2,
           textAlign: "center",
@@ -46,26 +90,20 @@ export function Hero() {
             display: "inline-flex",
             alignItems: "center",
             gap: 8,
-            background: "rgba(59,130,246,0.1)",
+            background: "rgba(255,255,255,0.8)",
             border: "1px solid rgba(59,130,246,0.2)",
             borderRadius: 100,
-            padding: "6px 16px",
+            padding: "7px 18px",
             marginBottom: 28,
             color: "#1E40AF",
             fontSize: 13,
             fontWeight: 600,
+            boxShadow: "0 4px 16px rgba(59,130,246,0.08)",
+            backdropFilter: "blur(8px)",
           }}
         >
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#10B981",
-              display: "inline-block",
-            }}
-          />
-          Solo tomamos 3 proyectos este mes
+          <ShieldCheckIcon size={16} color="#10B981" />
+          Garantía de satisfacción: si no te gusta, no pagas
         </motion.div>
 
         <motion.h1
@@ -152,7 +190,7 @@ export function Hero() {
             }}
           >
             <span>Cotización gratis por WhatsApp</span>
-            <span style={{ fontSize: 18 }}>→</span>
+            <ArrowRightIcon size={16} color="#fff" />
           </motion.a>
           <motion.button
             onClick={() =>
@@ -176,14 +214,15 @@ export function Hero() {
               fontFamily: "inherit",
             }}
           >
-            Ver ejemplos reales →
+            Ver ejemplos reales
+            <ArrowRightIcon size={16} color="#1E40AF" />
           </motion.button>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          transition={{ delay: 1.1, duration: 0.8 }}
           style={{
             marginTop: "clamp(48px,8vw,80px)",
             display: "flex",
@@ -192,76 +231,49 @@ export function Hero() {
             flexWrap: "wrap",
           }}
         >
-          {[
-            ["20+", "Proyectos entregados"],
-            ["⭐ 5/5", "Satisfacción"],
-            ["< 24h", "Respuesta garantizada"],
-          ].map(([val, label]) => (
-            <div key={label} style={{ textAlign: "center" }}>
+          {STATS.map((stat) => (
+            <div key={stat.label} style={{ textAlign: "center" }}>
               <div
                 style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 4,
                   fontSize: "clamp(20px,4vw,28px)",
                   fontWeight: 800,
                   color: "#1E40AF",
                 }}
               >
-                {val}
+                {stat.rating && (
+                  <StarIcon size={20} color="#F59E0B" />
+                )}
+                {stat.value}
               </div>
               <div
                 style={{ fontSize: 13, color: "#64748B", fontWeight: 500, marginTop: 2 }}
               >
-                {label}
+                {stat.label}
               </div>
             </div>
           ))}
-          {/* Social proof */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.4, duration: 0.6 }}
-            style={{
-              marginTop: 28,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-              flexWrap: "wrap",
-            }}
-          >
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                background: "#ECFDF5",
-                border: "1px solid #A7F3D0",
-                borderRadius: 100,
-                padding: "6px 14px",
-                color: "#065F46",
-                fontSize: 13,
-                fontWeight: 600,
-              }}
-            >
-              <ShieldCheckIcon size={16} color="#065F46" /> Garantía de satisfacción: si no te gusta, no pagas
-            </span>
-          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
 
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            position: "absolute",
-            bottom: 24,
-            left: "50%",
-            transform: "translateX(-50%)",
-            color: "#64748B",
-            fontSize: 22,
-          }}
-        >
-          ↓
-        </motion.div>
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          position: "absolute",
+          bottom: 24,
+          left: "50%",
+          transform: "translateX(-50%)",
+          color: "#64748B",
+          fontSize: 22,
+          zIndex: 2,
+        }}
+        aria-hidden="true"
+      >
+        ↓
+      </motion.div>
     </section>
   );
 }
