@@ -1,4 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Política de Privacidad | MB Digital Systems",
+  description:
+    "Conoce cómo MB Digital Systems recopila, usa y protege los datos personales enviados a través de su sitio web.",
+  alternates: {
+    canonical: "https://mbdigitalsystems.com/politica-privacidad",
+  },
+};
 
 export default function PoliticaPrivacidad() {
   return (
@@ -44,8 +54,8 @@ export default function PoliticaPrivacidad() {
           Política de Privacidad
         </h1>
 
-        <p style={{ fontSize: 14, color: "#64748B", marginBottom: 32 }}>
-          Última actualización: Julio 2026
+        <p style={{ fontSize: 14, color: "#94A3B8", marginBottom: 32 }}>
+          Última actualización: Noviembre 2026
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 28, fontSize: 15, lineHeight: 1.8 }}>
@@ -55,9 +65,10 @@ export default function PoliticaPrivacidad() {
             </h2>
             <p style={{ margin: 0 }}>
               Recopilamos información que usted nos proporciona directamente a través de nuestro
-              formulario de contacto: nombre, correo electrónico, asunto y mensaje. También
-              recopilamos datos de navegación a través de cookies (Google Analytics, Meta Pixel)
-              como dirección IP, tipo de navegador y páginas visitadas.
+              formulario de contacto: nombre, correo electrónico, teléfono o WhatsApp (opcional),
+              servicio de interés y mensaje. También recopilamos datos de navegación a través de
+              cookies y herramientas de medición, como dirección IP, tipo de navegador y páginas
+              visitadas.
             </p>
           </section>
 
@@ -78,9 +89,9 @@ export default function PoliticaPrivacidad() {
               3. Cookies
             </h2>
             <p style={{ margin: 0 }}>
-              Utilizamos cookies y tecnologías similares para mejorar su experiencia, analizar el
-              tráfico del sitio y personalizar el contenido. Puede gestionar sus preferencias de
-              cookies a través del banner de consentimiento que aparece en nuestro sitio.
+              Utilizamos almacenamiento local y tecnologías similares para recordar sus
+              preferencias y medir el uso del sitio. Puede gestionar sus preferencias a través del
+              banner de consentimiento que aparece en nuestro sitio.
             </p>
           </section>
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { whatsappUrl } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
-import { StarIcon, CheckIcon, GiftIcon, MessageIcon, getPlanIcon, getBonusIcon } from "@/components/ui/icons/Icons";
+import { StarIcon, CheckIcon, MessageIcon, getPlanIcon } from "@/components/ui/icons/Icons";
 import { easing, radius } from "@/data/theme";
 
 interface PlanCardProps {
@@ -14,11 +14,8 @@ interface PlanCardProps {
     name: string;
     tagline: string;
     price: string;
-    originalPrice: string;
-    promoEnd: string;
     desc: string;
     features: string[];
-    launchBonus: { icon: string; text: string; value: string }[];
     cta: string;
     whatsappMessage: string;
     highlight: boolean;
@@ -81,40 +78,20 @@ export function PlanCard({ plan, index }: PlanCardProps) {
         }}>
           {plan.name}
         </h3>
-        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.75)", margin: "0 0 20px", lineHeight: 1.5 }}>
+        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.92)", margin: "0 0 20px", lineHeight: 1.5 }}>
           {plan.desc}
         </p>
 
         <div style={{ marginBottom: 28 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-            <span style={{
-              background: "rgba(255,255,255,0.2)",
-              borderRadius: radius.pill, padding: "3px 10px",
-              fontSize: 10, fontWeight: 800, color: "#fff",
-              letterSpacing: 0.5,
-            }}>
-              Precio de lanzamiento
-            </span>
-          </div>
-          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", fontWeight: 600 }}>Desde</span>
+          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", fontWeight: 600 }}>Desde</span>
           <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 2 }}>
-            <span style={{
-              fontSize: "clamp(18px,2.5vw,22px)", fontWeight: 700,
-              color: "rgba(255,255,255,0.4)",
-              textDecoration: "line-through",
-            }}>
-              ${plan.originalPrice}
-            </span>
             <span style={{ fontSize: "clamp(32px,4vw,44px)", fontWeight: 800, color: "#fff", fontFamily: "'Sora', sans-serif", letterSpacing: "-1px" }}>
               ${plan.price}
             </span>
-            <span style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", fontWeight: 600 }}>MXN</span>
+            <span style={{ fontSize: 14, color: "rgba(255,255,255,0.9)", fontWeight: 600 }}>MXN</span>
           </div>
-          <div style={{ fontSize: 13, color: "#A7F3D0", fontWeight: 700, marginTop: 4 }}>
-            Ahorras ${(parseInt(plan.originalPrice.replace(",", "")) - parseInt(plan.price.replace(",", ""))).toLocaleString("en-US")} MXN
-          </div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginTop: 2 }}>
-            Válido hasta {plan.promoEnd}
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.85)", marginTop: 4 }}>
+            Precio referencial
           </div>
         </div>
 
@@ -134,35 +111,9 @@ export function PlanCard({ plan, index }: PlanCardProps) {
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: 10, color: "#fff", fontWeight: 800, flexShrink: 0,
               }}><CheckIcon size={14} color="#fff" /></span>
-              <span style={{ fontSize: 14, color: "rgba(255,255,255,0.88)", lineHeight: 1.4 }}>{f}</span>
+              <span style={{ fontSize: 14, color: "rgba(255,255,255,0.95)", lineHeight: 1.4 }}>{f}</span>
             </motion.div>
           ))}
-        </div>
-
-        <div style={{
-          background: "rgba(255,255,255,0.12)",
-          borderRadius: 14,
-          padding: "14px 16px",
-          marginBottom: 28,
-          border: "1px solid rgba(255,255,255,0.15)",
-        }}>
-          <div style={{
-            fontSize: 11, fontWeight: 700, color: "#FCD34D",
-            letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10,
-          }}>
-            <GiftIcon size={16} color="#FCD34D" /> Beneficios de lanzamiento
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {plan.launchBonus.map((bonus, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ display: "inline-flex", alignItems: "center", color: "#FCD34D" }}>{getBonusIcon(bonus.icon, 15)}</span>
-                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", fontWeight: 500 }}>{bonus.text}</span>
-                </div>
-                <span style={{ fontSize: 11, color: "#FCD34D", fontWeight: 700, whiteSpace: "nowrap" }}>GRATIS</span>
-              </div>
-            ))}
-          </div>
         </div>
 
         <motion.a
@@ -220,26 +171,8 @@ export function PlanCard({ plan, index }: PlanCardProps) {
       </p>
 
       <div style={{ marginBottom: 28 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-          <span style={{
-            background: `${plan.accentColor}15`,
-            border: `1px solid ${plan.accentColor}30`,
-            borderRadius: radius.pill, padding: "3px 10px",
-            fontSize: 10, fontWeight: 800, color: plan.accentColor,
-            letterSpacing: 0.5,
-          }}>
-            Precio de lanzamiento
-          </span>
-        </div>
         <span style={{ fontSize: 12, color: "#64748B", fontWeight: 600 }}>Desde</span>
         <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 2 }}>
-          <span style={{
-            fontSize: "clamp(18px,2.5vw,22px)", fontWeight: 700,
-            color: "#94A3B8",
-            textDecoration: "line-through",
-          }}>
-            ${plan.originalPrice}
-          </span>
           <span style={{
             fontSize: "clamp(32px,4vw,44px)", fontWeight: 800,
             fontFamily: "'Sora', sans-serif", letterSpacing: "-1px",
@@ -250,11 +183,8 @@ export function PlanCard({ plan, index }: PlanCardProps) {
           </span>
           <span style={{ fontSize: 14, color: "#64748B", fontWeight: 600 }}>MXN</span>
         </div>
-        <div style={{ fontSize: 13, color: "#10B981", fontWeight: 700, marginTop: 4 }}>
-          Ahorras ${(parseInt(plan.originalPrice.replace(",", "")) - parseInt(plan.price.replace(",", ""))).toLocaleString("en-US")} MXN
-        </div>
-        <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 2 }}>
-          Válido hasta {plan.promoEnd}
+        <div style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>
+          Precio referencial
         </div>
       </div>
 
@@ -273,36 +203,10 @@ export function PlanCard({ plan, index }: PlanCardProps) {
               background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,
               display: "flex", alignItems: "center", justifyContent: "center",
               fontSize: 10, color: "#fff", fontWeight: 800, flexShrink: 0,
-}}><CheckIcon size={14} color="#1E40AF" /></span>
+}}><CheckIcon size={14} color="#fff" /></span>
               <span style={{ fontSize: 14, color: "#374151", lineHeight: 1.4 }}>{f}</span>
           </motion.div>
         ))}
-      </div>
-
-      <div style={{
-        background: "linear-gradient(135deg,#FFFBEB,#FEF3C7)",
-        borderRadius: 14,
-        padding: "14px 16px",
-        marginBottom: 28,
-        border: "1px solid #FDE68A",
-      }}>
-        <div style={{
-          fontSize: 11, fontWeight: 700, color: "#B45309",
-          letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10,
-        }}>
-          <GiftIcon size={16} color="#B45309" /> Beneficios de lanzamiento
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {plan.launchBonus.map((bonus, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ display: "inline-flex", alignItems: "center", color: "#FCD34D" }}>{getBonusIcon(bonus.icon, 15)}</span>
-                <span style={{ fontSize: 13, color: "#92400E", fontWeight: 500 }}>{bonus.text}</span>
-              </div>
-              <span style={{ fontSize: 11, color: "#B45309", fontWeight: 700, whiteSpace: "nowrap" }}>GRATIS</span>
-            </div>
-          ))}
-        </div>
       </div>
 
       <motion.a
@@ -313,7 +217,7 @@ export function PlanCard({ plan, index }: PlanCardProps) {
         onClick={() => trackEvent("wa_click", "precios", { plan: plan.name })}
         style={{
           display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-background: `linear-gradient(135deg,${plan.accentColor},#1E40AF)`,
+background: "#1E40AF",
             color: "#fff", textDecoration: "none", fontWeight: 800,
             padding: "14px 24px", borderRadius: radius.pill,
             fontSize: 15, width: "100%",

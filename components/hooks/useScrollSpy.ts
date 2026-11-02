@@ -1,21 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-const SECTION_IDS = ["inicio", "servicios", "por-que", "marketing", "nosotros", "testimonios", "proyectos", "precios", "faq", "contacto"];
-
-const SECTION_MAP: Record<string, string> = {
-  inicio: "Inicio",
-  servicios: "Servicios",
-  "por-que": "Servicios",
-  marketing: "Servicios",
-  nosotros: "Nosotros",
-  testimonios: "Proyectos",
-  proyectos: "Proyectos",
-  precios: "Precios",
-  faq: "Contacto",
-  contacto: "Contacto",
-};
+import { SECTION_IDS, SECTION_MAP } from "@/data/constants";
+import type { SectionId } from "@/types";
 
 let observer: IntersectionObserver | null = null;
 let currentId = "Inicio";
@@ -31,7 +18,7 @@ function ensureObserver() {
         .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 
       if (visible.length > 0) {
-        currentId = SECTION_MAP[visible[0].target.id] || "Inicio";
+        currentId = SECTION_MAP[visible[0].target.id as SectionId] || "Inicio";
         listeners.forEach((cb) => cb(currentId));
       }
     },

@@ -10,6 +10,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 84px;
 }
 
 :focus-visible {
@@ -45,16 +46,16 @@ img {
 
 input::placeholder,
 textarea::placeholder {
-  color: #94A3B8;
+  color: #64748B;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1199px) {
   .mb-nav-desktop {
     display: none !important;
   }
 }
 
-@media (min-width: 901px) {
+@media (min-width: 1200px) {
   .mb-nav-mobile {
     display: none !important;
   }

@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { TESTIMONIOS, METRICS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { TESTIMONIOS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { useTracking } from "@/components/hooks/useTracking";
-import { StarIcon, ChartUpIcon, MessageIcon, ArrowRightIcon, getMetricIcon } from "@/components/ui/icons/Icons";
-import { gradients, radius } from "@/data/theme";
+import { StarIcon, MessageIcon, ArrowRightIcon } from "@/components/ui/icons/Icons";
+import { radius } from "@/data/theme";
 
 export function SocialProof() {
   const { trackEvent } = useTracking();
@@ -16,77 +16,6 @@ export function SocialProof() {
       style={{ padding: "clamp(60px, 10vw, 120px) 20px", background: "#fff" }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        {/* Métricas */}
-        <AnimatedSection
-          style={{ marginBottom: "clamp(60px, 10vw, 100px)" }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-              gap: 24,
-            }}
-          >
-            {METRICS.map((m, i) => (
-              <motion.div
-                key={m.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                style={{
-                  textAlign: "center",
-                  padding: "clamp(24px, 3vw, 36px) 16px",
-                  background: "#F8FAFF",
-                  border: "1px solid #E8F0FE",
-                  borderRadius: radius.card,
-                }}
-              >
-                <div
-                  style={{
-                    width: 56,
-                    height: 56,
-                    margin: "0 auto 14px",
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg,#EFF6FF,#E0E7FF)",
-                    border: "1px solid rgba(59,130,246,0.2)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#1E40AF",
-                  }}
-                >
-                  {getMetricIcon(m.icon, 24)}
-                </div>
-                <div
-                  style={{
-                    fontSize: "clamp(32px, 5vw, 48px)",
-                    fontWeight: 800,
-                    fontFamily: "'Sora', sans-serif",
-                    background: "linear-gradient(135deg, #3B82F6, #1E40AF)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    letterSpacing: "-1px",
-                  }}
-                >
-                  {m.value}
-                </div>
-                <div
-                  style={{
-                    fontSize: 14,
-                    color: "#64748B",
-                    fontWeight: 600,
-                    marginTop: 4,
-                  }}
-                >
-                  {m.label}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </AnimatedSection>
-
         {/* Testimonios */}
         <AnimatedSection style={{ textAlign: "center", marginBottom: 48 }}>
           <div
@@ -104,7 +33,7 @@ export function SocialProof() {
               fontWeight: 600,
             }}
           >
-            Testimonios reales
+            Experiencias de clientes
           </div>
           <h2
             style={{
@@ -136,14 +65,14 @@ export function SocialProof() {
               margin: "0 auto",
             }}
           >
-            Resultados reales de negocios que confiaron en nosotros
+            Experiencias de negocios que trabajaron con nosotros
           </p>
         </AnimatedSection>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
             gap: 24,
           }}
         >
@@ -164,28 +93,18 @@ export function SocialProof() {
                   flexDirection: "column",
                 }}
               >
-                {/* Estrellas + métrica destacada */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                  <div style={{ display: "flex", gap: 4 }}>
+                <div
+                  role="img"
+                  aria-label={`Calificación: ${t.rating} de 5`}
+                  style={{ display: "flex", alignItems: "center", marginBottom: 16 }}
+                >
+                  <div aria-hidden="true" style={{ display: "flex", gap: 4 }}>
                     {Array.from({ length: t.rating }).map((_, si) => (
-                      <span key={si} style={{ color: "#F59E0B", fontSize: 16 }}>
-                        <StarIcon size={16} color="#F59E0B" />
+                      <span key={si} style={{ color: "#1E40AF", fontSize: 16 }}>
+                        <StarIcon size={16} color="#1E40AF" />
                       </span>
                     ))}
                   </div>
-                  {t.text.match(/\d+%/)?.[0] && (
-                    <div style={{
-                      background: "#ECFDF5",
-                      border: "1px solid #A7F3D0",
-                      borderRadius: radius.pill,
-                      padding: "4px 12px",
-                      fontSize: 12,
-                      fontWeight: 800,
-                      color: "#065F46",
-                    }}>
-                      <ChartUpIcon size={16} color="#10B981" /> {t.text.match(/\d+%/)?.[0]} mejora
-                    </div>
-                  )}
                 </div>
 
                 {/* Texto */}
@@ -280,7 +199,7 @@ export function SocialProof() {
                   lineHeight: 1.15,
                 }}
               >
-                ¿Quieres resultados como estos para tu negocio?
+                ¿Quieres un proyecto con este nivel de acompañamiento?
               </h3>
               <p
                 style={{
@@ -291,8 +210,8 @@ export function SocialProof() {
                   lineHeight: 1.7,
                 }}
               >
-                Cada negocio es único, pero el método es el mismo: entender, diseñar y medir.
-                Cuéntanos tu caso y empezamos hoy.
+                Cada negocio es único, pero el método es el mismo: entender, diseñar y acompañar.
+                Cuéntanos tu caso y empezamos.
               </p>
               <motion.a
                 href={whatsappUrl(WHATSAPP_MESSAGES.resultadosSimilares)}
@@ -305,7 +224,8 @@ export function SocialProof() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 10,
-                  background: gradients.button,
+                  minHeight: 48,
+                  background: "#1E40AF",
                   color: "#fff",
                   textDecoration: "none",
                   fontWeight: 700,
@@ -315,7 +235,7 @@ export function SocialProof() {
                   boxShadow: "0 4px 24px rgba(59,130,246,0.3)",
                 }}
               >
-                <MessageIcon size={18} color="#fff" /> Quiero resultados así
+                <MessageIcon size={18} color="#fff" /> Hablemos de tu proyecto
                 <ArrowRightIcon size={16} color="#fff" />
               </motion.a>
               <div
@@ -326,7 +246,7 @@ export function SocialProof() {
                   fontWeight: 500,
                 }}
               >
-                Respuesta en menos de 24 horas · Sin compromiso
+                Te respondemos a la brevedad · Sin compromiso
               </div>
             </div>
           </motion.div>

@@ -1,748 +1,351 @@
 "use client";
 
-import { useState, useRef } from "react";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
+import { motion } from "framer-motion";
 import { PROJECTS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { useSectionViewOnce, useTracking } from "@/components/hooks/useTracking";
-import { RocketIcon, MessageIcon } from "@/components/ui/icons/Icons";
-import { section, gradients, shadows, easing, radius } from "@/data/theme";
-
-const PROJECT_HIGHLIGHTS: Record<string, { metric: string; metricLabel: string }> = {
-  "Llantas Gamma": { metric: "3x", metricLabel: "más vistas" },
-  "Las Tortas Del Chiche": { metric: "+40%", metricLabel: "pedidos" },
-};
+import { ArrowRightIcon, MessageIcon } from "@/components/ui/icons/Icons";
+import { ProjectStory } from "@/components/sections/Projects/ProjectStory";
+import { colors, fonts, gradients, radius, section } from "@/data/theme";
 
 export function Projects() {
-  const [hovered, setHovered] = useState<number | null>(null);
-  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
-  const [previewLoading, setPreviewLoading] = useState(false);
   const { trackEvent } = useTracking();
   const sectionRef = useRef<HTMLElement | null>(null);
 
   useSectionViewOnce("portfolio_view", sectionRef);
 
-  const comingSoonProject = PROJECTS.find((p) => p.comingSoon);
-  const otherProjects = PROJECTS.filter((p) => !p.comingSoon);
+  const visibleProjects = PROJECTS.filter((project) => project.authorization === "confirmed");
+  const liveCount = visibleProjects.filter((project) => project.status === "live").length;
+  const developmentCount = visibleProjects.filter(
+    (project) => project.status === "in-development"
+  ).length;
 
   return (
     <section
       id="proyectos"
       ref={sectionRef}
-      style={{ padding: section.padding, background: "#F8FAFF" }}
+      aria-labelledby="projects-title"
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        padding: section.padding,
+        background: colors.bg,
+      }}
     >
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <AnimatedSection
-          style={{ textAlign: "center", marginBottom: "clamp(40px,7vw,72px)" }}
-        >
+      <div style={{ maxWidth: section.maxWidth, margin: "0 auto" }}>
+        <AnimatedSection>
           <div
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "rgba(59,130,246,0.1)",
-              border: "1px solid rgba(59,130,246,0.2)",
-              borderRadius: radius.pill,
-              padding: "6px 16px",
-              marginBottom: 24,
-              color: "#1E40AF",
-              fontSize: 13,
-              fontWeight: 600,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 380px), 1fr))",
+              alignItems: "end",
+              gap: "clamp(28px, 5vw, 72px)",
+              marginBottom: "clamp(34px, 6vw, 58px)",
             }}
           >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "#10B981",
-                display: "inline-block",
-              }}
-            />
-            Portafolio
+            <div style={{ minWidth: 0 }}>
+              <p
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 9,
+                  margin: "0 0 18px",
+                  color: colors.primaryDark,
+                  fontFamily: fonts.sora,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "0.16em",
+                  lineHeight: 1.5,
+                  textTransform: "uppercase",
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    background: colors.success,
+                  }}
+                />
+                Portafolio · Trabajo seleccionado
+              </p>
+              <h2
+                id="projects-title"
+                style={{
+                  maxWidth: "14ch",
+                  margin: 0,
+                  color: colors.ink,
+                  fontFamily: fonts.sora,
+                  fontSize: "clamp(32px, 5vw, 56px)",
+                  fontWeight: 800,
+                  letterSpacing: "-0.045em",
+                  lineHeight: 1.02,
+                  overflowWrap: "break-word",
+                }}
+              >
+                Ideas que se convierten en{" "}
+                <span
+                  style={{
+                    background: gradients.text,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  soluciones digitales.
+                </span>
+              </h2>
+            </div>
+
+            <div style={{ minWidth: 0, maxWidth: 500 }}>
+              <p
+                style={{
+                  margin: 0,
+                  color: colors.slate,
+                  fontSize: "clamp(14px, 1.5vw, 17px)",
+                  lineHeight: 1.75,
+                }}
+              >
+                Una selección de sitios, sistemas y productos digitales. Cada proyecto parte de una
+                necesidad concreta y se construye con un alcance definido.
+              </p>
+              <p
+                style={{
+                  margin: "18px 0 0",
+                  color: colors.slate,
+                  fontFamily: fonts.sora,
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: "0.06em",
+                  lineHeight: 1.7,
+                  textTransform: "uppercase",
+                }}
+              >
+                {visibleProjects.length} proyectos · {liveCount}{" "}
+                {liveCount === 1 ? "sitio publicado" : "sitios publicados"} · {developmentCount} en
+                desarrollo
+              </p>
+            </div>
           </div>
-          <h2
-            style={{
-              fontSize: "clamp(28px,5vw,52px)",
-              fontWeight: 800,
-              color: "#0F172A",
-              letterSpacing: "-1.5px",
-              margin: "0 0 20px",
-              fontFamily: "'Sora', sans-serif",
-            }}
-          >
-            Proyectos que{" "}
-            <span
-              style={{
-                background: "linear-gradient(90deg, #3B82F6, #8B5CF6)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              generan resultados
-            </span>
-          </h2>
-          <p
-            style={{
-              fontSize: "clamp(14px,2vw,18px)",
-              color: "#64748B",
-              maxWidth: 520,
-              margin: "0 auto",
-              lineHeight: 1.7,
-            }}
-          >
-            Cada proyecto diseñado y desarrollado para superar expectativas.
-            Estos son algunos de los negocios que ya confiaron en nosotros.
-          </p>
         </AnimatedSection>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
-            gap: 24,
-            marginBottom: "clamp(48px,8vw,80px)",
-          }}
-        >
-          {otherProjects.map((p, i) => {
-            const highlight = PROJECT_HIGHLIGHTS[p.title];
-            return (
-              <AnimatedSection key={p.title} delay={i * 0.1}>
-                <motion.div
-                  onHoverStart={() => setHovered(i)}
-                  onHoverEnd={() => setHovered(null)}
-                  whileHover={{ y: -10 }}
-                  style={{
-                    background: "#fff",
-                    borderRadius: radius.panel,
-                    overflow: "hidden",
-                    border: "1px solid #E8F0FE",
-                    boxShadow:
-                      hovered === i
-                        ? shadows.glow
-                        : shadows.card,
-                    transition: "box-shadow 0.3s",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "relative",
-                      overflow: "hidden",
-                      aspectRatio: "16/9",
-                    }}
-                  >
-                    {previewIndex === i ? (
-                      <>
-                        <iframe
-                          src={p.link}
-                          title={`Vista previa en vivo de ${p.title}`}
-                          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                          referrerPolicy="no-referrer-when-downgrade"
-                          onLoad={() => setPreviewLoading(false)}
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            width: "100%",
-                            height: "100%",
-                            border: 0,
-                          }}
-                        />
-                        {previewLoading && (
-                          <div
-                            style={{
-                              position: "absolute",
-                              inset: 0,
-                              zIndex: 1,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              background: "#fff",
-                            }}
-                          >
-                            <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                              style={{
-                                width: 28,
-                                height: 28,
-                                border: "3px solid #E2E8F0",
-                                borderTopColor: "#3B82F6",
-                                borderRadius: "50%",
-                              }}
-                            />
-                          </div>
-                        )}
-                        <div
-                          style={{
-                            position: "absolute",
-                            top: 10,
-                            left: 10,
-                            zIndex: 2,
-                            display: "flex",
-                            gap: 8,
-                            flexWrap: "wrap",
-                          }}
-                        >
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setPreviewIndex(null);
-                              setPreviewLoading(true);
-                            }}
-                            style={{
-                              background: "rgba(255,255,255,0.95)",
-                              color: "#0F172A",
-                              border: "none",
-                              borderRadius: radius.pill,
-                              padding: "6px 12px",
-                              fontSize: 12,
-                              fontWeight: 700,
-                              cursor: "pointer",
-                              fontFamily: "inherit",
-                              boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
-                            }}
-                          >
-                            ✕ Cerrar vista previa
-                          </button>
-                          <a
-                            href={p.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={() => trackEvent("project_click", p.title)}
-                            style={{
-                              background: "rgba(255,255,255,0.95)",
-                              color: "#1E40AF",
-                              textDecoration: "none",
-                              borderRadius: radius.pill,
-                              padding: "6px 12px",
-                              fontSize: 12,
-                              fontWeight: 700,
-                              boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
-                            }}
-                          >
-                            Abrir en pestaña nueva
-                          </a>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <motion.div
-                          animate={{ scale: hovered === i ? 1.07 : 1 }}
-                          transition={{ duration: 0.5, ease: easing }}
-                          style={{ width: "100%", height: "100%", position: "relative" }}
-                        >
-                          <Image
-                            src={p.img}
-                            alt={`Proyecto: ${p.title} - ${p.desc}`}
-                            width={600}
-                            height={338}
-                            loading="lazy"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                              display: "block",
-                            }}
-                          />
-                        </motion.div>
-                        <AnimatePresence>
-                          {hovered === i && (
-                            <motion.div
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              exit={{ opacity: 0 }}
-                              style={{
-                                position: "absolute",
-                                inset: 0,
-                                background: "rgba(30,64,175,0.8)",
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                gap: 12,
-                              }}
-                            >
-                              <motion.a
-                                href={p.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() => trackEvent("project_click", p.title)}
-                                initial={{ y: 12, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.05 }}
-                                style={{
-                                  color: "#fff",
-                                  border: "2px solid #fff",
-                                  borderRadius: radius.pill,
-                                  padding: "10px 28px",
-                                  fontWeight: 700,
-                                  fontSize: 14,
-                                  textDecoration: "none",
-                                  backdropFilter: "blur(4px)",
-                                }}
-                              >
-                                Visitar Sitio
-                              </motion.a>
-                              <motion.span
-                                initial={{ y: 12, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.12 }}
-                                style={{
-                                  color: "rgba(255,255,255,0.7)",
-                                  fontSize: 13,
-                                  fontWeight: 500,
-                                }}
-                              >
-                                Abre en nueva pestaña
-                              </motion.span>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                        {p.preview ? (
-                          <motion.button
-                            type="button"
-                            onClick={() => {
-                              setPreviewIndex(i);
-                              setPreviewLoading(true);
-                              trackEvent("project_preview", p.title);
-                            }}
-                            whileTap={{ scale: 0.94 }}
-                            style={{
-                              position: "absolute",
-                              bottom: 12,
-                              left: 12,
-                              zIndex: 2,
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: 6,
-                              background: "rgba(16,185,129,0.95)",
-                              color: "#fff",
-                              border: "none",
-                              borderRadius: radius.pill,
-                              padding: "6px 12px",
-                              fontSize: 12,
-                              fontWeight: 700,
-                              cursor: "pointer",
-                              fontFamily: "inherit",
-                              boxShadow: "0 2px 12px rgba(0,0,0,0.2)",
-                            }}
-                          >
-                            <motion.span
-                              animate={{ scale: [1, 1.35, 1] }}
-                              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                              style={{
-                                width: 8,
-                                height: 8,
-                                borderRadius: "50%",
-                                background: "#fff",
-                                display: "inline-block",
-                              }}
-                            />
-                            Ver en vivo
-                          </motion.button>
-                        ) : (
-                          <motion.a
-                            href={p.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={() => trackEvent("project_click", p.title)}
-                            whileTap={{ scale: 0.94 }}
-                            style={{
-                              position: "absolute",
-                              bottom: 12,
-                              left: 12,
-                              zIndex: 2,
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: 6,
-                              background: "rgba(59,130,246,0.95)",
-                              color: "#fff",
-                              textDecoration: "none",
-                              borderRadius: radius.pill,
-                              padding: "6px 12px",
-                              fontSize: 12,
-                              fontWeight: 700,
-                              boxShadow: "0 2px 12px rgba(0,0,0,0.2)",
-                            }}
-                          >
-                            Visitar sitio
-                          </motion.a>
-                        )}
-                      </>
-                    )}
-                    {highlight && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: 16,
-                          right: 16,
-                          background: "#10B981",
-                          borderRadius: radius.pill,
-                          padding: "6px 14px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 6,
-                        }}
-                      >
-                        <span
-                          style={{
-                            color: "#fff",
-                            fontSize: 13,
-                            fontWeight: 800,
-                          }}
-                        >
-                          {highlight.metric}
-                        </span>
-                        <span
-                          style={{
-                            color: "rgba(255,255,255,0.8)",
-                            fontSize: 11,
-                            fontWeight: 600,
-                          }}
-                        >
-                          {highlight.metricLabel}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div style={{ padding: "clamp(20px,3vw,28px)" }}>
-                    <h3
-                      style={{
-                        fontSize: "clamp(17px,2vw,20px)",
-                        fontWeight: 800,
-                        color: "#0F172A",
-                        margin: "0 0 10px",
-                        fontFamily: "'Sora', sans-serif",
-                      }}
-                    >
-                      {p.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: 14,
-                        color: "#64748B",
-                        lineHeight: 1.7,
-                        margin: "0 0 16px",
-                      }}
-                    >
-                      {p.desc}
-                    </p>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {p.tags.map((t) => (
-                        <span
-                          key={t}
-                          style={{
-                            background: "#EFF6FF",
-                            color: "#1E40AF",
-                            fontSize: 12,
-                            fontWeight: 700,
-                            padding: "4px 12px",
-                            borderRadius: radius.pill,
-                          }}
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    {p.preview && (
-                      <a
-                        href={p.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => trackEvent("project_click", p.title)}
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 6,
-                          marginTop: 14,
-                          color: "#1E40AF",
-                          fontSize: 13,
-                          fontWeight: 700,
-                          textDecoration: "none",
-                        }}
-                      >
-                        Visitar sitio en vivo ↗
-                      </a>
-                    )}
-                  </div>
-                </motion.div>
-              </AnimatedSection>
-            );
-          })}
-        </div>
-
-        {comingSoonProject && (
-          <AnimatedSection>
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: easing }}
-              style={{
-                background:
-                  "linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%)",
-                borderRadius: 28,
-                overflow: "hidden",
-                position: "relative",
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                gap: 0,
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  top: "-30%",
-                  right: "-10%",
-                  width: 500,
-                  height: 500,
-                  borderRadius: "50%",
-                  background:
-                    "radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 60%)",
-                  pointerEvents: "none",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "-20%",
-                  left: "-5%",
-                  width: 400,
-                  height: 400,
-                  borderRadius: "50%",
-                  background:
-                    "radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 60%)",
-                  pointerEvents: "none",
-                }}
-              />
-
-              <div
-                style={{
-                  position: "relative",
-                  overflow: "hidden",
-                  minHeight: 300,
-                }}
-              >
-                <Image
-                  src={comingSoonProject.img}
-                  alt={comingSoonProject.title}
-                  width={600}
-                  height={338}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    filter: "brightness(0.7)",
-                  }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background:
-                      "linear-gradient(135deg, rgba(15,23,42,0.8) 0%, rgba(30,64,175,0.4) 100%)",
-                  }}
-                />
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                  style={{
-                    position: "absolute",
-                    top: 20,
-                    left: 20,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    background: "rgba(59,130,246,0.9)",
-                    backdropFilter: "blur(8px)",
-                    borderRadius: radius.pill,
-                    padding: "8px 20px",
-                  }}
-                >
-                  <motion.span
-                    animate={{ scale: [1, 1.3, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: "50%",
-                      background: "#10B981",
-                      display: "inline-block",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: "#fff",
-                      letterSpacing: 1.5,
-                      textTransform: "uppercase",
-                    }}
-                  >
-Próximamente
-                  </span>
-                </motion.div>
-              </div>
-
-              <div
-                style={{
-                  padding: "clamp(28px,4vw,48px)",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  position: "relative",
-                  zIndex: 1,
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    marginBottom: 16,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      color: "#8B5CF6",
-                      letterSpacing: 2.5,
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    En desarrollo
-                  </span>
-                </div>
-                <h3
-                  style={{
-                    fontSize: "clamp(24px,3.5vw,36px)",
-                    fontWeight: 800,
-                    color: "#fff",
-                    fontFamily: "'Sora', sans-serif",
-                    letterSpacing: "-0.8px",
-                    margin: "0 0 16px",
-                    lineHeight: 1.15,
-                  }}
-                >
-                  {comingSoonProject.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: "clamp(14px,1.6vw,16px)",
-                    color: "rgba(255,255,255,0.7)",
-                    lineHeight: 1.75,
-                    margin: "0 0 28px",
-                  }}
-                >
-                  {comingSoonProject.desc}
-                </p>
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 8,
-                    marginBottom: 28,
-                  }}
-                >
-                  {comingSoonProject.tags.map((t) => (
-                    <span
-                      key={t}
-                      style={{
-                        background: "rgba(139,92,246,0.2)",
-                        border: "1px solid rgba(139,92,246,0.3)",
-                        color: "#C4B5FD",
-                        fontSize: 12,
-                        fontWeight: 700,
-                        padding: "5px 14px",
-                        borderRadius: radius.pill,
-                      }}
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    color: "rgba(255,255,255,0.5)",
-                    fontSize: 14,
-                  }}
-                >
-                  <RocketIcon size={16} />
-                  Lanzamiento estimado: Próximamente
-                </div>
-              </div>
-            </motion.div>
+        {visibleProjects.map((project, index) => (
+          <AnimatedSection key={project.id} delay={index * 0.04}>
+            <ProjectStory
+              project={project}
+              index={index}
+              dark={project.status === "in-development"}
+              flip={index % 2 === 1}
+            />
           </AnimatedSection>
-        )}
+        ))}
 
-        <AnimatedSection style={{ textAlign: "center", marginTop: 56 }}>
+        <AnimatedSection>
           <div
             style={{
-              background: "#fff",
-              border: "1px solid #E8F0FE",
-              borderRadius: radius.panel,
-              padding: "clamp(32px,5vw,48px) clamp(24px,4vw,40px)",
-              maxWidth: 600,
-              margin: "0 auto",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
+              alignItems: "start",
+              gap: "clamp(20px, 4vw, 56px)",
+              marginTop: "clamp(48px, 7vw, 80px)",
+              padding: "clamp(26px, 4vw, 38px) 0",
+              borderTop: `1px solid ${colors.border}`,
+              borderBottom: `1px solid ${colors.border}`,
             }}
           >
-            <MessageIcon size={48} color="#3B82F6" />
-            <h3
+            <div style={{ minWidth: 0 }}>
+              <p
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 7,
+                  margin: "0 0 10px",
+                  color: colors.primaryDark,
+                  fontFamily: fonts.sora,
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: "0.16em",
+                  lineHeight: 1.5,
+                  textTransform: "uppercase",
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: "50%",
+                    background: colors.violet,
+                    flexShrink: 0,
+                  }}
+                />
+                Marketing y dirección creativa
+              </p>
+              <h3
+                style={{
+                  maxWidth: "24ch",
+                  margin: 0,
+                  color: colors.ink,
+                  fontFamily: fonts.sora,
+                  fontSize: "clamp(22px, 2.8vw, 30px)",
+                  fontWeight: 800,
+                  letterSpacing: "-0.035em",
+                  lineHeight: 1.18,
+                }}
+              >
+                Dirección creativa, contenido y sistemas visuales.
+              </h3>
+            </div>
+
+            <div style={{ minWidth: 0 }}>
+              <p style={{ margin: 0, color: colors.slate, fontSize: 14, lineHeight: 1.75 }}>
+                El trabajo de diseño se presenta con su contexto. Los conceptos del laboratorio son
+                ejercicios de dirección creativa, no proyectos de clientes.
+              </p>
+              <a
+                href="#marketing-digital"
+                onClick={() => trackEvent("nav_click", "marketing-digital")}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 9,
+                  minHeight: 44,
+                  marginTop: 12,
+                  borderBottom: `1px solid ${colors.violet}`,
+                  color: colors.primaryDark,
+                  fontFamily: fonts.sora,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  lineHeight: 1.4,
+                  textDecoration: "none",
+                }}
+              >
+                Ver Marketing Digital
+                <ArrowRightIcon size={16} />
+              </a>
+            </div>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={0.05}>
+          <div
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              marginTop: "clamp(52px, 8vw, 92px)",
+              padding: "clamp(30px, 5vw, 52px)",
+              borderRadius: 32,
+              border: `1px solid ${colors.border}`,
+              background:
+                "linear-gradient(135deg, #FFFFFF 0%, #F8FAFF 56%, #EFF6FF 100%)",
+            }}
+          >
+            <div
+              aria-hidden="true"
               style={{
-                fontSize: "clamp(20px,3vw,28px)",
-                fontWeight: 800,
-                color: "#0F172A",
-                margin: "0 0 12px",
-                fontFamily: "'Sora', sans-serif",
+                position: "absolute",
+                top: -90,
+                right: -70,
+                width: 300,
+                height: 300,
+                borderRadius: "50%",
+                background:
+                  "radial-gradient(circle, rgba(139,92,246,0.14) 0%, transparent 68%)",
+                pointerEvents: "none",
+              }}
+            />
+            <div
+              style={{
+                position: "relative",
+                zIndex: 1,
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
+                alignItems: "end",
+                gap: "clamp(26px, 5vw, 64px)",
               }}
             >
-              ¿Tu proyecto podría ser el próximo?
-            </h3>
-            <p
-              style={{
-                fontSize: 15,
-                color: "#64748B",
-                lineHeight: 1.7,
-                margin: "0 0 28px",
-              }}
-            >
-              Cuéntanos tu idea y te damos una cotización sin compromiso.
-              Cada proyecto es único y lo sabemos.
-            </p>
-            <motion.a
-              href={whatsappUrl(WHATSAPP_MESSAGES.proyectoSimilar)}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackEvent("wa_click", "proyectos", { plan: "Proyecto similar" })}
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 8px 40px rgba(59,130,246,0.35)",
-              }}
-              whileTap={{ scale: 0.97 }}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 10,
-                background: gradients.button,
-                color: "#fff",
-                textDecoration: "none",
-                fontWeight: 700,
-                padding: "16px 36px",
-                borderRadius: radius.pill,
-                fontSize: "clamp(14px,2vw,16px)",
-                boxShadow: "0 4px 24px rgba(59,130,246,0.3)",
-              }}
-            >
-              Quiero mi proyecto similar
-            </motion.a>
+              <div style={{ minWidth: 0 }}>
+                <p
+                  style={{
+                    margin: "0 0 12px",
+                    color: colors.primaryDark,
+                    fontFamily: fonts.sora,
+                    fontSize: 10,
+                    fontWeight: 700,
+                    letterSpacing: "0.16em",
+                    lineHeight: 1.5,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Siguiente paso
+                </p>
+                <h3
+                  style={{
+                    maxWidth: "17ch",
+                    margin: 0,
+                    color: colors.ink,
+                    fontFamily: fonts.sora,
+                    fontSize: "clamp(28px, 4vw, 44px)",
+                    fontWeight: 800,
+                    letterSpacing: "-0.045em",
+                    lineHeight: 1.06,
+                  }}
+                >
+                  ¿Tienes un proyecto en mente?{" "}
+                  <span
+                    style={{
+                      background: gradients.text,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    Construyamos la solución.
+                  </span>
+                </h3>
+              </div>
+
+              <div style={{ minWidth: 0 }}>
+                <p style={{ margin: 0, color: colors.slate, fontSize: 14, lineHeight: 1.75 }}>
+                  Cuéntanos qué necesitas. Revisamos el alcance y te decimos cómo podemos
+                  ayudarte.
+                </p>
+                <motion.a
+                  href={whatsappUrl(WHATSAPP_MESSAGES.proyectoSimilar)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent("wa_click", "proyectos", { plan: "Proyecto similar" })}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                    minHeight: 50,
+                    maxWidth: "100%",
+                    marginTop: 22,
+                    padding: "14px clamp(22px, 3vw, 32px)",
+                    border: `1.5px solid ${colors.primaryDark}`,
+                    borderRadius: radius.pill,
+                    background: gradients.button,
+                    boxShadow: "0 12px 32px rgba(59,130,246,0.24)",
+                    color: colors.white,
+                    fontFamily: fonts.sora,
+                    fontSize: 14,
+                    fontWeight: 700,
+                    lineHeight: 1.3,
+                    textAlign: "center",
+                    textDecoration: "none",
+                  }}
+                >
+                  <MessageIcon size={18} />
+                  Hablemos de tu proyecto
+                </motion.a>
+              </div>
+            </div>
           </div>
         </AnimatedSection>
       </div>

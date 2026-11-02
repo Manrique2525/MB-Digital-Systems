@@ -4,223 +4,319 @@ import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
-import { AlertIcon, SlashCircleIcon, MoonIcon, FrownIcon, MessageIcon, ZapIcon } from "@/components/ui/icons/Icons";
-import { gradients, easing, radius } from "@/data/theme";
+import {
+  AlertIcon,
+  FrownIcon,
+  MessageIcon,
+  MoonIcon,
+  SlashCircleIcon,
+  ZapIcon,
+} from "@/components/ui/icons/Icons";
+import { colors, easing, fonts, radius } from "@/data/theme";
 
 const PAIN_POINTS = [
   {
-    icon: <AlertIcon size={32} />,
-    title: "¿Tu competencia te está ganando?",
-    desc: "Mientras ellos aparecen en Google, tú dependes solo del boca a boca.",
+    icon: SlashCircleIcon,
+    accent: colors.primaryDark,
+    label: "Software",
+    title: "Tu operación depende de procesos manuales.",
+    description:
+      "Hojas de cálculo, mensajes y tareas repetitivas consumen tiempo que debería estar en el negocio.",
   },
   {
-    icon: <SlashCircleIcon size={32} />,
-    title: "¿Todo por WhatsApp?",
-    desc: "Sin una web, pareces menos serio que negocios más pequeños que el tuyo.",
+    icon: AlertIcon,
+    accent: colors.violet,
+    label: "Software",
+    title: "La información vive en lugares distintos.",
+    description:
+      "Cuando cada área trabaja con sus propios archivos, cuesta tomar decisiones con una visión completa.",
   },
   {
-    icon: <MoonIcon size={32} />,
-    title: "¿Pierdes ventas de noche?",
-    desc: "Cuando cierras tu negocio, tu presencia digital también desaparece.",
+    icon: MoonIcon,
+    accent: colors.primaryDark,
+    label: "Marketing",
+    title: "Tu marca publica sin una dirección clara.",
+    description:
+      "La presencia digital existe, pero no siempre comunica lo mismo ni sostiene una línea reconocible.",
   },
   {
-    icon: <FrownIcon size={32} />,
-    title: "¿Nadie te encuentra en Google?",
-    desc: "Miles de personas buscan lo que ofreces — y llegan a otro, no a ti.",
+    icon: FrownIcon,
+    accent: colors.violet,
+    label: "Marketing",
+    title: "Te cuesta explicar lo que te hace diferente.",
+    description:
+      "Sin un mensaje y una identidad bien ordenados, la oferta se pierde entre opciones parecidas.",
   },
 ];
 
-function PainCard({ icon, title, desc, index }: { icon: React.ReactNode; title: string; desc: string; index: number }) {
+function PainCard({
+  icon: Icon,
+  accent,
+  label,
+  title,
+  description,
+  index,
+}: {
+  icon: typeof AlertIcon;
+  accent: string;
+  label: string;
+  title: string;
+  description: string;
+  index: number;
+}) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 28 }}
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay: index * 0.1, duration: 0.6, ease: easing }}
-      whileHover={{ y: -4, boxShadow: "0 16px 48px rgba(59,130,246,0.12)" }}
+      transition={{ delay: index * 0.08, duration: 0.55, ease: easing }}
+      whileHover={{ y: -4, boxShadow: "0 16px 48px rgba(30,64,175,0.1)" }}
       style={{
-        background: "#F8FAFF",
-        border: "1px solid #E8F0FE",
+        background: colors.bg,
+        border: `1px solid ${colors.border}`,
         borderRadius: radius.card,
-        padding: "clamp(22px,3vw,32px)",
-        cursor: "default",
-        transition: "all 0.28s ease",
+        padding: "clamp(22px, 3vw, 30px)",
+        height: "100%",
       }}
     >
-      <div style={{ marginBottom: 14 }}>{icon}</div>
-      <h4 style={{
-        fontSize: "clamp(15px,1.8vw,18px)",
-        fontWeight: 800,
-        color: "#0F172A",
-        margin: "0 0 8px",
-        fontFamily: "'Sora', sans-serif",
-        letterSpacing: "-0.3px",
-      }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12,
+          marginBottom: 14,
+        }}
+      >
+        <span
+          style={{
+            width: 42,
+            height: 42,
+            borderRadius: 12,
+            background: colors.white,
+            border: `1px solid ${colors.border}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+          }}
+        >
+          <Icon size={22} color={accent} />
+        </span>
+        <span
+          style={{
+            color: colors.primaryDark,
+            fontFamily: fonts.sora,
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: "0.14em",
+            lineHeight: 1.5,
+            textTransform: "uppercase",
+          }}
+        >
+          {label}
+        </span>
+      </div>
+      <h3
+        style={{
+          margin: "0 0 8px",
+          color: colors.ink,
+          fontFamily: fonts.sora,
+          fontSize: "clamp(16px, 1.9vw, 19px)",
+          fontWeight: 800,
+          letterSpacing: "-0.025em",
+          lineHeight: 1.3,
+        }}
+      >
         {title}
-      </h4>
-      <p style={{ fontSize: 14, color: "#64748B", lineHeight: 1.65, margin: 0 }}>
-        {desc}
+      </h3>
+      <p style={{ margin: 0, color: colors.slate, fontSize: 13, lineHeight: 1.65 }}>
+        {description}
       </p>
-    </motion.div>
+    </motion.article>
   );
 }
 
 export function WhyWebsite() {
   const { trackEvent } = useTracking();
+
   return (
     <section
       id="por-que"
+      aria-labelledby="why-title"
       style={{
-        background: gradients.heroBg,
-        padding: "clamp(72px,12vw,120px) 20px",
-        position: "relative",
+        background: "linear-gradient(160deg, #EFF6FF 0%, #F8FAFF 45%, #EDE9FE 100%)",
+        padding: "clamp(72px, 12vw, 120px) 20px",
         overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: 1000, margin: "0 auto", position: "relative", zIndex: 2 }}>
-
-        {/* Bloque 1: Gancho emocional */}
-        <AnimatedSection style={{ textAlign: "center", marginBottom: "clamp(56px,9vw,80px)" }}>
-          <h2 style={{
-            fontSize: "clamp(32px,5.5vw,56px)",
-            fontWeight: 800, color: "#0F172A",
-            letterSpacing: "-2px", margin: "0 0 24px",
-            fontFamily: "'Sora', sans-serif", lineHeight: 1.05,
-          }}>
-            Cada día sin web,<br />
-            <span style={{
-              background: gradients.text,
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-            }}>
-              son clientes que se van.
+      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+        <AnimatedSection style={{ textAlign: "center", marginBottom: "clamp(40px, 7vw, 64px)" }}>
+          <p
+            style={{
+              margin: "0 0 14px",
+              color: colors.primaryDark,
+              fontFamily: fonts.sora,
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "0.16em",
+              lineHeight: 1.5,
+              textTransform: "uppercase",
+            }}
+          >
+            Software + marketing
+          </p>
+          <h2
+            id="why-title"
+            style={{
+              margin: "0 0 20px",
+              color: colors.ink,
+              fontFamily: fonts.sora,
+              fontSize: "clamp(30px, 5vw, 52px)",
+              fontWeight: 800,
+              letterSpacing: "-0.045em",
+              lineHeight: 1.06,
+              textWrap: "balance",
+            }}
+          >
+            Crecer no debería depender de{" "}
+            <span
+              style={{
+                background: "linear-gradient(90deg, #1E40AF, #8B5CF6)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              improvisar.
             </span>
           </h2>
-          <p style={{
-            fontSize: "clamp(15px,2vw,19px)", color: "#64748B",
-            maxWidth: 560, margin: "0 auto", lineHeight: 1.7,
-          }}>
-            No necesitas tecnología complicada. Necesitas que tu negocio{" "}
-            <strong style={{ color: "#1E40AF", fontWeight: 700 }}>
-              trabaje para ti mientras tú haces lo tuyo.
-            </strong>
+          <p
+            style={{
+              maxWidth: 620,
+              margin: "0 auto",
+              color: colors.slate,
+              fontSize: "clamp(15px, 1.8vw, 18px)",
+              lineHeight: 1.7,
+            }}
+          >
+            Software y marketing resuelven problemas distintos. Juntos cierran el círculo entre una
+            operación ordenada y una marca que se explica con claridad.
           </p>
         </AnimatedSection>
 
-        {/* Bloque 2: Dolores (4 cards) */}
-        <AnimatedSection style={{ marginBottom: "clamp(60px,10vw,80px)" }}>
-          <div style={{ textAlign: "center", marginBottom: 40 }}>
-            <div style={{
-              fontSize: 12, fontWeight: 700, color: "#EF4444",
-              letterSpacing: 3, textTransform: "uppercase", marginBottom: 10,
-            }}>
-              Situaciones comunes
-            </div>
-            <h3 style={{
-              fontSize: "clamp(22px,3.5vw,36px)",
-              fontWeight: 800, color: "#0F172A",
-              fontFamily: "'Sora', sans-serif", letterSpacing: "-1px", margin: 0,
-            }}>
-              ¿Alguno de estos te suena familiar?
-            </h3>
-          </div>
-          <div style={{
+        <div
+          style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
-            gap: 20,
-          }}>
-            {PAIN_POINTS.map((p, i) => (
-              <PainCard key={i} {...p} index={i} />
-            ))}
-          </div>
-        </AnimatedSection>
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 230px), 1fr))",
+            gap: 18,
+            marginBottom: "clamp(44px, 7vw, 68px)",
+          }}
+        >
+          {PAIN_POINTS.map((point, index) => (
+            <PainCard key={point.title} {...point} index={index} />
+          ))}
+        </div>
 
-        {/* Bloque 3: CTA final */}
         <AnimatedSection>
-          <motion.div
-            whileHover={{ scale: 1.005 }}
+          <div
             style={{
-              background: gradients.section,
-              borderRadius: 28,
-              padding: "clamp(48px,7vw,72px) clamp(28px,5vw,64px)",
+              background: "linear-gradient(135deg, #0F172A 0%, #1E40AF 100%)",
+              borderRadius: radius.panel,
+              padding: "clamp(34px, 6vw, 60px) clamp(24px, 5vw, 56px)",
               textAlign: "center",
-              position: "relative",
               overflow: "hidden",
             }}
           >
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <p style={{
-                fontSize: "clamp(18px,2.5vw,24px)",
-                color: "rgba(255,255,255,0.8)", maxWidth: 600, margin: "0 auto 8px",
-                lineHeight: 1.5,
-              }}>
-                Una página web no es un gasto más.
-              </p>
-              <h3 style={{
-                fontSize: "clamp(24px,4vw,40px)",
-                fontWeight: 800, color: "#fff",
-                fontFamily: "'Sora', sans-serif", letterSpacing: "-1.2px",
-                maxWidth: 700, margin: "0 auto 32px",
-                lineHeight: 1.15,
-              }}>
-                Es el vendedor que trabaja para ti{" "}
-                <span style={{
-                  background: "linear-gradient(90deg,#93C5FD,#C4B5FD)",
-                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-                }}>
-                  los 365 días del año.
-                </span>
-              </h3>
+            <p
+              style={{
+                margin: "0 auto 10px",
+                maxWidth: 620,
+                color: "rgba(255,255,255,0.88)",
+                fontSize: "clamp(16px, 2vw, 20px)",
+                lineHeight: 1.6,
+              }}
+            >
+              No se trata de tener más herramientas.
+            </p>
+            <h3
+              style={{
+                maxWidth: 700,
+                margin: "0 auto 28px",
+                color: colors.white,
+                fontFamily: fonts.sora,
+                fontSize: "clamp(24px, 4vw, 38px)",
+                fontWeight: 800,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.14,
+                textWrap: "balance",
+              }}
+            >
+              Se trata de que cada pieza tenga una razón y un siguiente paso.
+            </h3>
 
-              <div style={{
-                display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap",
-              }}>
-                <motion.a
-                  href={whatsappUrl(WHATSAPP_MESSAGES.paginaWeb)}
-                  target="_blank"
-                  whileHover={{ scale: 1.07, boxShadow: "0 10px 40px rgba(255,255,255,0.25)" }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => trackEvent("wa_click", "por-que", { plan: "Página Web" })}
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: 10,
-                    background: "#fff", color: "#1E40AF",
-                    textDecoration: "none", fontWeight: 800,
-                    padding: "16px 32px", borderRadius: radius.pill,
-                    fontSize: "clamp(14px,1.8vw,17px)",
-                    boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
-                  }}
-                >
-                  <MessageIcon size={18} color="#1E40AF" /> Quiero mi página web
-                </motion.a>
-                <motion.button
-                  onClick={() => document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" })}
-                  whileHover={{ scale: 1.04, background: "rgba(255,255,255,0.14)" }}
-                  whileTap={{ scale: 0.97 }}
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: 8,
-                    background: "rgba(255,255,255,0.1)",
-                    border: "1px solid rgba(255,255,255,0.3)",
-                    color: "#fff", fontWeight: 600,
-                    padding: "16px 28px", borderRadius: radius.pill,
-                    fontSize: "clamp(13px,1.8vw,16px)",
-                    cursor: "pointer", fontFamily: "inherit",
-                  }}
-                >
-                  Ver ejemplos →
-                </motion.button>
-              </div>
-
-              <div style={{
-                marginTop: 32,
-                display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
-                color: "rgba(255,255,255,0.6)", fontSize: 13,
-              }}>
-                <span><ZapIcon size={18} /></span>
-                Respuesta en menos de 1 hora · Sin compromisos
-              </div>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <motion.a
+                href={whatsappUrl(WHATSAPP_MESSAGES.cotizacion)}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => trackEvent("wa_click", "por-que", { plan: "Cotización" })}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 10,
+                  minHeight: 48,
+                  background: colors.white,
+                  color: colors.primaryDark,
+                  textDecoration: "none",
+                  fontWeight: 800,
+                  padding: "14px 28px",
+                  borderRadius: radius.pill,
+                  fontSize: "clamp(14px, 1.6vw, 16px)",
+                }}
+              >
+                <MessageIcon size={18} color={colors.primaryDark} /> Cuéntanos tu proyecto
+              </motion.a>
+              <a
+                href="#servicios"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
+                  minHeight: 48,
+                  background: "transparent",
+                  border: "1px solid rgba(255,255,255,0.55)",
+                  color: colors.white,
+                  fontWeight: 700,
+                  padding: "14px 26px",
+                  borderRadius: radius.pill,
+                  fontSize: "clamp(14px, 1.6vw, 16px)",
+                  textDecoration: "none",
+                }}
+              >
+                Explorar servicios
+              </a>
             </div>
-          </motion.div>
-        </AnimatedSection>
 
+            <p
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                margin: "26px 0 0",
+                color: "rgba(255,255,255,0.86)",
+                fontSize: 13,
+                lineHeight: 1.6,
+              }}
+            >
+              <ZapIcon size={16} color={colors.white} /> Te respondemos a la brevedad · Sin compromiso
+            </p>
+          </div>
+        </AnimatedSection>
       </div>
     </section>
   );

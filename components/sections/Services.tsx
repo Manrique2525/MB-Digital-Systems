@@ -1,220 +1,302 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { SERVICES, FEATURES, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { useTracking } from "@/components/hooks/useTracking";
-import { getServiceIcon, MessageIcon } from "@/components/ui/icons/Icons";
-import { section, gradients, radius } from "@/data/theme";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { ArrowRightIcon, CodeIcon, MegaphoneIcon } from "@/components/ui/icons/Icons";
+import { DIVISIONS, SERVICE_OFFERINGS } from "@/data/constants";
+import { colors, fonts, section } from "@/data/theme";
+import type { ServiceOffering } from "@/types";
+
+const SOFTWARE_OFFERINGS = SERVICE_OFFERINGS.filter(
+  (service) => service.division === "software"
+).slice(0, 3);
+const MARKETING_OFFERINGS = SERVICE_OFFERINGS.filter(
+  (service) => service.division === "marketing"
+).slice(0, 3);
+const [SOFTWARE_DIVISION, MARKETING_DIVISION] = DIVISIONS;
+
+interface DivisionPanelProps {
+  services: readonly ServiceOffering[];
+  title: string;
+  description: string;
+  label: string;
+  href: string;
+  cta: string;
+  dark?: boolean;
+}
+
+function DivisionPanel({
+  services,
+  title,
+  description,
+  label,
+  href,
+  cta,
+  dark = false,
+}: DivisionPanelProps) {
+  const accent = dark ? colors.violet : colors.primary;
+  const titleColor = dark ? colors.white : colors.ink;
+  const bodyColor = dark ? colors.muted : colors.slate;
+  const lineColor = dark ? "rgba(255,255,255,0.16)" : colors.border;
+
+  return (
+    <article
+      aria-label={label}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        padding: "clamp(26px, 4vw, 48px)",
+        background: dark ? colors.ink : colors.white,
+        border: dark ? "none" : `1px solid ${colors.border}`,
+        borderTop: `3px solid ${accent}`,
+        borderRadius: 24,
+        boxShadow: dark
+          ? "0 24px 64px rgba(15,23,42,0.14)"
+          : "0 12px 36px rgba(15,23,42,0.05)",
+      }}
+    >
+      {dark ? (
+        <>
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              top: -130,
+              right: -110,
+              width: 330,
+              height: 330,
+              border: "1px solid rgba(139,92,246,0.24)",
+              borderRadius: "50%",
+              pointerEvents: "none",
+            }}
+          />
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              right: -130,
+              bottom: -150,
+              width: 330,
+              height: 330,
+              borderRadius: "50%",
+              background:
+                "radial-gradient(closest-side, rgba(139,92,246,0.2) 0%, transparent 70%)",
+              pointerEvents: "none",
+            }}
+          />
+        </>
+      ) : null}
+
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            marginBottom: 22,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {dark ? (
+              <MegaphoneIcon size={18} color={accent} />
+            ) : (
+              <CodeIcon size={18} color={accent} />
+            )}
+            <span
+              style={{
+                color: dark ? colors.muted : colors.primaryDark,
+                fontFamily: fonts.sora,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "0.14em",
+                lineHeight: 1.5,
+                textTransform: "uppercase",
+              }}
+            >
+              {label}
+            </span>
+          </div>
+          <span
+            aria-hidden="true"
+            style={{
+              color: dark ? "rgba(255,255,255,0.65)" : colors.slate,
+              fontFamily: fonts.sora,
+              fontSize: 13,
+              fontWeight: 800,
+              letterSpacing: "0.08em",
+            }}
+          >
+            {dark ? "02" : "01"}
+          </span>
+        </div>
+
+        <h3
+          style={{
+            margin: "0 0 12px",
+            color: titleColor,
+            fontFamily: fonts.sora,
+            fontSize: "clamp(27px, 3.2vw, 40px)",
+            fontWeight: 800,
+            letterSpacing: "-0.035em",
+            lineHeight: 1.08,
+          }}
+        >
+          {title}
+        </h3>
+        <p
+          style={{
+            margin: "0 0 30px",
+            maxWidth: "44ch",
+            color: bodyColor,
+            fontSize: "clamp(14px, 1.5vw, 16px)",
+            lineHeight: 1.7,
+          }}
+        >
+          {description}
+        </p>
+      </div>
+
+      <ul
+        aria-label={`${label}: servicios`}
+        style={{
+          position: "relative",
+          zIndex: 1,
+          listStyle: "none",
+          margin: "0 0 32px",
+          padding: 0,
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 210px), 1fr))",
+          columnGap: "clamp(18px, 3vw, 32px)",
+        }}
+      >
+        {services.map((service, index) => (
+          <li
+            key={service.id}
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              gap: 10,
+              borderTop: `1px solid ${lineColor}`,
+              padding: "12px 0",
+              minWidth: 0,
+            }}
+          >
+            <span
+              aria-hidden="true"
+              style={{
+                color: dark ? "#C4B5FD" : colors.primaryDark,
+                flexShrink: 0,
+                fontFamily: fonts.sora,
+                fontSize: 9,
+                fontWeight: 800,
+                letterSpacing: "0.1em",
+              }}
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span
+              style={{
+                color: titleColor,
+                fontSize: 13,
+                fontWeight: 600,
+                lineHeight: 1.5,
+              }}
+            >
+              {service.title}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <div style={{ position: "relative", zIndex: 1, marginTop: "auto" }}>
+        <ButtonLink href={href} variant={dark ? "secondary" : "primary"}>
+          {cta}
+          <ArrowRightIcon size={16} color={dark ? colors.primaryDark : colors.white} />
+        </ButtonLink>
+      </div>
+    </article>
+  );
+}
 
 export function Services() {
-  const { trackEvent } = useTracking();
   return (
     <section
       id="servicios"
-      style={{ padding: section.padding, background: "#fff" }}
+      aria-label="Servicios"
+      style={{ padding: section.padding, background: colors.bg }}
     >
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <AnimatedSection
-          style={{ textAlign: "center", marginBottom: "clamp(40px,7vw,80px)" }}
-        >
+      <div style={{ maxWidth: section.maxWidth, margin: "0 auto" }}>
+        <AnimatedSection>
           <div
             style={{
-              fontSize: 13,
-              fontWeight: 700,
-              color: "#3B82F6",
-              letterSpacing: 3,
-              textTransform: "uppercase",
-              marginBottom: 16,
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+              gap: "clamp(24px, 5vw, 64px)",
+              marginBottom: "clamp(40px, 6vw, 64px)",
             }}
           >
-            Lo que hacemos
+            <div style={{ flex: "1 1 580px", minWidth: 0 }}>
+              <SectionHeading
+                eyebrow="Servicios"
+                title="Dos disciplinas, una misma dirección."
+                description="Construimos las herramientas digitales y fortalecemos la manera en que tu marca las comunica."
+              />
+            </div>
+            <p
+              style={{
+                flex: "0 1 260px",
+                margin: 0,
+                borderTop: `1px solid ${colors.border}`,
+                paddingTop: 16,
+                color: colors.slate,
+                fontSize: 13,
+                lineHeight: 1.7,
+              }}
+            >
+              Cada división puede trabajar por separado. Juntas, cierran el círculo entre producto y
+              comunicación.
+            </p>
           </div>
-          <h2
-            style={{
-              fontSize: "clamp(28px,5vw,52px)",
-              fontWeight: 800,
-              color: "#0F172A",
-              letterSpacing: "-1.5px",
-              margin: "0 0 20px",
-              fontFamily: "'Sora', sans-serif",
-            }}
-          >
-            Nuestros Servicios
-          </h2>
-          <p
-            style={{
-              fontSize: "clamp(14px,2vw,18px)",
-              color: "#64748B",
-              maxWidth: 560,
-              margin: "0 auto",
-            }}
-          >
-            Soluciones digitales a la medida para cada tipo de negocio
-          </p>
         </AnimatedSection>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))",
-            gap: 24,
-            marginBottom: "clamp(40px,7vw,80px)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
+            gap: "clamp(20px, 3vw, 32px)",
+            alignItems: "stretch",
           }}
         >
-          {SERVICES.map((s, i) => (
-            <AnimatedSection key={s.title} delay={i * 0.12}>
-              <motion.div
-                whileHover={{ y: -8, boxShadow: `0 28px 64px ${s.color}22` }}
-                style={{
-                  background: "#F8FAFF",
-                  border: "1px solid #E8F0FE",
-                  borderRadius: radius.card,
-                  padding: "clamp(24px,4vw,40px) clamp(20px,3vw,32px)",
-                  height: "100%",
-                  cursor: "default",
-                  transition: "border-color 0.3s, box-shadow 0.3s",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = s.color + "45"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#E8F0FE"; }}
-              >
-                <div style={{ marginBottom: 20 }}>{getServiceIcon(s.title, 44)}</div>
-                <h3
-                  style={{
-                    fontSize: "clamp(18px,2.5vw,22px)",
-                    fontWeight: 800,
-                    color: "#0F172A",
-                    marginBottom: 12,
-                    fontFamily: "'Sora', sans-serif",
-                  }}
-                >
-                  {s.title}
-                </h3>
-                <p style={{ fontSize: 15, color: "#64748B", lineHeight: 1.7, margin: 0 }}>
-                  {s.desc}
-                </p>
-                <motion.a
-                  href={whatsappUrl(`Hola, me interesa el servicio de ${s.title}`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    trackEvent("service_click", s.title);
-                    trackEvent("wa_click", "servicios", { plan: s.title });
-                  }}
-                  style={{
-                    marginTop: 28,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    color: s.color,
-                    fontWeight: 700,
-                    fontSize: 14,
-                    textDecoration: "none",
-                  }}
-                >
-                  Cotizar este servicio →
-                </motion.a>
-              </motion.div>
-            </AnimatedSection>
-          ))}
-        </div>
+          <AnimatedSection>
+            <DivisionPanel
+              services={SOFTWARE_OFFERINGS}
+              title={SOFTWARE_DIVISION.name}
+              description={SOFTWARE_DIVISION.description}
+              label="Construir"
+              href="#desarrollo-software"
+              cta="Ver desarrollo de software"
+            />
+          </AnimatedSection>
 
-        <AnimatedSection>
-          <div
-            style={{
-              background:
-                gradients.section,
-              borderRadius: radius.panel,
-              padding: "clamp(32px,5vw,64px) clamp(20px,4vw,48px)",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))",
-              gap: "clamp(28px,4vw,48px)",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <h3
-                style={{
-                  fontSize: "clamp(22px,3vw,32px)",
-                  fontWeight: 800,
-                  color: "#fff",
-                  margin: "0 0 16px",
-                  fontFamily: "'Sora', sans-serif",
-                  letterSpacing: "-0.5px",
-                }}
-              >
-                Desarrollo a la Medida
-              </h3>
-              <p
-                style={{
-                  fontSize: "clamp(14px,1.5vw,16px)",
-                  color: "rgba(255,255,255,0.8)",
-                  lineHeight: 1.7,
-                  margin: "0 0 28px",
-                }}
-              >
-                ¿Necesitas algo específico para tu negocio? Escríbenos y juntos
-                convertimos tu idea en realidad.
-              </p>
-              <motion.a
-                href={whatsappUrl(WHATSAPP_MESSAGES.sistemasAMedida)}
-                target="_blank"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => trackEvent("wa_click", "servicios", { plan: "Sistema a Medida" })}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 10,
-                  background: "#fff",
-                  color: "#1E40AF",
-                  textDecoration: "none",
-                  fontWeight: 800,
-                  padding: "14px 28px",
-                  borderRadius: radius.pill,
-                  fontSize: 15,
-                }}
-              >
-                <MessageIcon size={18} color="#1E40AF" /> Solicitar Cotización
-              </motion.a>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {FEATURES.map((f, i) => (
-                <motion.div
-                  key={f}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08, duration: 0.5 }}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 12,
-                    color: "rgba(255,255,255,0.9)",
-                    fontSize: "clamp(12px,1.5vw,14px)",
-                  }}
-                >
-                  <span
-                    style={{
-                      width: 22,
-                      height: 22,
-                      background: "rgba(255,255,255,0.2)",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                      fontSize: 12,
-                    }}
-                  >
-                    ✓
-                  </span>
-                  {f}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </AnimatedSection>
+          <AnimatedSection delay={0.1}>
+            <DivisionPanel
+              services={MARKETING_OFFERINGS}
+              title={MARKETING_DIVISION.name}
+              description={MARKETING_DIVISION.description}
+              label="Conectar"
+              href="#marketing-digital"
+              cta="Ver marketing digital"
+              dark
+            />
+          </AnimatedSection>
+        </div>
       </div>
     </section>
   );

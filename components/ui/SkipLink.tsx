@@ -9,7 +9,7 @@ export function SkipLink() {
         left: "-9999px",
         top: 0,
         zIndex: 10000,
-        background: "#3B82F6",
+        background: "#1E40AF",
         color: "#fff",
         padding: "12px 24px",
         fontSize: 16,

@@ -1,568 +1,796 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { LeadMagnet } from "@/components/ui/LeadMagnet";
-import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, CheckCircleIcon, ShieldCheckIcon } from "@/components/ui/icons/Icons";
+import {
+  CheckCircleIcon,
+  ClockIcon,
+  MailIcon,
+  MapPinIcon,
+  MessageIcon,
+  PhoneIcon,
+} from "@/components/ui/icons/Icons";
+import { CONTACT_INTENTS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
-import { section, gradients, radius } from "@/data/theme";
+import { colors, fonts, radius, section } from "@/data/theme";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-const SERVICE_OPTIONS = [
-  { value: "pagina_web", label: "Página Web", icon: "💻" },
-  { value: "ecommerce", label: "E-commerce", icon: "🛒" },
-  { value: "sistema_a_medida", label: "Sistema a Medida", icon: "⚙️" },
-  { value: "marketing_digital", label: "Marketing Digital", icon: "📣" },
-  { value: "diseno", label: "Diseño", icon: "🎨" },
-  { value: "otro", label: "No estoy seguro", icon: "🤔" },
-];
+type FormField = "name" | "phone" | "email" | "intentId" | "message";
+type FormStatus = "idle" | "sending" | "success" | "error";
+
+const INITIAL_FORM = {
+  name: "",
+  phone: "",
+  email: "",
+  intentId: "",
+  message: "",
+};
+
+const labelStyle: React.CSSProperties = {
+  display: "block",
+  marginBottom: 7,
+  color: colors.ink,
+  fontFamily: fonts.sora,
+  fontSize: 13,
+  fontWeight: 700,
+  lineHeight: 1.4,
+};
+
+const helperStyle: React.CSSProperties = {
+  margin: "6px 0 0",
+  color: colors.slate,
+  fontSize: 12,
+  lineHeight: 1.55,
+};
 
 export function Contact() {
   const { trackEvent, getSessionId } = useTracking();
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    service: "otro",
-    message: "",
-  });
-  const [sent, setSent] = useState(false);
-  const [sending, setSending] = useState(false);
+  const formStarted = useRef(false);
+  const [form, setForm] = useState(INITIAL_FORM);
+  const [status, setStatus] = useState<FormStatus>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validateAndSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const newErrors: Record<string, string> = {};
-    if (!form.name.trim()) newErrors.name = "El nombre es obligatorio";
-    if (!/^\d{10}$/.test(form.phone.trim()))
-      newErrors.phone = "El teléfono debe tener 10 dígitos";
-    if (!form.email.trim()) newErrors.email = "El email es obligatorio";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
-      newErrors.email = "Ingresa un email válido";
-    if (!form.message.trim()) newErrors.message = "El mensaje es obligatorio";
+  const selectedIntent = CONTACT_INTENTS.find((intent) => intent.id === form.intentId);
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+  const validate = () => {
+    const nextErrors: Record<string, string> = {};
+
+    if (form.name.trim().length < 2) {
+      nextErrors.name = "Escribe tu nombre para poder dirigirnos a ti.";
+    }
+
+    const email = form.email.trim();
+    if (!email) {
+      nextErrors.email = "Escribe tu correo electrónico.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      nextErrors.email = "Revisa el formato del correo electrónico.";
+    }
+
+    const phoneDigits = form.phone.replace(/\D/g, "");
+    if (phoneDigits.length > 0 && (phoneDigits.length < 10 || phoneDigits.length > 15)) {
+      nextErrors.phone = "Escribe un teléfono de 10 a 15 dígitos o déjalo vacío.";
+    }
+
+    if (!selectedIntent) {
+      nextErrors.intentId = "Elige la opción que mejor describa lo que necesitas.";
+    }
+
+    return nextErrors;
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const nextErrors = validate();
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      setStatus("error");
+      const firstInvalid = (["name", "email", "phone", "intentId"] as const).find(
+        (field) => nextErrors[field]
+      );
+      if (firstInvalid) {
+        const fieldId = firstInvalid === "intentId" ? "contact-intent" : `contact-${firstInvalid}`;
+        requestAnimationFrame(() => document.getElementById(fieldId)?.focus());
+      }
+      return;
+    }
+
+    if (!selectedIntent) return;
+
+    if (!API_URL) {
+      setStatus("error");
+      setErrors({
+        submit: "El formulario no está disponible en este momento. Puedes escribirnos por WhatsApp.",
+      });
       return;
     }
 
     setErrors({});
-
-    if (!API_URL) {
-      setErrors({ submit: "API no configurada - revisa NEXT_PUBLIC_API_URL" });
-      return;
-    }
-
-    setSending(true);
-    setErrors((prev) => ({ ...prev, submit: "" }));
+    setStatus("sending");
 
     try {
-      const res = await fetch(`${API_URL}/api/v1/leads`, {
+      const response = await fetch(`${API_URL}/api/v1/leads`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify({
           session_id: getSessionId(),
-          name: form.name,
-          phone: form.phone,
-          email: form.email.trim() || undefined,
-          service: form.service,
-          message: form.message,
+          name: form.name.trim(),
+          phone: form.phone.replace(/\D/g, "") || undefined,
+          email: form.email.trim(),
+          service: selectedIntent.service,
+          message:
+            form.message.trim() ||
+            `Solicito información sobre ${selectedIntent.interest}.`,
           source: "contact_form",
         }),
       });
 
-      if (!res.ok) {
-        let message = "Error al enviar. Intenta de nuevo.";
-        try {
-          const data = await res.json();
-          if (data?.message) message = data.message;
-          else if (data?.errors) {
-            const first = Object.values(data.errors)[0];
-            if (Array.isArray(first) && first.length > 0) message = first[0];
+      if (!response.ok) {
+        let message = "No pudimos enviar tu solicitud. Intenta de nuevo.";
+        const data = await response.json().catch(() => null);
+        if (data?.message) {
+          message = data.message;
+        } else if (data?.errors) {
+          const first = Object.values(data.errors)[0];
+          if (Array.isArray(first) && first.length > 0) {
+            message = first[0];
           }
-        } catch {
-          // keep generic message
         }
         throw new Error(message);
       }
 
-      trackEvent("form_submit", "contact");
-      setSent(true);
-      setTimeout(() => setSent(false), 4000);
-      setForm({ name: "", phone: "", email: "", service: "otro", message: "" });
-    } catch (err) {
+      trackEvent("form_submit", "contact", { service: selectedIntent.service });
+      setForm(INITIAL_FORM);
+      setStatus("success");
+    } catch (error) {
+      setStatus("error");
       setErrors({
         submit:
-          err instanceof Error
-            ? err.message
-            : "Error al enviar. Intenta de nuevo.",
+          error instanceof Error
+            ? error.message
+            : "No pudimos enviar tu solicitud. Intenta de nuevo.",
       });
-    } finally {
-      setSending(false);
     }
   };
 
-  const handleChange = (field: string, value: string) => {
-    if (value && !sessionStorage.getItem("started_form")) {
+  const handleChange = (field: FormField, value: string) => {
+    if (value.trim() && !formStarted.current) {
+      formStarted.current = true;
       trackEvent("form_start", "contact");
-      try {
-        sessionStorage.setItem("started_form", "1");
-      } catch {
-        // ignore
-      }
     }
-    setForm({ ...form, [field]: value });
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: "" }));
+
+    setForm((current) => ({ ...current, [field]: value }));
+    setErrors((current) => {
+      if (!current[field] && !current.submit) return current;
+      const next = { ...current };
+      delete next[field];
+      delete next.submit;
+      return next;
+    });
+
+    if (status === "error") {
+      setStatus("idle");
     }
   };
 
-  const inputStyle = (hasError: boolean) => ({
-    background: "#fff",
-    border: `1px solid ${hasError ? "#EF4444" : "#E2E8F0"}`,
+  const fieldStyle = (hasError: boolean): React.CSSProperties => ({
+    width: "100%",
+    minHeight: 48,
+    border: `1px solid ${hasError ? "#EF4444" : "#DCE6F5"}`,
     borderRadius: 12,
-    padding: "12px 14px",
-    fontSize: 14,
-    color: "#1E293B",
+    background: colors.white,
+    color: colors.ink,
+    fontFamily: fonts.sora,
+    fontSize: 16,
+    lineHeight: 1.4,
     outline: "none",
-    fontFamily: "inherit",
-    width: "100%" as const,
-    boxSizing: "border-box" as const,
-    transition: "border-color 0.2s ease",
+    padding: "12px 14px",
+    boxSizing: "border-box",
   });
 
-  const errorTextStyle = (field: string): React.CSSProperties => ({
-    color: "#EF4444",
-    fontSize: 12,
-    fontWeight: 500,
-    marginTop: 4,
-    display: errors[field] ? "flex" : "none",
-    alignItems: "center",
-    gap: 4,
-  });
+  const renderError = (field: string) =>
+    errors[field] ? (
+      <p
+        id={`contact-${field}-error`}
+        role="alert"
+        style={{ margin: "6px 0 0", color: "#DC2626", fontSize: 12, lineHeight: 1.5 }}
+      >
+        {errors[field]}
+      </p>
+    ) : null;
+
+  const contactChannels = [
+    {
+      id: "whatsapp",
+      icon: <MessageIcon size={18} color={colors.primaryDark} />,
+      label: "WhatsApp",
+      value: "993 178 2620",
+      href: whatsappUrl(WHATSAPP_MESSAGES.contacto),
+      external: true,
+    },
+    {
+      id: "email",
+      icon: <MailIcon size={18} color={colors.primaryDark} />,
+      label: "Correo electrónico",
+      value: "contacto@mbdigitalsystems.com",
+      href: "mailto:contacto@mbdigitalsystems.com",
+      external: false,
+    },
+    {
+      id: "phone",
+      icon: <PhoneIcon size={18} color={colors.primaryDark} />,
+      label: "Teléfono",
+      value: "993 178 2620",
+      href: "tel:+529931782620",
+      external: false,
+    },
+  ];
 
   return (
     <section
       id="contacto"
-      style={{ padding: section.padding, background: "#fff" }}
+      style={{
+        padding: section.padding,
+        background: "linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%)",
+      }}
     >
-      <div
-        style={{
-          maxWidth: 1100,
-          margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-          gap: "clamp(40px,6vw,80px)",
-        }}
-      >
-        <AnimatedSection>
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 700,
-              color: "#3B82F6",
-              letterSpacing: 3,
-              textTransform: "uppercase",
-              marginBottom: 20,
-            }}
-          >
-            Contacto
-          </div>
-          <h2
-            style={{
-              fontSize: "clamp(26px,4vw,44px)",
-              fontWeight: 800,
-              color: "#0F172A",
-              letterSpacing: "-1px",
-              margin: "0 0 20px",
-              fontFamily: "'Sora', sans-serif",
-              lineHeight: 1.2,
-            }}
-          >
-            ¿Listo para hacer<br />crecer tu negocio?
-          </h2>
-          <p
-            style={{
-              fontSize: "clamp(14px,1.8vw,16px)",
-              color: "#64748B",
-              lineHeight: 1.8,
-              marginBottom: 40,
-            }}
-          >
-            Cuéntanos qué necesitas y te damos una cotización personalizada sin
-            compromiso. Respondemos en menos de 24 horas.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
-            {([
-              ["map", <MapPinIcon key="map" size={18} color="#3B82F6" />, "Ubicación", "Villahermosa, Tabasco", "https://maps.google.com/?q=17.9869,-92.9303"] as const,
-              ["phone", <PhoneIcon key="phone" size={18} color="#3B82F6" />, "Teléfono", "993 178 2620", "tel:+529931782620"] as const,
-              ["mail", <MailIcon key="mail" size={18} color="#3B82F6" />, "Email", "contacto@mbdigitalsystems.com", null] as const,
-              ["clock", <ClockIcon key="clock" size={18} color="#3B82F6" />, "Horario", "Lunes a Viernes: 9:00 AM – 6:00 PM", null] as const,
-            ] as const).map(([id, icon, label, value, link]) => (
-              <motion.div
-                key={id}
-                whileHover={{ x: 4 }}
-                style={{ display: "flex", gap: 16, alignItems: "flex-start" }}
+      <style>{`
+        .contact-field:focus {
+          border-color: #3B82F6 !important;
+          box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+        }
+        .contact-field[aria-invalid="true"]:focus {
+          border-color: #EF4444 !important;
+          box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
+        }
+        .contact-channel:hover {
+          color: #1E40AF !important;
+        }
+        .contact-channel:hover .contact-channel-icon {
+          background: #DBEAFE !important;
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 390px), 1fr))",
+            gap: "clamp(32px, 6vw, 72px)",
+            alignItems: "start",
+          }}
+        >
+          <AnimatedSection>
+            <div style={{ maxWidth: 480 }}>
+              <p
+                style={{
+                  margin: "0 0 16px",
+                  color: colors.primary,
+                  fontFamily: fonts.sora,
+                  fontSize: 12,
+                  fontWeight: 800,
+                  letterSpacing: 2.4,
+                  textTransform: "uppercase",
+                }}
               >
-                <div
-                  style={{
-                    width: 42,
-                    height: 42,
-                    background: "#EFF6FF",
-                    borderRadius: 12,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 18,
-                    flexShrink: 0,
-                  }}
-                  aria-hidden="true"
-                >
-                  {icon}
-                </div>
-                <div>
-                  <div
+                Contacto
+              </p>
+              <h2
+                style={{
+                  margin: 0,
+                  color: colors.ink,
+                  fontFamily: fonts.sora,
+                  fontSize: "clamp(30px, 4.2vw, 48px)",
+                  fontWeight: 800,
+                  letterSpacing: "-0.045em",
+                  lineHeight: 1.08,
+                  textWrap: "balance",
+                }}
+              >
+                Hablemos de tu siguiente paso.
+              </h2>
+              <p
+                style={{
+                  margin: "20px 0 0",
+                  color: colors.slate,
+                  fontSize: "clamp(15px, 1.7vw, 16px)",
+                  lineHeight: 1.75,
+                }}
+              >
+                Cuéntanos qué necesitas. Revisamos tu contexto y te proponemos un siguiente paso
+                concreto, sin compromiso.
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gap: 2,
+                  marginTop: 32,
+                  borderTop: `1px solid ${colors.border}`,
+                }}
+              >
+                {contactChannels.map((channel) => (
+                  <a
+                    key={channel.id}
+                    href={channel.href}
+                    target={channel.external ? "_blank" : undefined}
+                    rel={channel.external ? "noopener noreferrer" : undefined}
+                    onClick={
+                      channel.external
+                        ? () => trackEvent("wa_click", "contacto", { plan: "Contacto directo" })
+                        : undefined
+                    }
+                    className="contact-channel"
                     style={{
-                      fontSize: 12,
-                      color: "#64748B",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: 1,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 14,
+                      borderBottom: `1px solid ${colors.border}`,
+                      color: colors.ink,
+                      padding: "13px 0",
+                      textDecoration: "none",
+                      transition: "color 0.2s ease",
                     }}
                   >
-                    {label}
-                  </div>
-                  {link ? (
-                    <a
-                      href={link}
-                      style={{ fontSize: 15, color: "#334155", fontWeight: 500, marginTop: 2, display: "block", textDecoration: "none" }}
-                    >
-                      {value}
-                    </a>
-                  ) : (
-                    <div
-                      style={{ fontSize: 15, color: "#334155", fontWeight: 500, marginTop: 2 }}
-                    >
-                      {value}
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.15}>
-          <motion.form
-            onSubmit={validateAndSubmit}
-            noValidate
-            whileHover={{ boxShadow: "0 20px 60px rgba(59,130,246,0.1)" }}
-            style={{
-              background: "#F8FAFF",
-              border: "1px solid #E8F0FE",
-              borderRadius: radius.panel,
-              padding: "clamp(24px,4vw,40px)",
-            }}
-          >
-
-            <div style={{ marginBottom: 14 }}>
-              <label htmlFor="contact-name" style={{
-                position: "absolute",
-                width: 1,
-                height: 1,
-                overflow: "hidden",
-                clip: "rect(0,0,0,0)",
-                whiteSpace: "nowrap",
-              }}>
-                Nombre
-              </label>
-              <input
-                id="contact-name"
-                type="text"
-                placeholder="Nombre *"
-                value={form.name}
-                onChange={(e) => handleChange("name", e.target.value)}
-                required
-                aria-required="true"
-                aria-invalid={!!errors.name}
-                aria-describedby="name-error"
-                style={inputStyle(!!errors.name)}
-              />
-              <div id="name-error" style={errorTextStyle("name")} role="alert">
-                ⚠ {errors.name}
-              </div>
-            </div>
-            <div style={{ marginBottom: 14 }}>
-              <label htmlFor="contact-phone" style={{
-                position: "absolute",
-                width: 1,
-                height: 1,
-                overflow: "hidden",
-                clip: "rect(0,0,0,0)",
-                whiteSpace: "nowrap",
-              }}>
-                Teléfono
-              </label>
-              <input
-                id="contact-phone"
-                type="tel"
-                placeholder="Teléfono *"
-                value={form.phone}
-                onChange={(e) => handleChange("phone", e.target.value)}
-                required
-                aria-required="true"
-                aria-invalid={!!errors.phone}
-                aria-describedby="phone-error"
-                style={inputStyle(!!errors.phone)}
-              />
-              <div id="phone-error" style={errorTextStyle("phone")} role="alert">
-                ⚠ {errors.phone}
-              </div>
-            </div>
-            <div style={{ marginBottom: 14 }}>
-              <label htmlFor="contact-email" style={{
-                position: "absolute",
-                width: 1,
-                height: 1,
-                overflow: "hidden",
-                clip: "rect(0,0,0,0)",
-                whiteSpace: "nowrap",
-              }}>
-                Email
-              </label>
-              <input
-                id="contact-email"
-                type="email"
-                placeholder="Email *"
-                value={form.email}
-                onChange={(e) => handleChange("email", e.target.value)}
-                required
-                aria-required="true"
-                aria-invalid={!!errors.email}
-                aria-describedby="email-error"
-                style={inputStyle(!!errors.email)}
-              />
-              <div id="email-error" style={errorTextStyle("email")} role="alert">
-                ⚠ {errors.email}
-              </div>
-            </div>
-            <div style={{ marginBottom: 14 }}>
-              <div
-                style={{
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: "#334155",
-                  marginBottom: 10,
-                }}
-              >
-                ¿Qué necesitas? <span style={{ color: "#EF4444" }}>*</span>
-              </div>
-              <div
-                role="radiogroup"
-                aria-label="¿Qué necesitas?"
-                style={{ display: "flex", flexWrap: "wrap", gap: 8 }}
-              >
-                {SERVICE_OPTIONS.map((opt) => {
-                  const active = form.service === opt.value;
-                  return (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      role="radio"
-                      aria-checked={active}
-                      onClick={() => handleChange("service", opt.value)}
+                    <span
+                      className="contact-channel-icon"
                       style={{
-                        display: "inline-flex",
+                        width: 40,
+                        height: 40,
+                        borderRadius: 12,
+                        background: "#EFF6FF",
+                        display: "flex",
                         alignItems: "center",
-                        gap: 6,
-                        padding: "8px 14px",
-                        borderRadius: radius.pill,
-                        border: `1.5px solid ${active ? "#3B82F6" : "#E2E8F0"}`,
-                        background: active ? "#EFF6FF" : "#fff",
-                        color: active ? "#1E40AF" : "#475569",
-                        fontWeight: active ? 700 : 500,
-                        fontSize: 13,
-                        cursor: "pointer",
-                        fontFamily: "inherit",
-                        transition: "all 0.2s ease",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        transition: "background-color 0.2s ease",
                       }}
+                      aria-hidden="true"
                     >
-                      <span aria-hidden="true">{opt.icon}</span>
-                      {opt.label}
-                    </button>
-                  );
-                })}
+                      {channel.icon}
+                    </span>
+                    <span style={{ minWidth: 0 }}>
+                      <span
+                        style={{
+                          display: "block",
+                          color: colors.slate,
+                          fontSize: 11,
+                          fontWeight: 700,
+                          letterSpacing: 1.2,
+                          lineHeight: 1.4,
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {channel.label}
+                      </span>
+                      <span
+                        style={{
+                          display: "block",
+                          marginTop: 2,
+                          fontFamily: fonts.sora,
+                          fontSize: 15,
+                          fontWeight: 600,
+                          lineHeight: 1.5,
+                          overflowWrap: "anywhere",
+                        }}
+                      >
+                        {channel.value}
+                      </span>
+                    </span>
+                  </a>
+                ))}
               </div>
-            </div>
-            <div>
-              <label htmlFor="contact-message" style={{
-                position: "absolute",
-                width: 1,
-                height: 1,
-                overflow: "hidden",
-                clip: "rect(0,0,0,0)",
-                whiteSpace: "nowrap",
-              }}>
-                Mensaje
-              </label>
-              <textarea
-                id="contact-message"
-                placeholder="Cuéntanos tu proyecto... *"
-                rows={4}
-                value={form.message}
-                onChange={(e) => handleChange("message", e.target.value)}
-                required
-                aria-required="true"
-                aria-invalid={!!errors.message}
-                aria-describedby="message-error"
-                style={{ ...inputStyle(!!errors.message), resize: "vertical", marginBottom: 14 }}
-              />
-              <div id="message-error" style={errorTextStyle("message")} role="alert">
-                ⚠ {errors.message}
-              </div>
-            </div>
-            {errors.submit ? (
+
               <div
-                role="alert"
                 style={{
                   display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "#FEF2F2",
-                  border: "1px solid #FECACA",
-                  color: "#B91C1C",
-                  borderRadius: 12,
-                  padding: "10px 14px",
+                  flexWrap: "wrap",
+                  gap: "12px 22px",
+                  marginTop: 24,
+                  color: colors.slate,
                   fontSize: 13,
-                  fontWeight: 500,
-                  marginBottom: 14,
+                  lineHeight: 1.6,
                 }}
               >
-                <span aria-hidden="true">⚠</span>
-                {errors.submit}
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+                  <MapPinIcon size={15} color={colors.slate} />
+                  Villahermosa, Tabasco
+                </span>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+                  <ClockIcon size={15} color={colors.slate} />
+                  Lun–Vie · 9:00–18:00
+                </span>
               </div>
-            ) : null}
-            <motion.button
-              type="submit"
-              disabled={sending}
-              whileHover={
-                sending
-                  ? {}
-                  : { scale: 1.03, boxShadow: "0 8px 32px rgba(59,130,246,0.35)" }
-              }
-              whileTap={sending ? {} : { scale: 0.97 }}
-              style={{
-                width: "100%",
-                background: gradients.button,
-                color: "#fff",
-                border: "none",
-                borderRadius: radius.pill,
-                padding: "14px 28px",
-                fontSize: 16,
-                fontWeight: 700,
-                cursor: sending ? "not-allowed" : "pointer",
-                opacity: sending ? 0.7 : 1,
-                fontFamily: "inherit",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
-              }}
-            >
-              <AnimatePresence mode="wait">
-                {sent ? (
-                  <motion.span
-                    key="sent"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    style={{ display: "flex", alignItems: "center", gap: 8 }}
-                  >
-                    <CheckCircleIcon size={20} color="#10B981" />
-                    Mensaje enviado correctamente
-                  </motion.span>
-                ) : sending ? (
-                  <motion.span
-                    key="sending"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    style={{ display: "flex", alignItems: "center", gap: 8 }}
-                  >
-                    <MailIcon size={18} color="#fff" /> Enviando…
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="send"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <MailIcon size={18} color="#fff" /> Enviar Mensaje
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
+              <p style={{ ...helperStyle, marginTop: 12 }}>
+                Atendemos proyectos en todo México.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection delay={0.1}>
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 6,
-                marginTop: 14,
-                color: "#065F46",
-                fontSize: 12,
-                fontWeight: 600,
+                width: "100%",
+                maxWidth: 560,
+                justifySelf: "center",
+                background: colors.white,
+                border: `1px solid ${colors.border}`,
+                borderRadius: radius.panel,
+                boxShadow: "0 24px 60px rgba(15,23,42,0.06)",
+                padding: "clamp(22px, 4vw, 36px)",
               }}
             >
-              <ShieldCheckIcon size={16} color="#10B981" />
-              Garantía de satisfacción: si no te gusta, no pagas
+              <AnimatePresence mode="wait" initial={false}>
+                {status === "success" ? (
+                  <motion.div
+                    key="success"
+                    role="status"
+                    aria-live="polite"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    style={{ padding: "clamp(10px, 3vw, 24px) 0" }}
+                  >
+                    <div
+                      style={{
+                        width: 52,
+                        height: 52,
+                        borderRadius: "50%",
+                        background: "rgba(16,185,129,0.12)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginBottom: 20,
+                      }}
+                    >
+                      <CheckCircleIcon size={26} color={colors.success} />
+                    </div>
+                    <h3
+                      style={{
+                        margin: 0,
+                        color: colors.ink,
+                        fontFamily: fonts.sora,
+                        fontSize: "clamp(22px, 3vw, 28px)",
+                        fontWeight: 800,
+                        letterSpacing: "-0.03em",
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      Solicitud recibida.
+                    </h3>
+                    <p
+                      style={{
+                        margin: "12px 0 0",
+                        color: colors.slate,
+                        fontSize: 15,
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      Revisaremos tu mensaje y te contactaremos por correo o WhatsApp para darle
+                      seguimiento.
+                    </p>
+                    <p style={{ ...helperStyle, marginTop: 16 }}>
+                      Si necesitas avanzar antes, también puedes escribirnos directamente.
+                    </p>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: 12,
+                        marginTop: 24,
+                      }}
+                    >
+                      <a
+                        href={whatsappUrl(WHATSAPP_MESSAGES.contacto)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() =>
+                          trackEvent("wa_click", "contacto", { plan: "Seguimiento de formulario" })
+                        }
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 8,
+                          minHeight: 46,
+                          padding: "11px 20px",
+                          borderRadius: radius.pill,
+                          background: colors.primaryDark,
+                          color: colors.white,
+                          fontFamily: fonts.sora,
+                          fontSize: 14,
+                          fontWeight: 700,
+                          textDecoration: "none",
+                        }}
+                      >
+                        <MessageIcon size={16} color={colors.white} />
+                        Abrir WhatsApp
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => setStatus("idle")}
+                        style={{
+                          minHeight: 46,
+                          padding: "11px 18px",
+                          border: `1px solid ${colors.border}`,
+                          borderRadius: radius.pill,
+                          background: "transparent",
+                          color: colors.slate,
+                          cursor: "pointer",
+                          fontFamily: fonts.sora,
+                          fontSize: 14,
+                          fontWeight: 700,
+                        }}
+                      >
+                        Enviar otra solicitud
+                      </button>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    onSubmit={handleSubmit}
+                    noValidate
+                    aria-busy={status === "sending"}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    <h3
+                      style={{
+                        margin: 0,
+                        color: colors.ink,
+                        fontFamily: fonts.sora,
+                        fontSize: "clamp(21px, 2.8vw, 26px)",
+                        fontWeight: 800,
+                        letterSpacing: "-0.03em",
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      Cuéntanos qué tienes en mente
+                    </h3>
+                    <p style={{ ...helperStyle, margin: "8px 0 22px" }}>
+                      Déjanos lo esencial. Si falta algo, lo vemos en la conversación.
+                    </p>
+
+                    <div style={{ display: "grid", gap: 14 }}>
+                      <div>
+                        <label htmlFor="contact-name" style={labelStyle}>
+                          Nombre *
+                        </label>
+                        <input
+                          id="contact-name"
+                          className="contact-field"
+                          type="text"
+                          autoComplete="name"
+                          maxLength={200}
+                          placeholder="Tu nombre"
+                          value={form.name}
+                          onChange={(event) => handleChange("name", event.target.value)}
+                          required
+                          aria-required="true"
+                          aria-invalid={Boolean(errors.name)}
+                          aria-describedby={errors.name ? "contact-name-error" : undefined}
+                          style={fieldStyle(Boolean(errors.name))}
+                        />
+                        {renderError("name")}
+                      </div>
+
+                      <div>
+                        <label htmlFor="contact-email" style={labelStyle}>
+                          Correo electrónico *
+                        </label>
+                        <input
+                          id="contact-email"
+                          className="contact-field"
+                          type="email"
+                          autoComplete="email"
+                          inputMode="email"
+                          maxLength={255}
+                          placeholder="tu@correo.com"
+                          value={form.email}
+                          onChange={(event) => handleChange("email", event.target.value)}
+                          required
+                          aria-required="true"
+                          aria-invalid={Boolean(errors.email)}
+                          aria-describedby={errors.email ? "contact-email-error" : undefined}
+                          style={fieldStyle(Boolean(errors.email))}
+                        />
+                        {renderError("email")}
+                      </div>
+
+                      <div>
+                        <label htmlFor="contact-phone" style={labelStyle}>
+                          Teléfono o WhatsApp <span style={{ color: colors.slate, fontWeight: 500 }}>(opcional)</span>
+                        </label>
+                        <input
+                          id="contact-phone"
+                          className="contact-field"
+                          type="tel"
+                          autoComplete="tel"
+                          inputMode="tel"
+                          maxLength={25}
+                          placeholder="993 000 0000"
+                          value={form.phone}
+                          onChange={(event) => handleChange("phone", event.target.value)}
+                          aria-invalid={Boolean(errors.phone)}
+                          aria-describedby={errors.phone ? "contact-phone-error" : undefined}
+                          style={fieldStyle(Boolean(errors.phone))}
+                        />
+                        {renderError("phone")}
+                      </div>
+
+                      <div>
+                        <label htmlFor="contact-intent" style={labelStyle}>
+                          ¿Qué necesitas? *
+                        </label>
+                        <select
+                          id="contact-intent"
+                          className="contact-field"
+                          value={form.intentId}
+                          onChange={(event) => handleChange("intentId", event.target.value)}
+                          required
+                          aria-required="true"
+                          aria-invalid={Boolean(errors.intentId)}
+                          aria-describedby={errors.intentId ? "contact-intentId-error" : undefined}
+                          style={fieldStyle(Boolean(errors.intentId))}
+                        >
+                          <option value="" disabled>
+                            Elige una opción
+                          </option>
+                          {CONTACT_INTENTS.map((intent) => (
+                            <option key={intent.id} value={intent.id}>
+                              {intent.label}
+                            </option>
+                          ))}
+                        </select>
+                        {renderError("intentId")}
+                      </div>
+
+                      <div>
+                        <label htmlFor="contact-message" style={labelStyle}>
+                          Cuéntanos brevemente{" "}
+                          <span style={{ color: colors.slate, fontWeight: 500 }}>(opcional)</span>
+                        </label>
+                        <textarea
+                          id="contact-message"
+                          className="contact-field"
+                          rows={3}
+                          maxLength={600}
+                          placeholder="¿Qué quieres lograr o qué problema necesitas resolver?"
+                          value={form.message}
+                          onChange={(event) => handleChange("message", event.target.value)}
+                          style={{ ...fieldStyle(false), resize: "vertical" }}
+                        />
+                        <p style={helperStyle}>
+                          Si prefieres, lo vemos directamente en la conversación.
+                        </p>
+                      </div>
+                    </div>
+
+                    {errors.submit ? (
+                      <div
+                        role="alert"
+                        style={{
+                          marginTop: 16,
+                          background: "#FEF2F2",
+                          border: "1px solid #FECACA",
+                          borderRadius: 12,
+                          padding: "12px 14px",
+                          color: "#B91C1C",
+                          fontSize: 13,
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        {errors.submit}{" "}
+                        <a
+                          href={whatsappUrl(WHATSAPP_MESSAGES.contacto)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() =>
+                            trackEvent("wa_click", "contacto", { plan: "Fallback de formulario" })
+                          }
+                          style={{ color: "#991B1B", fontWeight: 700 }}
+                        >
+                          Continuar por WhatsApp
+                        </a>
+                      </div>
+                    ) : null}
+
+                    <motion.button
+                      type="submit"
+                      disabled={status === "sending"}
+                      whileHover={status === "sending" ? undefined : { scale: 1.01 }}
+                      whileTap={status === "sending" ? undefined : { scale: 0.99 }}
+                      style={{
+                        width: "100%",
+                        minHeight: 50,
+                        marginTop: 20,
+                        border: "none",
+                        borderRadius: radius.pill,
+                        background: colors.primaryDark,
+                        color: colors.white,
+                        cursor: status === "sending" ? "not-allowed" : "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 9,
+                        fontFamily: fonts.sora,
+                        fontSize: 16,
+                        fontWeight: 700,
+                        opacity: status === "sending" ? 0.72 : 1,
+                      }}
+                    >
+                      {status === "sending" ? (
+                        <>Enviando…</>
+                      ) : (
+                        <>
+                          <MailIcon size={18} color={colors.white} />
+                          Enviar solicitud
+                        </>
+                      )}
+                    </motion.button>
+
+                    <p
+                      style={{
+                        margin: "12px 0 0",
+                        color: colors.slate,
+                        fontSize: 12,
+                        lineHeight: 1.6,
+                        textAlign: "center",
+                      }}
+                    >
+                      Al enviar, aceptas nuestro{" "}
+                      <a
+                        href="/politica-privacidad"
+                        style={{ color: colors.primaryDark, fontWeight: 700 }}
+                      >
+                        aviso de privacidad
+                      </a>
+                      .
+                    </p>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexWrap: "wrap",
+                        gap: 6,
+                        marginTop: 16,
+                        color: colors.slate,
+                        fontSize: 13,
+                      }}
+                    >
+                      <span>¿Prefieres WhatsApp?</span>
+                      <a
+                        href={whatsappUrl(WHATSAPP_MESSAGES.contacto)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() =>
+                          trackEvent("wa_click", "contacto", { plan: "Alternativa a formulario" })
+                        }
+                        style={{ color: colors.primaryDark, fontWeight: 700 }}
+                      >
+                        Escríbenos directo
+                      </a>
+                    </div>
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </div>
-            <p style={{ fontSize: 12, color: "#64748B", marginTop: 8, textAlign: "center" }}>
-              * Campos obligatorios. Respondemos en menos de 24 horas.
-            </p>
-          </motion.form>
-        </AnimatedSection>
-      </div>
+          </AnimatedSection>
+        </div>
 
-      <div
-        style={{
-          maxWidth: 1100,
-          margin: "0 auto",
-          marginTop: "clamp(40px,6vw,80px)",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-          gap: "clamp(24px,4vw,40px)",
-        }}
-      >
-        <AnimatedSection>
-          <div
-            style={{
-              borderRadius: radius.card,
-              overflow: "hidden",
-              border: "1px solid #E2E8F0",
-              height: "100%",
-              minHeight: 300,
-            }}
-          >
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1912.918579182823!2d-92.9308478!3d17.9869428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85e8e0b1b5b5b5b5%3A0x0!2sVillahermosa%2C+Tab.!5e0!3m2!1ses!2smx!4v1700000000000!5m2!1ses!2smx"
-              width="100%"
-              height="100%"
-              style={{ border: 0, minHeight: 300 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Ubicación de MB Digital Systems en Tabasco"
-            />
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.15}>
-          <LeadMagnet />
-        </AnimatedSection>
+        <div style={{ marginTop: "clamp(32px, 5vw, 48px)" }}>
+          <AnimatedSection delay={0.1}>
+            <LeadMagnet />
+          </AnimatedSection>
+        </div>
       </div>
     </section>
   );

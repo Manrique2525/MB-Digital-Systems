@@ -2,287 +2,297 @@
 
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { getBenefitIcon, CodeIcon } from "@/components/ui/icons/Icons";
-import { section, radius } from "@/data/theme";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import {
+  ChartUpIcon,
+  LockIcon,
+  SmartphoneIcon,
+  ZapIcon,
+} from "@/components/ui/icons/Icons";
+import { SOFTWARE_TECH_LAYERS } from "@/data/constants";
+import { colors, fonts, radius, section } from "@/data/theme";
 
 const BENEFITS = [
   {
-    icon: "⚡",
-    title: "Velocidad que vende",
-    desc: "Tu página carga en menos de 2 segundos. Cada segundo de retraso pierde el 7% de tus clientes potenciales.",
-    stat: "< 2s",
-    statLabel: "carga promedio",
-    color: "#3B82F6",
-    bg: "#EFF6FF",
-    border: "rgba(59,130,246,0.2)",
+    icon: ZapIcon,
+    title: "Rendimiento",
+    description:
+      "Una base ligera y buenas prácticas de carga para que la experiencia sea ágil desde el primer contacto.",
+    stat: "Ligero",
+    statLabel: "base técnica",
   },
   {
-    icon: "🔒",
-    title: "Seguridad garantizada",
-    desc: "Certificados SSL, protección contra ataques y respaldo automático. Tu información y la de tus clientes está segura.",
-    stat: "100%",
-    statLabel: "protegido",
-    color: "#10B981",
-    bg: "#ECFDF5",
-    border: "rgba(16,185,129,0.2)",
+    icon: LockIcon,
+    title: "Seguridad",
+    description:
+      "Configuraciones, certificados y respaldos definidos según lo que el proyecto necesita proteger.",
+    stat: "Seguro",
+    statLabel: "por diseño",
   },
   {
-    icon: "📈",
-    title: "Escalable sin límites",
-    desc: "Empieza con una landing y crece a e-commerce o sistema completo sin reconstruir desde cero.",
-    stat: "3x",
-    statLabel: "más rápido",
-    color: "#8B5CF6",
-    bg: "#F5F3FF",
-    border: "rgba(139,92,246,0.2)",
+    icon: ChartUpIcon,
+    title: "Escalabilidad",
+    description:
+      "La arquitectura permite sumar secciones, funciones o integraciones conforme crece la operación.",
+    stat: "Escalable",
+    statLabel: "arquitectura",
   },
   {
-    icon: "📱",
-    title: "Mobile-first",
-    desc: "El 80% de tus clientes buscan desde el celular. Tu página se ve perfecta en cualquier dispositivo.",
-    stat: "80%",
-    statLabel: "tráfico móvil",
-    color: "#F59E0B",
-    bg: "#FFFBEB",
-    border: "rgba(245,158,11,0.2)",
+    icon: SmartphoneIcon,
+    title: "Enfoque móvil",
+    description:
+      "Diseñamos primero para pantallas pequeñas y ampliamos la experiencia a tablet y escritorio.",
+    stat: "Móvil",
+    statLabel: "primero",
   },
-];
-
-const TECH_USED = [
-  { name: "React", color: "#61DAFB" },
-  { name: "Next.js", color: "#0F172A" },
-  { name: "Laravel", color: "#FF2D20" },
-  { name: "Vue.js", color: "#42B883" },
-  { name: "MySQL", color: "#4479A1" },
-  { name: "PHP", color: "#8892BE" },
 ];
 
 export function TechStack() {
   return (
     <section
-      style={{ padding: section.padding, background: "#F8FAFF" }}
+      id="tecnologia"
+      aria-labelledby="tech-title"
+      style={{
+        padding: section.padding,
+        background: colors.bg,
+        scrollMarginTop: 84,
+      }}
     >
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <AnimatedSection
-          style={{ textAlign: "center", marginBottom: "clamp(40px,7vw,72px)" }}
-        >
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "rgba(59,130,246,0.1)",
-              border: "1px solid rgba(59,130,246,0.2)",
-              borderRadius: radius.pill,
-              padding: "6px 16px",
-              marginBottom: 24,
-              color: "#1E40AF",
-              fontSize: 13,
-              fontWeight: 600,
-            }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "#10B981",
-                display: "inline-block",
-              }}
-            />
-            Tecnología de verdad
-          </div>
-          <h2
-            style={{
-              fontSize: "clamp(28px,5vw,52px)",
-              fontWeight: 800,
-              color: "#0F172A",
-              letterSpacing: "-1.5px",
-              margin: "0 0 20px",
-              fontFamily: "'Sora', sans-serif",
-            }}
-          >
-            No usamos plantillas.{" "}
-            <span
-              style={{
-                background: "linear-gradient(90deg, #3B82F6, #8B5CF6)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Codificamos tu éxito.
-            </span>
-          </h2>
-          <p
-            style={{
-              fontSize: "clamp(14px,2vw,18px)",
-              color: "#64748B",
-              maxWidth: 560,
-              margin: "0 auto",
-              lineHeight: 1.7,
-            }}
-          >
-            Cada proyecto está construido con tecnología moderna que garantiza
-            resultados. No te explicamos que usamos — te explicamos{" "}
-            <strong style={{ color: "#1E40AF", fontWeight: 700 }}>
-              que obtienes.
-            </strong>
-          </p>
+      <div style={{ maxWidth: section.maxWidth, margin: "0 auto" }}>
+        <AnimatedSection>
+          <SectionHeading
+            align="center"
+            eyebrow="Base técnica"
+            title="Tecnología elegida por el problema, no por moda."
+            titleId="tech-title"
+            description="Cada solución se construye con herramientas que el equipo puede mantener y que responden al alcance real del proyecto."
+          />
         </AnimatedSection>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))",
             gap: 20,
-            marginBottom: "clamp(40px,7vw,72px)",
+            marginTop: "clamp(36px, 6vw, 56px)",
           }}
         >
-          {BENEFITS.map((b, i) => (
-            <AnimatedSection key={b.title} delay={i * 0.1}>
-              <motion.div
-                whileHover={{
-                  y: -6,
-                  boxShadow: `0 20px 50px ${b.color}18`,
-                }}
-                style={{
-                  background: "#fff",
-                  border: `1px solid ${b.border}`,
-                  borderRadius: radius.card,
-                  padding: "clamp(24px,3vw,32px)",
-                  height: "100%",
-                  cursor: "default",
-                  transition: "box-shadow 0.3s",
-                }}
-              >
-                <div
+          {BENEFITS.map((benefit, index) => {
+            const Icon = benefit.icon;
+            return (
+              <AnimatedSection key={benefit.title} delay={index * 0.08}>
+                <motion.article
+                  whileHover={{ y: -6, boxShadow: "0 20px 50px rgba(30,64,175,0.12)" }}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: 16,
+                    height: "100%",
+                    background: colors.white,
+                    border: `1px solid ${colors.border}`,
+                    borderRadius: radius.card,
+                    padding: "clamp(22px, 3vw, 30px)",
                   }}
                 >
                   <div
                     style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 14,
-                      background: b.bg,
-                      border: `1px solid ${b.border}`,
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 24,
+                      justifyContent: "space-between",
+                      gap: 16,
+                      marginBottom: 18,
                     }}
                   >
-                    {getBenefitIcon(b.title, 32)}
-                  </div>
-                  <div style={{ textAlign: "right" }}>
                     <div
                       style={{
-                        fontSize: "clamp(22px,3vw,28px)",
-                        fontWeight: 800,
-                        color: b.color,
-                        fontFamily: "'Sora', sans-serif",
-                        lineHeight: 1,
+                        width: 46,
+                        height: 46,
+                        borderRadius: 14,
+                        background: colors.bg,
+                        border: `1px solid ${colors.border}`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
                       }}
                     >
-                      {b.stat}
+                      <Icon size={24} color={colors.primaryDark} />
                     </div>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        color: "#94A3B8",
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                        letterSpacing: 0.5,
-                      }}
-                    >
-                      {b.statLabel}
+                    <div style={{ textAlign: "right" }}>
+                      <div
+                        style={{
+                          color: colors.primaryDark,
+                          fontFamily: fonts.sora,
+                          fontSize: "clamp(20px, 2.6vw, 25px)",
+                          fontWeight: 800,
+                          letterSpacing: "-0.03em",
+                          lineHeight: 1.1,
+                        }}
+                      >
+                        {benefit.stat}
+                      </div>
+                      <div
+                        style={{
+                          marginTop: 3,
+                          color: colors.slate,
+                          fontSize: 10,
+                          fontWeight: 700,
+                          letterSpacing: "0.1em",
+                          lineHeight: 1.5,
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {benefit.statLabel}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <h3
-                  style={{
-                    fontSize: "clamp(16px,2vw,19px)",
-                    fontWeight: 800,
-                    color: "#0F172A",
-                    margin: "0 0 8px",
-                    fontFamily: "'Sora', sans-serif",
-                  }}
-                >
-                  {b.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: 14,
-                    color: "#64748B",
-                    lineHeight: 1.65,
-                    margin: 0,
-                  }}
-                >
-                  {b.desc}
-                </p>
-              </motion.div>
-            </AnimatedSection>
-          ))}
+                  <h3
+                    style={{
+                      margin: "0 0 8px",
+                      color: colors.ink,
+                      fontFamily: fonts.sora,
+                      fontSize: "clamp(16px, 1.8vw, 19px)",
+                      fontWeight: 800,
+                      letterSpacing: "-0.02em",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {benefit.title}
+                  </h3>
+                  <p style={{ margin: 0, color: colors.slate, fontSize: 13, lineHeight: 1.65 }}>
+                    {benefit.description}
+                  </p>
+                </motion.article>
+              </AnimatedSection>
+            );
+          })}
         </div>
 
-        <AnimatedSection>
+        <AnimatedSection delay={0.12}>
           <div
             style={{
-              background: "#fff",
-              border: "1px solid #E8F0FE",
-              borderRadius: radius.card,
-              padding: "24px 32px",
-              display: "flex",
-              alignItems: "center",
-              gap: 20,
-              flexWrap: "wrap",
-              justifyContent: "center",
+              marginTop: "clamp(36px, 6vw, 56px)",
+              padding: "clamp(24px, 4vw, 38px)",
+              background: colors.white,
+              border: `1px solid ${colors.border}`,
+              borderRadius: radius.panel,
             }}
           >
-            <span
+            <div
               style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: "#64748B",
-                letterSpacing: 1.5,
-                textTransform: "uppercase",
-                flexShrink: 0,
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                gap: "clamp(18px, 3vw, 36px)",
+                marginBottom: "clamp(20px, 3vw, 30px)",
               }}
             >
-              Stack tecnológico:
-            </span>
-            {TECH_USED.map((tech, i) => (
-              <motion.div
-                key={tech.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.07 }}
-                whileHover={{ scale: 1.1, y: -2 }}
+              <div style={{ flex: "1 1 420px", minWidth: 0 }}>
+                <p
+                  style={{
+                    margin: "0 0 8px",
+                    color: colors.primaryDark,
+                    fontFamily: fonts.sora,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    letterSpacing: "0.14em",
+                    lineHeight: 1.5,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Herramientas
+                </p>
+                <h3
+                  style={{
+                    margin: 0,
+                    color: colors.ink,
+                    fontFamily: fonts.sora,
+                    fontSize: "clamp(22px, 3vw, 30px)",
+                    fontWeight: 800,
+                    letterSpacing: "-0.035em",
+                    lineHeight: 1.15,
+                  }}
+                >
+                  Una base que se puede mantener.
+                </h3>
+              </div>
+              <p
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  background: "#F8FAFF",
-                  border: "1px solid #E8F0FE",
-                  borderRadius: radius.pill,
-                  padding: "6px 14px",
-                  cursor: "default",
+                  flex: "0 1 360px",
+                  minWidth: 0,
+                  margin: 0,
+                  color: colors.slate,
+                  fontSize: 13,
+                  lineHeight: 1.7,
                 }}
               >
-                <CodeIcon size={16} color={tech.color} />
-                <span
-                  style={{ fontSize: 13, fontWeight: 700, color: "#374151" }}
+                La selección final depende del alcance, el equipo y la operación. No se elige una
+                herramienta solo porque esté de moda.
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
+                columnGap: "clamp(20px, 3vw, 36px)",
+              }}
+            >
+              {SOFTWARE_TECH_LAYERS.map((layer) => (
+                <div
+                  key={layer.id}
+                  style={{
+                    minWidth: 0,
+                    borderTop: `1px solid ${colors.border}`,
+                    padding: "16px 0 18px",
+                  }}
                 >
-                  {tech.name}
-                </span>
-              </motion.div>
-            ))}
+                  <h4
+                    style={{
+                      margin: "0 0 6px",
+                      color: colors.ink,
+                      fontFamily: fonts.sora,
+                      fontSize: 14,
+                      fontWeight: 800,
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {layer.label}
+                  </h4>
+                  <p style={{ margin: "0 0 10px", color: colors.slate, fontSize: 12, lineHeight: 1.55 }}>
+                    {layer.description}
+                  </p>
+                  <ul
+                    aria-label={`Tecnologías de ${layer.label.toLowerCase()}`}
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: 6,
+                      listStyle: "none",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  >
+                    {layer.technologies.map((technology) => (
+                      <li
+                        key={technology}
+                        style={{
+                          border: `1px solid ${colors.border}`,
+                          borderRadius: 6,
+                          background: colors.bg,
+                          color: colors.primaryDark,
+                          fontFamily: fonts.sora,
+                          fontSize: 10,
+                          fontWeight: 700,
+                          lineHeight: 1.4,
+                          padding: "5px 8px",
+                        }}
+                      >
+                        {technology}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
         </AnimatedSection>
       </div>

@@ -3,256 +3,375 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
-import { ChartBarIcon, CheckCircleIcon, MessageIcon, ZapIcon, LockIcon } from "@/components/ui/icons/Icons";
+import {
+  ChartBarIcon,
+  CheckCircleIcon,
+  LockIcon,
+  MessageIcon,
+} from "@/components/ui/icons/Icons";
 import { useTracking } from "@/components/hooks/useTracking";
-import { radius } from "@/data/theme";
+import { colors, fonts, radius } from "@/data/theme";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+
+type LeadStatus = "idle" | "sending" | "success" | "error";
 
 export function LeadMagnet() {
   const { getSessionId, trackEvent } = useTracking();
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<LeadStatus>("idle");
   const [error, setError] = useState("");
+  const [emailInvalid, setEmailInvalid] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const auditMessage = email.trim()
+    ? `${WHATSAPP_MESSAGES.auditoria} Mi correo: ${email.trim()}`
+    : WHATSAPP_MESSAGES.auditoria;
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setError("");
-    if (!email || !email.includes("@")) return;
 
-    if (!API_URL) {
-      setError("API no configurada - revisa NEXT_PUBLIC_API_URL");
+    const normalizedEmail = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setEmailInvalid(true);
+      setStatus("error");
+      setError("Escribe un correo electrónico válido.");
       return;
     }
 
+    setEmailInvalid(false);
+
+    if (!API_URL) {
+      setStatus("error");
+      setError("No pudimos registrar tu correo. Puedes escribirnos por WhatsApp.");
+      return;
+    }
+
+    setStatus("sending");
+
     try {
-      const res = await fetch(`${API_URL}/api/v1/leads`, {
+      const response = await fetch(`${API_URL}/api/v1/leads`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify({
           session_id: getSessionId(),
-          name: email.split("@")[0],
-          email,
+          name: normalizedEmail.split("@")[0],
+          email: normalizedEmail,
           message: "Solicitó auditoría digital gratuita",
           source: "lead_magnet",
         }),
       });
 
-      if (!res.ok) {
-        setError("No se pudo guardar tu auditoría. WhatsApp sigue disponible.");
-        return;
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(
+          data?.message || "No pudimos registrar tu correo. Puedes escribirnos por WhatsApp."
+        );
       }
-    } catch {
-      setError("No se pudo guardar tu auditoría. WhatsApp sigue disponible.");
-      return;
-    }
 
-    setSubmitted(true);
+      trackEvent("form_submit", "lead-magnet", { plan: "Auditoría gratuita" });
+      setStatus("success");
+    } catch (submitError) {
+      setStatus("error");
+      setError(
+        submitError instanceof Error
+          ? submitError.message
+          : "No pudimos registrar tu correo. Puedes escribirnos por WhatsApp."
+      );
+    }
+  };
+
+  const reset = () => {
+    setEmail("");
+    setError("");
+    setEmailInvalid(false);
+    setStatus("idle");
   };
 
   return (
     <div
       style={{
-        background: "linear-gradient(135deg, #1E293B 0%, #0F172A 100%)",
-        borderRadius: radius.card,
-        padding: "clamp(28px, 4vw, 40px)",
-        border: "1px solid rgba(59,130,246,0.2)",
-        textAlign: "center",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
+        background: `linear-gradient(135deg, ${colors.ink} 0%, #111C33 100%)`,
+        border: "1px solid rgba(59,130,246,0.22)",
+        borderRadius: radius.panel,
+        padding: "clamp(22px, 4vw, 32px)",
+        overflow: "hidden",
       }}
     >
-      <ChartBarIcon size={48} color="#3B82F6" />
-      <h3
-        style={{
-          fontSize: "clamp(18px, 2.5vw, 22px)",
-          fontWeight: 800,
-          color: "#fff",
-          margin: "0 0 8px",
-          fontFamily: "'Sora', sans-serif",
-        }}
-      >
-        Auditoría digital gratuita
-      </h3>
-      <p
-        style={{
-          fontSize: 14,
-          color: "#94A3B8",
-          margin: "0 0 24px",
-          lineHeight: 1.6,
-        }}
-      >
-        Descubre qué está frenando tu presencia digital. Recibe un diagnóstico
-        completo sin costo.
-      </p>
-
-      <AnimatePresence mode="wait">
-        {!submitted ? (
-          <>
-            <motion.form
-              key="form"
-            onSubmit={handleSubmit}
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, y: -10 }}
-            style={{
-              display: "flex",
-              gap: 10,
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
-            <input
-              type="email"
-              required
-              aria-label="Tu correo electrónico"
-              placeholder="tu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              style={{
-                flex: "1 1 180px",
-                padding: "12px 16px",
-                borderRadius: 12,
-                border: "1px solid #334155",
-                background: "#0F172A",
-                color: "#fff",
-                fontSize: 14,
-                outline: "none",
-                fontFamily: "inherit",
-                transition: "border-color 0.2s",
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.borderColor = "#3B82F6";
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.borderColor = "#334155";
-              }}
-            />
-            <motion.a
-              href={whatsappUrl(WHATSAPP_MESSAGES.auditoria)}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.04, boxShadow: "0 8px 32px rgba(59,130,246,0.4)" }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => {
-                if (email && email.includes("@")) setSubmitted(true);
-                trackEvent("wa_click", "lead-magnet", { plan: "Auditoría gratuita" });
-              }}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                background: "linear-gradient(135deg, #3B82F6, #1E40AF)",
-                color: "#fff",
-                textDecoration: "none",
-                fontWeight: 700,
-                padding: "12px 24px",
-                borderRadius: 12,
-                fontSize: 14,
-                boxShadow: "0 4px 20px rgba(59,130,246,0.35)",
-                flexShrink: 0,
-              }}
-            >
-              Quiero mi auditoría
-            </motion.a>
-            </motion.form>
-            {error ? (
-              <p
-                role="alert"
-                style={{
-                  color: "#FCA5A5",
-                  fontSize: 12,
-                  marginTop: 12,
-                  marginBottom: 0,
-                  textAlign: "center",
-                }}
-              >
-                ⚠ {error}
-              </p>
-            ) : null}
-          </>
-        ) : (
-          <motion.div
-            key="success"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            style={{
-              background: "rgba(16,185,129,0.15)",
-              borderRadius: 12,
-              padding: "20px",
-            }}
-          >
-            <CheckCircleIcon size={20} color="#10B981" />
-            <div
-              style={{
-                fontSize: 16,
-                fontWeight: 800,
-                color: "#10B981",
-                marginBottom: 6,
-                fontFamily: "'Sora', sans-serif",
-              }}
-            >
-              ¡Auditoría en camino!
-            </div>
-            <p style={{ fontSize: 13, color: "#94A3B8", lineHeight: 1.5, margin: "0 0 16px" }}>
-              Te enviaremos los resultados a tu correo.
-            </p>
-            <motion.a
-              href={whatsappUrl(WHATSAPP_MESSAGES.auditoria)}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => trackEvent("wa_click", "lead-magnet", { plan: "Auditoría gratuita" })}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                background: "linear-gradient(135deg, #25D366, #128C7E)",
-                color: "#fff",
-                textDecoration: "none",
-                fontWeight: 700,
-                padding: "10px 20px",
-                borderRadius: 12,
-                fontSize: 13,
-              }}
-            >
-              <MessageIcon size={18} color="#fff" /> Hablar por WhatsApp
-            </motion.a>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <div
         style={{
-          marginTop: 16,
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
+          gap: "clamp(20px, 4vw, 36px)",
           alignItems: "center",
-          justifyContent: "center",
-          gap: 12,
-          flexWrap: "wrap",
         }}
       >
-        {[
-          [<ZapIcon key="zap" size={16} />, "Respuesta rápida"],
-          [<LockIcon key="lock" size={16} />, "Sin compromiso"],
-        ].map(([icon, text], i) => (
+        <div>
           <div
-            key={i}
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 4,
-              fontSize: 12,
-              color: "#64748B",
-              fontWeight: 500,
+              gap: 10,
+              marginBottom: 12,
             }}
           >
-            <span>{icon}</span>
-            {text}
+            <span
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 11,
+                background: "rgba(59,130,246,0.16)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+              aria-hidden="true"
+            >
+              <ChartBarIcon size={20} color="#93C5FD" />
+            </span>
+            <p
+              style={{
+                margin: 0,
+                color: "#93C5FD",
+                fontFamily: fonts.sora,
+                fontSize: 11,
+                fontWeight: 800,
+                letterSpacing: 2,
+                textTransform: "uppercase",
+              }}
+            >
+              Diagnóstico
+            </p>
           </div>
-        ))}
+          <h3
+            style={{
+              margin: 0,
+              color: colors.white,
+              fontFamily: fonts.sora,
+              fontSize: "clamp(20px, 2.6vw, 26px)",
+              fontWeight: 800,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.2,
+            }}
+          >
+            Auditoría digital gratuita
+          </h3>
+          <p
+            style={{
+              margin: "8px 0 0",
+              color: "#A8B4C7",
+              fontSize: 14,
+              lineHeight: 1.65,
+              maxWidth: "48ch",
+            }}
+          >
+            Revisamos tu presencia digital y te compartimos una orientación inicial sin costo.
+          </p>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 14,
+              marginTop: 16,
+              color: "#7C8BA3",
+              fontSize: 12,
+            }}
+          >
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+              <LockIcon size={14} color="#7C8BA3" />
+              Sin compromiso
+            </span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+              <MessageIcon size={14} color="#7C8BA3" />
+              También por WhatsApp
+            </span>
+          </div>
+        </div>
+
+        <AnimatePresence mode="wait" initial={false}>
+          {status === "success" ? (
+            <motion.div
+              key="success"
+              role="status"
+              aria-live="polite"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{
+                background: "rgba(16,185,129,0.12)",
+                border: "1px solid rgba(16,185,129,0.28)",
+                borderRadius: radius.card,
+                padding: "18px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+                <CheckCircleIcon size={20} color={colors.success} />
+                <p
+                  style={{
+                    margin: 0,
+                    color: colors.white,
+                    fontFamily: fonts.sora,
+                    fontSize: 15,
+                    fontWeight: 800,
+                  }}
+                >
+                  Solicitud registrada.
+                </p>
+              </div>
+              <p style={{ margin: "8px 0 16px", color: "#A8B4C7", fontSize: 13, lineHeight: 1.6 }}>
+                Si quieres avanzar ahora, continúa por WhatsApp y revisamos tu caso.
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+                <a
+                  href={whatsappUrl(auditMessage)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("wa_click", "lead-magnet", { plan: "Auditoría gratuita" })
+                  }
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 7,
+                    minHeight: 44,
+                    padding: "10px 16px",
+                    borderRadius: radius.pill,
+                    background: "#25D366",
+                    color: colors.ink,
+                    fontFamily: fonts.sora,
+                    fontSize: 13,
+                    fontWeight: 800,
+                    textDecoration: "none",
+                  }}
+                >
+                  <MessageIcon size={16} color={colors.ink} />
+                  Continuar por WhatsApp
+                </a>
+                <button
+                  type="button"
+                  onClick={reset}
+                  style={{
+                    minHeight: 44,
+                    padding: "10px 12px",
+                    border: "none",
+                    background: "transparent",
+                    color: "#A8B4C7",
+                    cursor: "pointer",
+                    fontFamily: fonts.sora,
+                    fontSize: 13,
+                    fontWeight: 700,
+                  }}
+                >
+                  Enviar otro correo
+                </button>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <form onSubmit={handleSubmit} noValidate>
+                <label
+                  htmlFor="audit-email"
+                  style={{
+                    display: "block",
+                    marginBottom: 7,
+                    color: "#C7D2E3",
+                    fontFamily: fonts.sora,
+                    fontSize: 12,
+                    fontWeight: 700,
+                  }}
+                >
+                  Tu correo electrónico
+                </label>
+                <div style={{ display: "grid", gap: 10 }}>
+                  <input
+                    id="audit-email"
+                    type="email"
+                    autoComplete="email"
+                    inputMode="email"
+                    maxLength={255}
+                    required
+                    aria-required="true"
+                    placeholder="tu@correo.com"
+                    value={email}
+                    onChange={(event) => {
+                      setEmail(event.target.value);
+                      if (status === "error") {
+                        setStatus("idle");
+                        setError("");
+                        setEmailInvalid(false);
+                      }
+                    }}
+                    aria-invalid={emailInvalid}
+                    aria-describedby={error ? "audit-email-error" : undefined}
+                    style={{
+                      width: "100%",
+                      minHeight: 48,
+                      border: `1px solid ${emailInvalid ? "#F87171" : "#334155"}`,
+                      borderRadius: 12,
+                      background: "#0B1425",
+                      color: colors.white,
+                      fontFamily: fonts.sora,
+                      fontSize: 16,
+                      outline: "none",
+                      padding: "12px 14px",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                  <motion.button
+                    type="submit"
+                    disabled={status === "sending"}
+                    whileHover={status === "sending" ? undefined : { scale: 1.01 }}
+                    whileTap={status === "sending" ? undefined : { scale: 0.99 }}
+                    style={{
+                      width: "100%",
+                      minHeight: 48,
+                      border: "none",
+                      borderRadius: radius.pill,
+                      background: colors.white,
+                      color: colors.ink,
+                      cursor: status === "sending" ? "not-allowed" : "pointer",
+                      fontFamily: fonts.sora,
+                      fontSize: 14,
+                      fontWeight: 800,
+                      opacity: status === "sending" ? 0.72 : 1,
+                    }}
+                  >
+                    {status === "sending" ? "Registrando…" : "Solicitar diagnóstico"}
+                  </motion.button>
+                </div>
+              </form>
+              {error ? (
+                <div
+                  id="audit-email-error"
+                  role="alert"
+                  style={{
+                    marginTop: 10,
+                    color: "#FCA5A5",
+                    fontSize: 12,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {error}{" "}
+                  <a
+                    href={whatsappUrl(auditMessage)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() =>
+                      trackEvent("wa_click", "lead-magnet", { plan: "Fallback de auditoría" })
+                    }
+                    style={{ color: "#FCA5A5", fontWeight: 800 }}
+                  >
+                    Ir a WhatsApp
+                  </a>
+                </div>
+              ) : null}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

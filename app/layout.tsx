@@ -4,6 +4,7 @@ import "./globals.css";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Analytics } from "@/components/analytics/Analytics";
 import { CookieConsent } from "@/components/ui/CookieConsent";
+import { MotionProvider } from "@/components/ui/MotionProvider";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { PageViewTracker } from "@/components/ui/PageViewTracker";
 
@@ -16,41 +17,41 @@ const sora = Sora({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mbdigitalsystems.com"),
-  title: "MB Digital Systems | Desarrollo Web y Marketing Digital en Tabasco",
+  title: "MB Digital Systems | Desarrollo de Software y Marketing Digital en Tabasco",
   description:
-    "Empresa de desarrollo de software y marketing digital en Tabasco, México. Creamos páginas web que convierten visitantes en clientes. Sistemas a medida, e-commerce y más.",
+    "Empresa de desarrollo de software y marketing digital en Tabasco, México. Creamos páginas web, sistemas a medida, tiendas en línea y contenido para negocios.",
   keywords: [
     "desarrollo web Tabasco",
     "páginas web México",
+    "desarrollo de software",
     "marketing digital",
     "sistemas a medida",
     "e-commerce",
     "diseño web",
-    "SEO Tabasco",
   ],
   authors: [{ name: "MB Digital Systems" }],
   openGraph: {
     type: "website",
     locale: "es_MX",
     siteName: "MB Digital Systems",
-    title: "MB Digital Systems | Desarrollo Web y Marketing Digital",
+    title: "MB Digital Systems | Desarrollo de Software y Marketing Digital",
     description:
-      "Creamos páginas web que convierten visitantes en clientes. Diseño moderno, marketing digital y sistemas a medida para hacer crecer tu negocio.",
+      "Páginas web, sistemas a medida, tiendas en línea y marketing digital para negocios en Tabasco y México.",
     images: [
       {
-        url: "/img/og-image.png",
+        url: "/img/og-image-brand.png",
         width: 1200,
         height: 630,
-        alt: "MB Digital Systems - Desarrollo Web y Marketing Digital en Tabasco",
+        alt: "MB Digital Systems - Desarrollo de Software y Marketing Digital en Tabasco",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MB Digital Systems | Desarrollo Web y Marketing Digital",
+    title: "MB Digital Systems | Desarrollo de Software y Marketing Digital",
     description:
-      "Creamos páginas web que convierten visitantes en clientes. Diseño moderno, marketing digital y sistemas a medida.",
-    images: ["/img/og-image.png"],
+      "Páginas web, sistemas a medida, tiendas en línea y marketing digital para negocios.",
+    images: ["/img/og-image-brand.png"],
   },
   robots: {
     index: true,
@@ -60,8 +61,11 @@ export const metadata: Metadata = {
     canonical: "https://mbdigitalsystems.com",
   },
   icons: {
-    icon: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
@@ -76,12 +80,17 @@ export default function RootLayout({
         className="min-h-full flex flex-col"
         style={{ fontFamily: "var(--font-sora), system-ui, sans-serif" }}
       >
-        <SkipLink />
-        <JsonLd />
-        <Analytics />
-        <CookieConsent />
-        {children}
-        <PageViewTracker />
+        <noscript>
+          <style>{`[style*="opacity:0;"], [style*="opacity: 0;"], [style$="opacity:0"], [style$="opacity: 0"] { opacity: 1 !important; transform: none !important; }`}</style>
+        </noscript>
+        <MotionProvider>
+          <SkipLink />
+          <JsonLd />
+          <Analytics />
+          <CookieConsent />
+          {children}
+          <PageViewTracker />
+        </MotionProvider>
       </body>
     </html>
   );

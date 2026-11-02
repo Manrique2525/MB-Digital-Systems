@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CookieIcon } from "@/components/ui/icons/Icons";
+import { colors } from "@/data/theme";
 
 export function CookieConsent() {
   const [show, setShow] = useState(false);
+  const acceptRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const accepted = localStorage.getItem("cookie-consent");
@@ -14,6 +17,28 @@ export function CookieConsent() {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  useEffect(() => {
+    if (!show) return;
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    const focusTimer = window.setTimeout(() => acceptRef.current?.focus(), 250);
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        localStorage.setItem("cookie-consent", "declined");
+        setShow(false);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.clearTimeout(focusTimer);
+      document.removeEventListener("keydown", onKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [show]);
 
   const accept = () => {
     localStorage.setItem("cookie-consent", "accepted");
@@ -36,6 +61,7 @@ export function CookieConsent() {
           role="dialog"
           aria-modal="false"
           aria-label="Aviso de privacidad y cookies"
+          aria-describedby="cookie-description"
           style={{
             position: "fixed",
             bottom: 0,
@@ -49,7 +75,7 @@ export function CookieConsent() {
             style={{
               maxWidth: "1200px",
               margin: "0 auto",
-              background: "rgba(15, 23, 42, 0.95)",
+              background: "rgba(15, 23, 42, 0.97)",
               backdropFilter: "blur(20px)",
               borderRadius: "16px",
               padding: "20px 24px",
@@ -59,29 +85,31 @@ export function CookieConsent() {
               gap: "20px",
               flexWrap: "wrap",
               boxShadow: "0 -4px 30px rgba(0,0,0,0.3)",
-              border: "1px solid rgba(255,255,255,0.1)",
+              border: "1px solid rgba(255,255,255,0.14)",
             }}
           >
             <p
+              id="cookie-description"
               style={{
-                color: "#CBD5E1",
+                color: "#E2E8F0",
                 fontSize: "14px",
                 lineHeight: "1.6",
                 margin: 0,
                 flex: "1 1 400px",
               }}
             >
-              <CookieIcon size={18} color="#CBD5E1" /> Usamos cookies y tecnologías de rastreo (Google Analytics,
-              Meta Pixel) para mejorar tu experiencia y medir el rendimiento.
-              Al continuar navegando, aceptas nuestro uso de cookies.
+              <CookieIcon size={18} color="#E2E8F0" /> Usamos almacenamiento local y medición
+              interna para recordar tus preferencias y entender cómo se usa el sitio.
+              Al continuar navegando, aceptas su uso.
             </p>
-            <div style={{ display: "flex", gap: "10px", flexShrink: 0 }}>
+            <div style={{ display: "flex", gap: "10px", flexShrink: 0, flexWrap: "wrap" }}>
               <button
                 onClick={decline}
                 style={{
+                  minHeight: 44,
                   background: "transparent",
-                  color: "#94A3B8",
-                  border: "1px solid #334155",
+                  color: "#CBD5E1",
+                  border: "1px solid #64748B",
                   borderRadius: "10px",
                   padding: "10px 20px",
                   fontSize: "14px",
@@ -89,35 +117,37 @@ export function CookieConsent() {
                   cursor: "pointer",
                   transition: "all 0.2s",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "#64748B";
-                  e.currentTarget.style.color = "#E2E8F0";
+                onMouseEnter={(event) => {
+                  event.currentTarget.style.borderColor = "#CBD5E1";
+                  event.currentTarget.style.color = "#F8FAFC";
                 }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "#334155";
-                  e.currentTarget.style.color = "#94A3B8";
+                onMouseLeave={(event) => {
+                  event.currentTarget.style.borderColor = "#64748B";
+                  event.currentTarget.style.color = "#CBD5E1";
                 }}
               >
                 Rechazar
               </button>
               <button
+                ref={acceptRef}
                 onClick={accept}
                 style={{
-                  background: "#3B82F6",
+                  minHeight: 44,
+                  background: colors.primaryDark,
                   color: "#fff",
-                  border: "none",
+                  border: "1px solid transparent",
                   borderRadius: "10px",
                   padding: "10px 24px",
                   fontSize: "14px",
                   fontWeight: 700,
                   cursor: "pointer",
-                  transition: "all 0.2s",
+                  transition: "background-color 0.2s",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#2563EB";
+                onMouseEnter={(event) => {
+                  event.currentTarget.style.background = colors.ink;
                 }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#3B82F6";
+                onMouseLeave={(event) => {
+                  event.currentTarget.style.background = colors.primaryDark;
                 }}
               >
                 Aceptar

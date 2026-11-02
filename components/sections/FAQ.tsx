@@ -3,61 +3,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
+import { FAQ_ITEMS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
 import { MessageIcon } from "@/components/ui/icons/Icons";
-import { gradients, easing, radius } from "@/data/theme";
-
-const FAQ_DATA = [
-  {
-    q: "¿Cuánto tarda en estar lista mi página web?",
-    a: "Una landing page está lista en 5-7 días hábiles. Una página empresarial con múltiples secciones toma 2-3 semanas. Sistemas a medida tienen tiempos variables según complejidad, pero siempre te damos un cronograma claro antes de empezar.",
-  },
-  {
-    q: "¿Y si no me gusta el resultado?",
-    a: "Trabajamos contigo en cada etapa para asegurar que el resultado sea exactamente lo que necesitas. Ofrecemos revisiones incluidas y, si después de las revisiones no estás satisfecho, no pagas. Así de simple.",
-  },
-  {
-    q: "¿Hay costos ocultos?",
-    a: "No. El precio que te cotizamos es el precio final. Incluye diseño, desarrollo, configuración y entrega. Los únicos costos adicionales son el dominio (~$250 MXN/año) y hosting (~$100 MXN/mes), que puedes contratar con nosotros o por tu cuenta.",
-  },
-  {
-    q: "¿Necesito saber de tecnología?",
-    a: "Para nada. Nosotros nos encargamos de todo lo técnico. Tú solo nos cuentas qué necesitas y nosotros lo hacemos realidad. Además, te damos una capacitación para que puedas actualizar tu contenido tú mismo.",
-  },
-  {
-    q: "¿Funcionará en el celular de mis clientes?",
-    a: "Sí, todas nuestras páginas son 100% responsivas. Se ven perfectas en celular, tablet y computadora. El 80% de tus clientes potenciales te buscarán desde su teléfono, por eso priorizamos la experiencia móvil.",
-  },
-  {
-    q: "¿Puedo vender productos en línea?",
-    a: "Sí. Nuestro plan E-commerce incluye catálogo de productos, carrito de compras, pasarela de pagos con tarjeta y PayPal, control de inventario y panel de pedidos. Tu tienda online vende 24/7.",
-  },
-  {
-    q: "¿Cómo me contactan los clientes por WhatsApp?",
-    a: "Integramos un botón flotante de WhatsApp que redirige directo a tu número con un mensaje predeterminado. Cuando alguien hace clic, se abre WhatsApp con tu chat listo. También puedes recibir mensajes desde formularios en tu página.",
-  },
-  {
-    q: "¿Ofrecen soporte después de entrega?",
-    a: "Sí. Incluimos soporte post-entrega (30-60 días según plan). También ofrecemos planes de mantenimiento mensual para que tu página siempre esté actualizada y funcionando al 100%.",
-  },
-  {
-    q: "¿Cómo es el proceso de pago?",
-    a: "Trabajamos con anticipo y contra entrega. Para landing pages, solicitamos 50% al inicio y 50% al entregar. Para proyectos más grandes, definimos un cronograma de pagos por etapas. Aceptamos transferencia bancaria, efectivo y PayPal.",
-  },
-  {
-    q: "¿Puedo hacer cambios después de que esté lista?",
-    a: "Sí, cada plan incluye revisiones. Si necesitas cambios adicionales después de las revisiones incluidas, te damos una cotización justa. También ofrecemos planes de mantenimiento mensual para actualizaciones continuas.",
-  },
-  {
-    q: "¿Trabajan con clientes de todo México o solo de Tabasco?",
-    a: "Trabajamos con clientes de todo México. Como nuestro equipo es 100% remoto, la ubicación no es un problema. Tenemos clientes en Tabasco, Ciudad de México, Yucatán y otros estados.",
-  },
-  {
-    q: "¿Qué necesito para empezar?",
-    a: "Solo cuéntanos qué necesitas. No necesitas tener diseño, logo ni contenido preparado. Nosotros te guiamos en cada paso: desde el diseño hasta el contenido. Tú solo apruebas y nosotros hacemos todo el trabajo técnico.",
-  },
-];
+import { easing, radius } from "@/data/theme";
 
 function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false);
@@ -79,6 +28,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         whileHover={{ backgroundColor: "rgba(59,130,246,0.04)" }}
         style={{
           width: "100%",
+          minHeight: 56,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -104,11 +54,12 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
           {q}
         </span>
         <motion.span
+          aria-hidden="true"
           animate={{ rotate: open ? 45 : 0 }}
           transition={{ duration: 0.25 }}
           style={{
             fontSize: 20,
-            color: "#3B82F6",
+            color: "#1E40AF",
             fontWeight: 700,
             flexShrink: 0,
           }}
@@ -120,6 +71,8 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         id={panelId}
         role="region"
         aria-labelledby={`faq-button-${index}`}
+        aria-hidden={!open}
+        inert={!open}
         initial={false}
         animate={{ gridTemplateRows: open ? "1fr" : "0fr", opacity: open ? 1 : 0 }}
         transition={{ duration: 0.3, ease: easing }}
@@ -216,8 +169,8 @@ export function FAQ() {
               padding: "clamp(16px, 3vw, 32px)",
             }}
           >
-            {FAQ_DATA.map((item, i) => (
-              <FAQItem key={i} q={item.q} a={item.a} index={i} />
+            {FAQ_ITEMS.map((item, i) => (
+              <FAQItem key={item.id} q={item.question} a={item.answer} index={i} />
             ))}
           </div>
         </AnimatedSection>
@@ -243,7 +196,7 @@ export function FAQ() {
               display: "inline-flex",
               alignItems: "center",
               gap: 10,
-              background: gradients.button,
+              background: "#1E40AF",
               color: "#fff",
               textDecoration: "none",
               fontWeight: 700,
@@ -252,7 +205,7 @@ export function FAQ() {
               fontSize: 15,
             }}
           >
-            <MessageIcon size={18} color="#1E40AF" /> Pregúntanos por WhatsApp
+            <MessageIcon size={18} color="#fff" /> Pregúntanos por WhatsApp
           </motion.a>
         </AnimatedSection>
       </div>

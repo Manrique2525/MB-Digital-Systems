@@ -1,73 +1,51 @@
 "use client";
 
-import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
-import { useTracking } from "@/components/hooks/useTracking";
-import { ShieldCheckIcon, StarIcon, ArrowRightIcon } from "@/components/ui/icons/Icons";
-import { gradients, easing, radius } from "@/data/theme";
-
-const STATS: { value: string; label: string; rating?: boolean }[] = [
-  { value: "20+", label: "Proyectos entregados" },
-  { value: "5/5", label: "Satisfacción", rating: true },
-  { value: "< 24h", label: "Respuesta garantizada" },
-];
+import { motion, useReducedMotion } from "framer-motion";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { ArrowRightIcon } from "@/components/ui/icons/Icons";
+import { colors, easing, fonts, section } from "@/data/theme";
 
 export function Hero() {
-  const { scrollY } = useScroll();
-  const bgY = useTransform(scrollY, [0, 600], [0, 140]);
-  const { trackEvent } = useTracking();
+  const reduceMotion = useReducedMotion();
+  const transition = (delay: number) =>
+    reduceMotion ? { duration: 0 } : { duration: 0.7, delay, ease: easing };
+  const initial = (y: number) => (reduceMotion ? false : { y });
 
   return (
     <section
       id="inicio"
+      aria-labelledby="hero-title"
       style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         position: "relative",
         overflow: "hidden",
-        background: "#F8FAFF",
+        background: colors.bg,
+        padding: "clamp(112px, 14vw, 160px) 20px clamp(72px, 10vw, 112px)",
       }}
     >
-      <motion.div
-        style={{ y: bgY, position: "absolute", inset: "-15% 0 0", zIndex: 0 }}
-        aria-hidden="true"
-      >
-        <Image
-          src="/img/hero-workspace.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          style={{ objectFit: "cover", objectPosition: "center 30%", opacity: 0.18 }}
-        />
-      </motion.div>
-
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
-          zIndex: 1,
-          background:
-            "linear-gradient(180deg,rgba(239,246,255,0.92) 0%,rgba(248,250,255,0.94) 55%,#F8FAFF 100%)",
+          backgroundImage:
+            "linear-gradient(rgba(59,130,246,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.045) 1px, transparent 1px)",
+          backgroundSize: "44px 44px",
+          maskImage: "linear-gradient(180deg, rgba(0,0,0,0.75), transparent 76%)",
+          WebkitMaskImage: "linear-gradient(180deg, rgba(0,0,0,0.75), transparent 76%)",
+          pointerEvents: "none",
         }}
       />
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
-          top: "-20%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "min(720px,90vw)",
-          height: 560,
-          zIndex: 1,
+          top: "-22%",
+          right: "-10%",
+          width: "min(680px, 74vw)",
+          height: "min(680px, 74vw)",
           borderRadius: "50%",
           background:
-            "radial-gradient(closest-side,rgba(59,130,246,0.14) 0%,rgba(139,92,246,0.08) 55%,transparent 100%)",
+            "radial-gradient(closest-side, rgba(139,92,246,0.12) 0%, rgba(139,92,246,0.03) 58%, transparent 100%)",
           pointerEvents: "none",
         }}
       />
@@ -75,206 +53,235 @@ export function Hero() {
       <div
         style={{
           position: "relative",
-          zIndex: 2,
-          textAlign: "center",
-          padding: "clamp(100px,15vw,130px) 20px 60px",
-          maxWidth: 820,
+          zIndex: 1,
+          maxWidth: section.maxWidth,
           margin: "0 auto",
-          width: "100%",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 460px), 1fr))",
+          alignItems: "center",
+          gap: "clamp(48px, 7vw, 88px)",
         }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            background: "rgba(255,255,255,0.8)",
-            border: "1px solid rgba(59,130,246,0.2)",
-            borderRadius: radius.pill,
-            padding: "7px 18px",
-            marginBottom: 28,
-            color: "#1E40AF",
-            fontSize: 13,
-            fontWeight: 600,
-            boxShadow: "0 4px 16px rgba(59,130,246,0.08)",
-            backdropFilter: "blur(8px)",
-          }}
-        >
-          <ShieldCheckIcon size={16} color="#10B981" />
-          Garantía de satisfacción: si no te gusta, no pagas
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.8, ease: easing }}
-          style={{
-            fontSize: "clamp(38px,7vw,80px)",
-            fontWeight: 800,
-            lineHeight: 1.08,
-            color: "#0F172A",
-            letterSpacing: "-2px",
-            margin: "0 0 24px",
-            fontFamily: "'Sora', sans-serif",
-          }}
-        >
-          Del primer mensaje<br />
-          <span
+        <div style={{ minWidth: 0 }}>
+          <motion.p
+            initial={initial(16)}
+            animate={{ y: 0 }}
+            transition={transition(0.05)}
             style={{
-              background: gradients.text,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              margin: "0 0 24px",
+              color: colors.primaryDark,
+              fontFamily: fonts.sora,
+              fontSize: "clamp(11px, 1vw, 13px)",
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              lineHeight: 1.5,
+              textTransform: "uppercase",
             }}
           >
-            a tu primer cliente
-          </span>
-          {" "}en 7 días
-        </motion.h1>
+            <span
+              aria-hidden="true"
+              style={{ width: 30, height: 1, background: colors.primary, flexShrink: 0 }}
+            />
+            Software + marketing digital · Tabasco, México
+          </motion.p>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.7 }}
-          style={{
-            fontSize: "clamp(15px,2.5vw,20px)",
-            color: "#64748B",
-            maxWidth: 560,
-            margin: "0 auto 40px",
-            lineHeight: 1.65,
-            fontWeight: 400,
-          }}
-        >
-          Creamos páginas web que convierten visitantes en clientes de WhatsApp.
-          Diseño moderno, marketing digital y sistemas a medida.{" "}
-          <strong style={{ color: "#1E40AF", fontWeight: 700 }}>
-            Sin complicaciones, con resultados reales.
-          </strong>
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65, duration: 0.6 }}
-          style={{
-            display: "flex",
-            gap: 14,
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <motion.a
-            href={whatsappUrl(WHATSAPP_MESSAGES.paginaWeb)}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => {
-              trackEvent("hero_cta", "inicio");
-              trackEvent("wa_click", "inicio", { plan: "Página Web" });
-            }}
-            whileHover={{ scale: 1.05, boxShadow: "0 8px 40px rgba(59,130,246,0.45)" }}
-            whileTap={{ scale: 0.97 }}
+          <motion.h1
+            id="hero-title"
+            initial={initial(24)}
+            animate={{ y: 0 }}
+            transition={transition(0.15)}
             style={{
-              display: "inline-flex",
+              margin: "0 0 26px",
+              maxWidth: 700,
+              color: colors.ink,
+              fontFamily: fonts.sora,
+              fontSize: "clamp(40px, 5.6vw, 68px)",
+              fontWeight: 800,
+              letterSpacing: "-0.05em",
+              lineHeight: 1.02,
+              overflowWrap: "break-word",
+              textWrap: "balance",
+            }}
+          >
+            Software que funciona.{" "}
+            <span style={{ color: colors.primaryDark }}>Marketing</span> que{" "}
+            <span style={{ color: colors.violet }}>conecta.</span>
+          </motion.h1>
+
+          <motion.p
+            initial={initial(20)}
+            animate={{ y: 0 }}
+            transition={transition(0.25)}
+            style={{
+              margin: "0 0 32px",
+              maxWidth: 560,
+              color: colors.slate,
+              fontSize: "clamp(15px, 1.6vw, 18px)",
+              lineHeight: 1.75,
+            }}
+          >
+            Diseñamos herramientas digitales y comunicación con criterio para negocios que
+            quieren crecer.
+          </motion.p>
+
+          <motion.div
+            initial={initial(18)}
+            animate={{ y: 0 }}
+            transition={transition(0.35)}
+            style={{ display: "flex", flexWrap: "wrap", gap: 12 }}
+          >
+            <ButtonLink href="#contacto" variant="primary">
+              Hablemos de tu proyecto
+              <ArrowRightIcon size={16} color={colors.white} />
+            </ButtonLink>
+            <ButtonLink href="#servicios" variant="secondary">
+              Explorar servicios
+            </ButtonLink>
+          </motion.div>
+
+          <motion.p
+            initial={initial(12)}
+            animate={{ y: 0 }}
+            transition={transition(0.45)}
+            style={{
+              display: "flex",
               alignItems: "center",
               gap: 10,
-              background: gradients.button,
-              color: "#fff",
-              textDecoration: "none",
-              fontWeight: 700,
-              padding: "14px 28px",
-              borderRadius: radius.pill,
-              fontSize: "clamp(14px,2vw,16px)",
-              boxShadow: "0 4px 24px rgba(59,130,246,0.35)",
+              margin: "24px 0 0",
+              color: colors.slate,
+              fontSize: 13,
+              lineHeight: 1.6,
             }}
           >
-            <span>Cotización gratis por WhatsApp</span>
-            <ArrowRightIcon size={16} color="#fff" />
-          </motion.a>
-          <motion.button
-            onClick={() =>
-              document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" })
-            }
-            whileHover={{ scale: 1.04, background: "rgba(59,130,246,0.08)" }}
-            whileTap={{ scale: 0.97 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "rgba(255,255,255,0.7)",
-              border: "1px solid rgba(59,130,246,0.25)",
-              color: "#1E40AF",
-              fontWeight: 600,
-              padding: "14px 24px",
-              borderRadius: radius.pill,
-              fontSize: "clamp(13px,2vw,15px)",
-              cursor: "pointer",
-              backdropFilter: "blur(8px)",
-              fontFamily: "inherit",
-            }}
-          >
-            Ver ejemplos reales
-            <ArrowRightIcon size={16} color="#1E40AF" />
-          </motion.button>
-        </motion.div>
+            <span
+              aria-hidden="true"
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: colors.success,
+                flexShrink: 0,
+              }}
+            />
+            Un solo equipo para construir y comunicar.
+          </motion.p>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.8 }}
+        <motion.figure
+          initial={reduceMotion ? false : { y: 28, scale: 0.98 }}
+          animate={{ y: 0, scale: 1 }}
+          transition={transition(0.3)}
           style={{
-            marginTop: "clamp(48px,8vw,80px)",
-            display: "flex",
-            justifyContent: "center",
-            gap: "clamp(24px,6vw,56px)",
-            flexWrap: "wrap",
+            position: "relative",
+            width: "100%",
+            maxWidth: 480,
+            margin: "0 0 0 auto",
+            minWidth: 0,
           }}
         >
-          {STATS.map((stat) => (
-            <div key={stat.label} style={{ textAlign: "center" }}>
-              <div
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              top: -18,
+              right: -18,
+              width: "72%",
+              height: "58%",
+              border: "1px solid rgba(139,92,246,0.28)",
+              borderRadius: 28,
+              pointerEvents: "none",
+            }}
+          />
+          <div
+            style={{
+              position: "relative",
+              aspectRatio: "4 / 5",
+              overflow: "hidden",
+              borderRadius: 28,
+              background: colors.border,
+              boxShadow: "0 30px 80px rgba(15, 23, 42, 0.14)",
+            }}
+          >
+            <img
+              src="/img/hero-team.webp"
+              srcSet="/img/hero-team-720.webp 720w, /img/hero-team-1200.webp 1200w"
+              sizes="(max-width: 1000px) 100vw, 480px"
+              width={1600}
+              height={1068}
+              alt="Equipo de desarrollo colaborando en una oficina moderna"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "52% center",
+              }}
+            />
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(180deg, rgba(15,23,42,0) 52%, rgba(15,23,42,0.68) 100%)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                right: 18,
+                bottom: 18,
+                left: 18,
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 10,
+                padding: "13px 16px",
+                background: "rgba(255,255,255,0.94)",
+                border: "1px solid rgba(255,255,255,0.7)",
+                borderRadius: 14,
+                backdropFilter: "blur(10px)",
+              }}
+            >
+              <span
                 style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 4,
-                  fontSize: "clamp(20px,4vw,28px)",
+                  color: colors.ink,
+                  fontFamily: fonts.sora,
+                  fontSize: 11,
                   fontWeight: 800,
-                  color: "#1E40AF",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
                 }}
               >
-                {stat.rating && (
-                  <StarIcon size={20} color="#F59E0B" />
-                )}
-                {stat.value}
-              </div>
-              <div
-                style={{ fontSize: 13, color: "#64748B", fontWeight: 500, marginTop: 2 }}
-              >
-                {stat.label}
-              </div>
+                Un solo equipo
+              </span>
+              <span style={{ color: colors.slate, fontSize: 12, lineHeight: 1.5 }}>
+                Estrategia · Diseño · Desarrollo
+              </span>
             </div>
-          ))}
-        </motion.div>
+          </div>
+          <figcaption
+            style={{
+              position: "absolute",
+              width: 1,
+              height: 1,
+              overflow: "hidden",
+              clip: "rect(0,0,0,0)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Equipo de trabajo colaborando en un espacio moderno.
+          </figcaption>
+        </motion.figure>
       </div>
-
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: "absolute",
-          bottom: 24,
-          left: "50%",
-          transform: "translateX(-50%)",
-          color: "#64748B",
-          fontSize: 22,
-          zIndex: 2,
-        }}
-        aria-hidden="true"
-      >
-        ↓
-      </motion.div>
     </section>
   );
 }

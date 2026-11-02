@@ -1,208 +1,200 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { MonitorIcon } from "@/components/ui/icons/Icons";
-import { section, gradients, easing, radius } from "@/data/theme";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { DIVISIONS } from "@/data/constants";
+import { colors, fonts, section } from "@/data/theme";
 
 export function About() {
   return (
     <section
       id="nosotros"
-      style={{ padding: section.padding, background: "#fff" }}
+      aria-label="Nosotros"
+      style={{ padding: section.padding, background: colors.white }}
     >
-      <div
-        style={{
-          maxWidth: 1100,
-          margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-          gap: "clamp(40px,6vw,80px)",
-          alignItems: "center",
-        }}
-      >
-        <AnimatedSection>
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 700,
-              color: "#3B82F6",
-              letterSpacing: 3,
-              textTransform: "uppercase",
-              marginBottom: 20,
-            }}
-          >
-            Sobre nosotros
-          </div>
-          <h2
-            style={{
-              fontSize: "clamp(28px,4vw,48px)",
-              fontWeight: 800,
-              color: "#0F172A",
-              letterSpacing: "-1px",
-              margin: "0 0 24px",
-              fontFamily: "'Sora', sans-serif",
-              lineHeight: 1.15,
-            }}
-          >
-            No somos solo programadores.<br />
-            <span
-              style={{
-                background: gradients.text,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Somos tu equipo de crecimiento.
-            </span>
-          </h2>
-          <p
-            style={{
-              fontSize: "clamp(14px,1.8vw,16px)",
-              color: "#64748B",
-              lineHeight: 1.8,
-              marginBottom: 20,
-            }}
-          >
-            Empezamos como desarrolladores, pero aprendimos algo importante:
-            un bonito sitio web que no trae clientes es solo un gasto. Por eso
-            combinamos desarrollo con marketing digital para que cada proyecto
-            genere resultados reales.
-          </p>
-          <p
-            style={{
-              fontSize: "clamp(14px,1.8vw,16px)",
-              color: "#64748B",
-              lineHeight: 1.8,
-              marginBottom: 40,
-            }}
-          >
-            Trabajamos contigo de principio a fin: desde entender tu negocio
-            hasta lanzar y medir resultados. Sin complicaciones, sin excusas.
-          </p>
-          <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
-            {[
-              ["Proyectos", "20+"],
-              ["Clientes", "15+"],
-              ["Tecnologías", "8+"],
-            ].map(([label, val]) => (
-              <div key={label}>
-                <div
-                  style={{
-                    fontSize: "clamp(28px,5vw,36px)",
-                    fontWeight: 800,
-                    color: "#3B82F6",
-                    fontFamily: "'Sora', sans-serif",
-                  }}
-                >
-                  {val}
-                </div>
-                <div style={{ fontSize: 13, color: "#64748B", fontWeight: 600 }}>
-                  {label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </AnimatedSection>
+      <div style={{ maxWidth: section.maxWidth, margin: "0 auto" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
+            gap: "clamp(42px, 7vw, 88px)",
+            alignItems: "center",
+          }}
+        >
+          <AnimatedSection>
+            <SectionHeading
+              eyebrow="Nosotros"
+              title="Tecnología que construye. Marketing que conecta."
+              description="Entendemos el negocio, construimos lo que necesita y comunicamos lo que lo hace valioso."
+            />
 
-        <AnimatedSection delay={0.15}>
-          <div style={{ position: "relative" }}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: easing }}
+            <div
               style={{
-                borderRadius: radius.panel,
-                overflow: "hidden",
-                background: gradients.heroBg,
-                aspectRatio: "4/3",
-                position: "relative",
-                boxShadow: "0 32px 80px rgba(59,130,246,0.18)",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                flexDirection: "column",
+                marginTop: "clamp(32px, 5vw, 48px)",
               }}
             >
-              <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: 40 }}>
-                <motion.div
-                  animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.1, 1] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ fontSize: 72, marginBottom: 20 }}
-                >
-                  <MonitorIcon size={120} color="#3B82F6" />
-                </motion.div>
-                <div style={{
-                  fontSize: "clamp(18px,3vw,28px)",
-                  fontWeight: 800,
-                  color: "#0F172A",
-                  fontFamily: "'Sora', sans-serif",
-                  letterSpacing: "-0.8px",
-                  marginBottom: 8,
-                }}>
-                  Equipo 100% remoto
-                </div>
-                <div style={{
-                  fontSize: "clamp(13px,1.8vw,16px)",
-                  color: "#64748B",
-                  maxWidth: 300,
-                  margin: "0 auto",
-                  lineHeight: 1.6,
-                }}>
-                  Trabajamos desde cualquier lugar para darte el mejor resultado
-                </div>
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20, y: 20 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.6 }}
+              {DIVISIONS.map((division, index) => {
+                const accent = division.accent === "blue" ? colors.primary : colors.violet;
+                return (
+                  <div
+                    key={division.id}
+                    style={{
+                      borderTop: `1px solid ${colors.border}`,
+                      padding: "22px 0 22px 22px",
+                      position: "relative",
+                    }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      style={{
+                        position: "absolute",
+                        top: 22,
+                        bottom: 22,
+                        left: 0,
+                        width: 3,
+                        background: accent,
+                      }}
+                    />
+                    <p
+                      style={{
+                        margin: "0 0 7px",
+                        color: colors.slate,
+                        fontFamily: fonts.sora,
+                        fontSize: 10,
+                        fontWeight: 700,
+                        letterSpacing: "0.14em",
+                        lineHeight: 1.5,
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {index === 0 ? "Tecnología" : "Comunicación"}
+                    </p>
+                    <h3
+                      style={{
+                        margin: "0 0 7px",
+                        color: colors.ink,
+                        fontFamily: fonts.sora,
+                        fontSize: "clamp(20px, 2.2vw, 26px)",
+                        fontWeight: 800,
+                        letterSpacing: "-0.025em",
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {division.name}
+                    </h3>
+                    <p
+                      style={{
+                        margin: 0,
+                        maxWidth: "52ch",
+                        color: colors.slate,
+                        fontSize: "clamp(14px, 1.5vw, 16px)",
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      {division.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection delay={0.12}>
+            <figure
               style={{
-                position: "absolute",
-                bottom: -20,
-                left: -16,
-                background: gradients.button,
-                borderRadius: 18,
-                padding: "16px 22px",
-                boxShadow: "0 16px 40px rgba(59,130,246,0.3)",
+                position: "relative",
+                width: "100%",
+                maxWidth: 460,
+                margin: "0 auto",
               }}
             >
               <div
+                aria-hidden="true"
                 style={{
-                  color: "rgba(255,255,255,0.75)",
-                  fontSize: 11,
-                  fontWeight: 600,
-                  marginBottom: 4,
+                  position: "absolute",
+                  right: -16,
+                  bottom: -16,
+                  width: "58%",
+                  height: "38%",
+                  border: "1px solid rgba(59,130,246,0.28)",
+                  borderRadius: 24,
+                  pointerEvents: "none",
                 }}
-              >
-                Disponibilidad
-              </div>
+              />
               <div
                 style={{
-                  color: "#fff",
-                  fontSize: 15,
-                  fontWeight: 800,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
+                  position: "relative",
+                  aspectRatio: "4 / 5",
+                  overflow: "hidden",
+                  borderRadius: 24,
+                  background: colors.border,
+                  boxShadow: "0 24px 64px rgba(15, 23, 42, 0.12)",
                 }}
               >
-                <span
+                <img
+                  src="/img/about-team.webp"
+                  srcSet="/img/about-team-720.webp 720w, /img/about-team-1200.webp 1200w"
+                  sizes="(max-width: 900px) 100vw, 460px"
+                  width={1800}
+                  height={2700}
+                  alt="Personas colaborando frente a una pantalla en una oficina"
+                  loading="lazy"
+                  decoding="async"
                   style={{
-                    width: 8,
-                    height: 8,
-                    background: "#10B981",
-                    borderRadius: "50%",
-                    display: "inline-block",
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center",
                   }}
                 />
-                Proyectos abiertos
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background:
+                      "linear-gradient(180deg, rgba(15,23,42,0) 46%, rgba(15,23,42,0.84) 100%)",
+                  }}
+                />
+                <figcaption
+                  style={{
+                    position: "absolute",
+                    right: 24,
+                    bottom: 24,
+                    left: 24,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 34,
+                      height: 2,
+                      marginBottom: 14,
+                      background: colors.violet,
+                    }}
+                  />
+                  <p
+                    style={{
+                      margin: 0,
+                      maxWidth: "22ch",
+                      color: colors.white,
+                      fontFamily: fonts.sora,
+                      fontSize: "clamp(20px, 2.4vw, 28px)",
+                      fontWeight: 700,
+                      letterSpacing: "-0.03em",
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    Entender primero. Construir con criterio. Comunicar con claridad.
+                  </p>
+                </figcaption>
               </div>
-            </motion.div>
-          </div>
-        </AnimatedSection>
+            </figure>
+          </AnimatedSection>
+        </div>
       </div>
     </section>
   );

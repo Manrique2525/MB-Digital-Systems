@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useScrollSpy } from "@/components/hooks/useScrollSpy";
 import { MessageIcon, WhatsAppIcon } from "@/components/ui/icons/Icons";
@@ -10,15 +10,19 @@ import { useTracking } from "@/components/hooks/useTracking";
 const CONTEXT_MESSAGES: Record<string, string> = {
   Inicio: WHATSAPP_MESSAGES.generico,
   Servicios: "Hola, me interesa un servicio. ¿Me pueden dar más información?",
+  Software: WHATSAPP_MESSAGES.desarrolloSoftware,
+  Marketing: WHATSAPP_MESSAGES.marketingDigital,
   Nosotros: WHATSAPP_MESSAGES.contacto,
   Proyectos: WHATSAPP_MESSAGES.proyectoSimilar,
-  Precios: "Hola, quiero una cotización personalizada para mi proyecto.",
+  Precios: WHATSAPP_MESSAGES.cotizacion,
   Contacto: WHATSAPP_MESSAGES.contacto,
 };
 
 const TOOLTIPS: Record<string, string> = {
   Inicio: "¿Necesitas ayuda?",
   Servicios: "¿Te interesa algún servicio?",
+  Software: "¿Tienes un proyecto de software?",
+  Marketing: "¿Quieres mejorar tu marca?",
   Nosotros: "Hablemos de tu proyecto",
   Proyectos: "¿Quieres algo similar?",
   Precios: "¿Preguntas sobre precios?",
@@ -29,6 +33,7 @@ export function WhatsAppFloat() {
   const { trackEvent } = useTracking();
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const reduceMotion = useReducedMotion();
   const activeSection = useScrollSpy();
 
   useEffect(() => {
@@ -134,35 +139,38 @@ export function WhatsAppFloat() {
 
             {/* Button with pulse */}
             <div style={{ position: "relative", flexShrink: 0 }}>
-              <div
-                style={{
-                  position: "absolute",
-                  inset: -4,
-                  borderRadius: "50%",
-                  pointerEvents: "none",
-                }}
-              >
-                <motion.div
-                  animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+              {!reduceMotion && (
+                <div
+                  aria-hidden="true"
                   style={{
                     position: "absolute",
-                    inset: 0,
+                    inset: -4,
                     borderRadius: "50%",
-                    border: "2px solid #25D366",
+                    pointerEvents: "none",
                   }}
-                />
-                <motion.div
-                  animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut", delay: 0.6 }}
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    borderRadius: "50%",
-                    border: "2px solid #25D366",
-                  }}
-                />
-              </div>
+                >
+                  <motion.div
+                    animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      borderRadius: "50%",
+                      border: "2px solid #25D366",
+                    }}
+                  />
+                  <motion.div
+                    animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut", delay: 0.6 }}
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      borderRadius: "50%",
+                      border: "2px solid #25D366",
+                    }}
+                  />
+                </div>
+              )}
 
               <motion.a
                 href={whatsappUrl(message)}
