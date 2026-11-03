@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import {
@@ -11,13 +11,14 @@ import {
 } from "@/components/ui/icons/Icons";
 import { useTracking } from "@/components/hooks/useTracking";
 import { colors, fonts, radius } from "@/data/theme";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+import { isApiConfigured } from "@/lib/api/config";
+import { getLeadErrorMessage, submitLead } from "@/lib/api/leads";
 
 type LeadStatus = "idle" | "sending" | "success" | "error";
 
 export function LeadMagnet() {
   const { getSessionId, trackEvent } = useTracking();
+  const submittingRef = useRef(false);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<LeadStatus>("idle");
   const [error, setError] = useState("");
@@ -29,6 +30,9 @@ export function LeadMagnet() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (submittingRef.current) return;
+
     setError("");
 
     const normalizedEmail = email.trim();
@@ -41,46 +45,31 @@ export function LeadMagnet() {
 
     setEmailInvalid(false);
 
-    if (!API_URL) {
+    if (!isApiConfigured()) {
       setStatus("error");
       setError("No pudimos registrar tu correo. Puedes escribirnos por WhatsApp.");
       return;
     }
 
+    submittingRef.current = true;
     setStatus("sending");
 
     try {
-      const response = await fetch(`${API_URL}/api/v1/leads`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          session_id: getSessionId(),
-          name: normalizedEmail.split("@")[0],
-          email: normalizedEmail,
-          message: "Solicitó auditoría digital gratuita",
-          source: "lead_magnet",
-        }),
+      await submitLead({
+        session_id: getSessionId(),
+        name: normalizedEmail.split("@")[0],
+        email: normalizedEmail,
+        message: "Solicitó auditoría digital gratuita",
+        source: "lead_magnet",
       });
-
-      if (!response.ok) {
-        const data = await response.json().catch(() => null);
-        throw new Error(
-          data?.message || "No pudimos registrar tu correo. Puedes escribirnos por WhatsApp."
-        );
-      }
 
       trackEvent("form_submit", "lead-magnet", { plan: "Auditoría gratuita" });
       setStatus("success");
     } catch (submitError) {
       setStatus("error");
-      setError(
-        submitError instanceof Error
-          ? submitError.message
-          : "No pudimos registrar tu correo. Puedes escribirnos por WhatsApp."
-      );
+      setError(getLeadErrorMessage(submitError));
+    } finally {
+      submittingRef.current = false;
     }
   };
 

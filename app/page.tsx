@@ -18,22 +18,24 @@ const WhatsAppFloat = dynamic(() => import("@/components/ui/WhatsAppFloat").then
 
 export default function Home() {
   return (
-    <main id="main-content" style={{ overflowX: "hidden" }}>
+    <>
       <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <SoftwareDevelopment />
-      <TechStack />
-      <DigitalMarketing />
-      <WhyWebsite />
-      <SocialProof />
-      <Projects />
-      <Pricing />
-      <FAQ />
-      <Contact />
+      <main id="main-content" tabIndex={-1} style={{ overflowX: "hidden" }}>
+        <Hero />
+        <About />
+        <Services />
+        <SoftwareDevelopment />
+        <TechStack />
+        <DigitalMarketing />
+        <WhyWebsite />
+        <SocialProof />
+        <Projects />
+        <Pricing />
+        <FAQ />
+        <Contact />
+      </main>
       <Footer />
       <WhatsAppFloat />
-    </main>
+    </>
   );
 }

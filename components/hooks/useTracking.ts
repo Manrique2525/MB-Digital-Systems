@@ -2,8 +2,7 @@
 
 import { useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+import { API_BASE_URL } from "@/lib/api/config";
 
 function getSessionId(): string {
   if (typeof window === "undefined") return "";
@@ -23,9 +22,9 @@ async function apiPost(
   endpoint: string,
   data: Record<string, unknown>
 ): Promise<void> {
-  if (!API_URL) return;
+  if (!API_BASE_URL) return;
   try {
-    await fetch(`${API_URL}/api/v1${endpoint}`, {
+    await fetch(`${API_BASE_URL}/api/v1${endpoint}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

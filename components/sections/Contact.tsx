@@ -15,8 +15,8 @@ import {
 import { CONTACT_INTENTS, whatsappUrl, WHATSAPP_MESSAGES } from "@/data/constants";
 import { useTracking } from "@/components/hooks/useTracking";
 import { colors, fonts, radius, section } from "@/data/theme";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+import { isApiConfigured } from "@/lib/api/config";
+import { getLeadErrorMessage, submitLead } from "@/lib/api/leads";
 
 type FormField = "name" | "phone" | "email" | "intentId" | "message";
 type FormStatus = "idle" | "sending" | "success" | "error";
@@ -49,6 +49,7 @@ const helperStyle: React.CSSProperties = {
 export function Contact() {
   const { trackEvent, getSessionId } = useTracking();
   const formStarted = useRef(false);
+  const submittingRef = useRef(false);
   const [form, setForm] = useState(INITIAL_FORM);
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -84,6 +85,8 @@ export function Contact() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (submittingRef.current) return;
+
     const nextErrors = validate();
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
@@ -100,7 +103,7 @@ export function Contact() {
 
     if (!selectedIntent) return;
 
-    if (!API_URL) {
+    if (!isApiConfigured()) {
       setStatus("error");
       setErrors({
         submit: "El formulario no está disponible en este momento. Puedes escribirnos por WhatsApp.",
@@ -108,54 +111,31 @@ export function Contact() {
       return;
     }
 
+    submittingRef.current = true;
     setErrors({});
     setStatus("sending");
 
     try {
-      const response = await fetch(`${API_URL}/api/v1/leads`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          session_id: getSessionId(),
-          name: form.name.trim(),
-          phone: form.phone.replace(/\D/g, "") || undefined,
-          email: form.email.trim(),
-          service: selectedIntent.service,
-          message:
-            form.message.trim() ||
-            `Solicito información sobre ${selectedIntent.interest}.`,
-          source: "contact_form",
-        }),
+      await submitLead({
+        session_id: getSessionId(),
+        name: form.name.trim(),
+        phone: form.phone.replace(/\D/g, "") || undefined,
+        email: form.email.trim(),
+        service: selectedIntent.service,
+        message:
+          form.message.trim() ||
+          `Solicito información sobre ${selectedIntent.interest}.`,
+        source: "contact_form",
       });
-
-      if (!response.ok) {
-        let message = "No pudimos enviar tu solicitud. Intenta de nuevo.";
-        const data = await response.json().catch(() => null);
-        if (data?.message) {
-          message = data.message;
-        } else if (data?.errors) {
-          const first = Object.values(data.errors)[0];
-          if (Array.isArray(first) && first.length > 0) {
-            message = first[0];
-          }
-        }
-        throw new Error(message);
-      }
 
       trackEvent("form_submit", "contact", { service: selectedIntent.service });
       setForm(INITIAL_FORM);
       setStatus("success");
     } catch (error) {
       setStatus("error");
-      setErrors({
-        submit:
-          error instanceof Error
-            ? error.message
-            : "No pudimos enviar tu solicitud. Intenta de nuevo.",
-      });
+      setErrors({ submit: getLeadErrorMessage(error) });
+    } finally {
+      submittingRef.current = false;
     }
   };
 
